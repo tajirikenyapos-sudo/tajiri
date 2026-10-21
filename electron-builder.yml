@@ -1,0 +1,62 @@
+appId: com.tajiri.pos
+productName: Tajiri POS
+compression: maximum
+electronLanguages:
+  - en-US
+directories:
+  output: dist
+  buildResources: build
+files:
+  - server.js
+  - package.json
+  - index.html
+  - main.html
+  - login.html
+  - admin.html
+  - cashier.html
+  - app.js
+  - welcome.js
+  - styles.css
+  - welcome.css
+  - offline-db.js
+  - manifest.webmanifest
+  - service-worker.js
+  - sitemap.xml
+  - supabase-shim.js
+  - icons/**
+  - electron/main.js
+extraResources:
+  # keep app files as a plain (unpacked) copy so the Node child process can read them
+  - from: .
+    to: app
+    filter:
+      - server.js
+      - package.json
+      - index.html
+      - main.html
+      - login.html
+      - admin.html
+      - cashier.html
+      - app.js
+      - welcome.js
+      - styles.css
+      - welcome.css
+      - offline-db.js
+      - manifest.webmanifest
+      - service-worker.js
+      - sitemap.xml
+      - supabase-shim.js
+      - icons/**
+      - electron/main.js
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: build/icon.ico
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Tajiri POS

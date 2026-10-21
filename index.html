@@ -1,0 +1,2805 @@
+﻿<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0d1518" id="appThemeColor" />
+    <base href="./" />
+    <title>Tajiri POS</title>
+    <script>
+      if (window.location.protocol === "file:") {
+        document.documentElement.classList.add("offline-desktop-app");
+      }
+      if (
+        window.location.protocol !== "file:" &&
+        window.location.hash === "#download-installer"
+      ) {
+        window.location.replace(
+          new URL(
+            "./download-installer.html",
+            window.location.href,
+          ).href,
+        );
+      }
+    </script>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/tajiri-pos.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" id="appStyles" />
+    <link rel="stylesheet" href="welcome.css" id="welcomeStyles" />
+    <style>
+      #appView[hidden],
+      #welcomeView[hidden] {
+        display: none !important;
+      }
+      html.offline-desktop-app [data-online-installer] {
+        display: none !important;
+      }
+      body[data-role-view="cashier"] #downloadDataButton,
+      body[data-role-view="cashier"] [data-modal-open="modal-downloads"],
+      body[data-role-view="cashier"] [data-installer-download],
+      body[data-role-view="cashier"] #modal-downloads,
+      body[data-role-view="cashier"] [download],
+      body[data-role-view="cashier"] [data-download],
+      body[data-role-view="cashier"] [id*="download" i],
+      body[data-role-view="cashier"] [class*="download" i],
+      body[data-role-view="cashier"] [aria-label*="download" i],
+      body[data-role-view="cashier"] [title*="download" i],
+      body[data-role-view="cashier"] [href*="download" i],
+      body[data-role-view="cashier"] [data-action*="download" i],
+      body[data-role-view="cashier"] #moreButton,
+      body[data-role-view="cashier"] #moreDropdown,
+      body[data-role-view="cashier"] #navMoreBtn,
+      body[data-role-view="cashier"] #navMoreMenu {
+        display: none !important;
+      }
+      .stock-threshold-control {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      .stock-threshold-control input {
+        width: 64px;
+        min-height: 36px;
+        padding: 6px 8px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        background: #252526;
+      }
+      .inventory-alerts {
+        display: grid;
+        gap: 12px;
+      }
+      .inventory-alerts-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .inventory-alerts-heading .eyebrow {
+        margin: 0 0 4px;
+      }
+      .inventory-alerts-heading h3 {
+        margin: 0;
+        color: var(--ink);
+        font:
+          600 18px Outfit,
+          sans-serif;
+      }
+      .inventory-alert-count {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .inventory-alert-row {
+        gap: 12px;
+      }
+      .inventory-alert-row > span {
+        display: grid;
+        gap: 4px;
+        min-width: 0;
+      }
+      .inventory-alert-row > span strong {
+        color: var(--ink);
+        font-size: 14px;
+      }
+      .inventory-alert-row small {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .inventory-restock-button {
+        flex-shrink: 0;
+      }
+      .inventory-alert-empty strong {
+        color: var(--green);
+      }
+      @media (max-width: 640px) {
+        .stock-threshold-control {
+          order: 3;
+          width: 100%;
+        }
+        .inventory-alert-row {
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="appView" hidden>
+      <div class="app-shell">
+        <header class="topbar">
+          <div class="brand" id="logo">
+            <span class="brand-mark">t</span>
+            <span>Tajiri POS</span>
+          </div>
+          <div class="topbar-actions">
+            <span class="status-dot" id="statusDot" title="Online"></span
+            ><span class="store-name" id="storeName">Main Store</span>
+            <span class="topbar-clock" id="topbarClock" aria-label="Current date and time"
+              ></span
+            >
+            <button
+              class="theme-toggle-button"
+              id="themeQuickToggle"
+              type="button"
+              aria-label="Switch to light theme"
+              title="Switch theme"
+            >
+              <span class="theme-icon-dark" aria-hidden="true">☀</span>
+              <span class="theme-icon-light" aria-hidden="true">☾</span>
+            </button>
+            <select
+              id="storeSelect"
+              class="store-select"
+              aria-label="Select store branch"
+            >
+              <option>Main Store</option>
+              <option>Westlands Branch</option>
+              <option>Marsabit Branch</option>
+            </select>
+            <button class="icon-button" aria-label="Notifications" title="Notifications">♧</button>
+
+            <div class="more-menu-wrap">
+              <button
+                class="more-button"
+                id="moreButton"
+                aria-expanded="false"
+                aria-label="More"
+              >
+                More ▾
+              </button>
+              <div class="more-dropdown" id="moreDropdown" hidden>
+                <button
+                  class="more-menu-item"
+                  id="dashboardMenuButton"
+                  data-view="Admin Dashboard"
+                >
+                  ▦ Dashboard
+                </button>
+                <button class="more-menu-item" data-view="Sales">▣ Sales</button>
+                <button class="more-menu-item" data-view="Inventory">
+                  ▤ Inventory
+                </button>
+                <button class="more-menu-item" data-view="Purchases">
+                  ⇄ Purchases
+                </button>
+                <button class="more-menu-item" data-view="Customers">
+                  ♙ Customers
+                </button>
+                <button class="more-menu-item" data-view="Suppliers">
+                  ▱ Suppliers
+                </button>
+                <button class="more-menu-item" data-view="Cash Book">
+                  ▤ Cashbook
+                </button>
+                <button class="more-menu-item" data-view="Expenses">
+                  ▮ Expenses
+                </button>
+                <button class="more-menu-item" data-view="Accounting">
+                  ▥ Accounting
+                </button>
+                <button class="more-menu-item" data-view="Reports">
+                  ▥ Reports
+                </button>
+                <button class="more-menu-item" data-view="Branches">
+                  ⌂ Branches
+                </button>
+                <button class="more-menu-item" data-view="Staff">
+                  ♟ Employees
+                </button>
+                <button class="more-menu-item" data-view="Marketing">
+                  ✉ Marketing
+                </button>
+                <button class="more-menu-item" data-view="Settings">
+                  ⚙ Settings
+                </button>
+                <button class="more-menu-item" data-view="Help Center">
+                  ? Help Centre
+                </button>
+                <div class="more-menu-separator" role="separator"></div>
+                <button class="more-menu-item" data-view="Receipts">
+                  ▧ Receipts
+                </button>
+                <button class="more-menu-item" data-view="Operations">
+                  ✦ Operations
+                </button>
+                <button class="more-menu-item" data-view="Premium Tools">
+                  ✦ Premium tools
+                </button>
+                <button
+                  class="more-menu-item"
+                  id="downloadDataButton"
+                  type="button"
+                >
+                  ⇩ Download data
+                </button>
+                <button class="more-menu-item" id="aboutButton" type="button">
+                  ⓘ About Tajiri POS
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="topbar-user"
+              id="userProfile"
+              aria-label="Signed-in user profile"
+            >
+              <span
+                class="user-avatar"
+                id="userInitials"
+                aria-hidden="true"
+              ></span>
+              <span class="user-profile-copy"
+                ><strong id="userName"></strong><small id="userRole"></small
+              ></span>
+            </div>
+            <button class="logout-button">↪ Logout</button>
+          </div>
+        </header>
+
+        <div class="workspace">
+          <nav class="sidebar" aria-label="Main navigation">
+            <button
+              class="nav-button active"
+              aria-label="Sales"
+              data-view="Sales"
+            >
+              ▣
+            </button>
+            <button
+              class="nav-button"
+              aria-label="Inventory"
+              data-view="Inventory"
+            >
+              ▤
+            </button>
+            <button
+              class="nav-button"
+              aria-label="Customers"
+              data-view="Customers"
+            >
+              ♙
+            </button>
+            <button class="nav-button" aria-label="Staff" data-view="Staff">
+              ♟
+            </button>
+            <button class="nav-button" aria-label="Reports" data-view="Reports">
+              ▥
+            </button>
+            <button
+              class="nav-button"
+              aria-label="Settings"
+              data-view="Settings"
+            >
+              ⚙
+            </button>
+            <button
+              class="nav-button"
+              aria-label="Receipts"
+              data-view="Receipts"
+            >
+              ▧
+            </button>
+            <button
+              class="nav-button"
+              aria-label="Operations"
+              data-view="Operations"
+            >
+              ✦
+            </button>
+            <div class="sidebar-spacer"></div>
+          </nav>
+
+          <main class="main-content">
+            <section class="sales-area" data-view="Sales">
+              <div class="page-heading">
+                <div>
+                  <p class="eyebrow">POINT OF SALE</p>
+                  <h1 id="pageTitle">New sale</h1>
+                </div>
+                <div class="page-heading-actions">
+                  <label class="sale-type-picker" for="saleTypeSelect">
+                    <span>Sale type</span>
+                    <select id="saleTypeSelect" aria-label="Select sale type">
+                      <option value="retail">Retail</option>
+                      <option value="wholesale">Wholesale</option>
+                      <option value="special">Special sale</option>
+                    </select>
+                  </label>
+                  <button class="secondary-button" id="clearSale">
+                    Clear sale
+                  </button>
+                </div>
+              </div>
+
+              <div class="search-wrap">
+                <span class="search-icon">⌕</span>
+                <input
+                  id="productSearch"
+                  type="search"
+                  placeholder="Search products by name or scan barcode"
+                  autocomplete="off"
+                />
+                <div
+                  class="search-suggestions"
+                  id="searchSuggestions"
+                  hidden
+                ></div>
+                <span class="shortcut">⌘ K</span>
+              </div>
+
+              <div class="sales-stock-pulse" aria-label="Inventory snapshot">
+                <div class="sales-pulse-card pulse-green">
+                  <span class="pulse-icon">✦</span>
+                  <div>
+                    <small>Stock ready</small
+                    ><strong id="salesStockReady">0 items</strong>
+                  </div>
+                </div>
+                <div class="sales-pulse-card pulse-pink">
+                  <span class="pulse-icon">!</span>
+                  <div>
+                    <small>Needs attention</small
+                    ><strong id="salesLowStock">0 low</strong>
+                  </div>
+                </div>
+                <div class="sales-pulse-card pulse-blue">
+                  <span class="pulse-icon">↗</span>
+                  <div>
+                    <small>Top seller</small
+                    ><strong id="salesTopSeller">—</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="catalog-header">
+                <h2>Cart <span id="cartCount">0 items</span></h2>
+                <button class="text-button" id="addCustom">
+                  ＋ Add custom item
+                </button>
+              </div>
+
+              <div class="cart-table">
+                <div class="table-head">
+                  <span>PRODUCT</span><span>QUANTITY</span><span>PRICE</span
+                  ><span>AMOUNT</span><span></span>
+                </div>
+                <div id="cartItems" class="cart-items"></div>
+                <div id="emptyState" class="empty-state">
+                  <div class="empty-icon">＋</div>
+                  <strong>Your cart is empty</strong>
+                  <span
+                    >Search for a product or choose one below to begin.</span
+                  >
+                </div>
+              </div>
+
+              <div class="quick-products" aria-hidden="true">
+                <div class="quick-heading">
+                  <h2>Quick add</h2>
+                  <button class="text-button" id="viewCatalog">
+                    View catalogue →
+                  </button>
+                </div>
+                <div class="product-grid" id="productGrid"></div>
+              </div>
+
+              <div class="lower-actions" aria-label="Sale actions">
+                <button class="lower-action active" id="lowerCash">
+                  <span>▣</span><strong>Cash</strong>
+                </button>
+                <button class="lower-action" id="lowerMpesa">
+                  <span>▥</span><strong>M-Pesa</strong>
+                </button>
+                <button class="lower-action" id="lowerPaybill">
+                  <span>▤</span><strong>Paybill</strong>
+                </button>
+                <button class="lower-action" id="lowerSplit">
+                  <span>↔</span><strong>Split payment</strong>
+                </button>
+                <button class="lower-action" id="lowerPoints">
+                  <span>♧</span><strong>Redeem points</strong>
+                </button>
+                <button class="lower-action" id="lowerDebt">
+                  <span>▭</span><strong>Debt</strong>
+                </button>
+                <button class="complete-sale-button" id="completeSale">
+                  ✓ Complete sale
+                </button>
+                <button class="lower-new-sale" id="lowerNewSale">
+                  ＋ New sale
+                </button>
+              </div>
+            </section>
+
+            <section class="view-panel" data-view="Admin Dashboard" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">ADMIN WORKSPACE</p>
+                <h2>Business overview</h2>
+              </div>
+              <div class="panel-grid admin-summary-grid">
+                <div class="panel-card">
+                  <span>Sales today</span
+                  ><strong id="adminSalesToday">KES 0.00</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Orders today</span
+                  ><strong id="adminOrdersToday">0</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Low stock items</span
+                  ><strong id="adminLowStock">0</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Estimated profit</span
+                  ><strong id="adminProfit">KES 0.00</strong>
+                </div>
+              </div>
+              <div
+                class="module-toolbar admin-dashboard-actions"
+                aria-label="Admin shortcuts"
+              >
+                <button
+                  class="secondary-button dashboard-link"
+                  type="button"
+                  data-view="Inventory"
+                >
+                  Manage products & inventory
+                </button>
+                <button
+                  class="secondary-button dashboard-link"
+                  type="button"
+                  data-view="Reports"
+                >
+                  View profit reports
+                </button>
+                <button
+                  class="secondary-button dashboard-link"
+                  type="button"
+                  data-view="Staff"
+                >
+                  Manage cashiers
+                </button>
+                <button
+                  class="primary-button"
+                  id="adminCreateAccountButton"
+                  type="button"
+                >
+                  + Create staff account
+                </button>
+              </div>
+              <section
+                class="admin-dashboard-section"
+                aria-labelledby="adminTillSalesHeading"
+              >
+                <div class="panel-header">
+                  <div>
+                    <h2 id="adminTillSalesHeading">Today's sales by till</h2>
+                    <p class="section-sub">Daily transaction totals for Till 1–4.</p>
+                  </div>
+                </div>
+                <div class="till-sales-table-wrap">
+                  <table class="till-sales-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Till</th>
+                        <th scope="col">Transactions</th>
+                        <th scope="col">Sales total</th>
+                      </tr>
+                    </thead>
+                    <tbody id="adminTillSales">
+                      <tr><td colspan="3">No sales recorded today</td></tr>
+                    </tbody>
+                    <tfoot id="adminTillSalesTotal"></tfoot>
+                  </table>
+                </div>
+              </section>
+              <section
+                class="admin-dashboard-section"
+                aria-labelledby="adminSalesHeading"
+              >
+                <div class="panel-header">
+                  <h2 id="adminSalesHeading">All sales</h2>
+                </div>
+                <div
+                  class="panel-list dashboard-sales-list"
+                  id="adminRecentSales"
+                ></div>
+              </section>
+            </section>
+
+            <section class="view-panel" data-view="Cashier Dashboard" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">CASHIER WORKSPACE</p>
+                <h2>Welcome, <span id="cashierDashboardName">Cashier</span></h2>
+              </div>
+              <div class="panel-grid">
+                <div class="panel-card">
+                  <span>My sales today</span
+                  ><strong id="cashierDashboardSales">KES 0.00</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Transactions today</span
+                  ><strong id="cashierDashboardOrders">0</strong>
+                </div>
+              </div>
+              <div class="shift-card">
+                <div>
+                  <p class="eyebrow">CASHIER SHIFT</p>
+                  <strong id="cashierShiftStatus">No shift open</strong
+                  ><small id="cashierShiftDetails"
+                    >Open a shift before taking sales.</small
+                  >
+                </div>
+                <button
+                  class="primary-button"
+                  id="cashierShiftButton"
+                  type="button"
+                >
+                  Open shift
+                </button>
+              </div>
+              <div class="module-toolbar" aria-label="Cashier shortcuts">
+                <button
+                  class="primary-button dashboard-link"
+                  type="button"
+                  data-view="Sales"
+                >
+                  ＋ New sale
+                </button>
+                <button
+                  class="secondary-button dashboard-link"
+                  type="button"
+                  data-view="Receipts"
+                >
+                  ▧ Receipts
+                </button>
+              </div>
+              <section
+                class="admin-dashboard-section"
+                aria-labelledby="cashierSalesHeading"
+              >
+                <div class="panel-header">
+                  <h2 id="cashierSalesHeading">Today's sales</h2>
+                </div>
+                <div
+                  class="panel-list dashboard-sales-list"
+                  id="cashierTodaySales"
+                ></div>
+              </section>
+            </section>
+
+            <section class="view-panel" data-view="Inventory" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">PRODUCT MANAGEMENT</p>
+                <h2>Stock control</h2>
+              </div>
+              <div class="module-toolbar">
+                <div class="module-search">
+                  ⌕<input id="inventorySearch" placeholder="Search products" />
+                </div>
+                <label
+                  class="stock-threshold-control"
+                  for="lowStockThresholdInput"
+                  >Alert at
+                  <input
+                    id="lowStockThresholdInput"
+                    type="number"
+                    min="0"
+                    step="1"
+                    value="5"
+                    inputmode="numeric"
+                    aria-label="Low-stock alert threshold"
+                  />
+                  units
+                </label>
+                <button class="primary-button" id="addProductButton">
+                  ＋ Add product
+                </button>
+              </div>
+              <section class="inventory-alerts" aria-labelledby="catalogImportHeading">
+                <div class="inventory-alerts-heading">
+                  <div>
+                    <p class="eyebrow">BULK PRODUCT SETUP</p>
+                    <h3 id="catalogImportHeading">Import product catalogue</h3>
+                  </div>
+                  <input
+                    id="productImportFile"
+                    type="file"
+                    accept=".csv,text/csv"
+                    hidden
+                  />
+                  <button class="secondary-button" id="chooseProductImportButton" type="button">
+                    Choose CSV file
+                  </button>
+                  <button class="primary-button" id="confirmProductImportButton" type="button" disabled>
+                    Import products
+                  </button>
+                </div>
+                <p class="modal-note" id="productImportStatus" role="status" aria-live="polite">
+                  CSV columns: SKU, ProductName, Category, BuyPriceKES, SellPriceKES, StockQty and ReorderLevel.
+                  Products with matching SKUs will be updated; other products and all sales will be kept.
+                  Imported stock applies to the selected branch.
+                </p>
+              </section>
+              <div class="panel-grid">
+                <div class="panel-card">
+                  <span>Stock items</span><strong id="stockCard">0</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Low-stock items</span
+                  ><strong id="lowStockCard">0</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Top seller</span><strong id="topSellerCard">—</strong>
+                </div>
+              </div>
+              <section
+                class="inventory-alerts"
+                aria-labelledby="inventoryAlertsHeading"
+              >
+                <div class="inventory-alerts-heading">
+                  <div>
+                    <p class="eyebrow">REORDER ATTENTION</p>
+                    <h3 id="inventoryAlertsHeading">Low-stock alerts</h3>
+                  </div>
+                  <span
+                    id="inventoryAlertCount"
+                    class="inventory-alert-count"
+                    aria-live="polite"
+                    >0 items</span
+                  >
+                  <button class="text-button" id="createReorderSuggestionsButton" type="button">
+                    Create reorder suggestions
+                  </button>
+                </div>
+                <div
+                  class="panel-list"
+                  id="lowStockList"
+                  aria-live="polite"
+                ></div>
+              </section>
+              <div class="inventory-table" id="inventoryTable"></div>
+              <section class="inventory-alerts" aria-labelledby="stockTransfersHeading">
+                <div class="inventory-alerts-heading">
+                  <div>
+                    <p class="eyebrow">MULTI-BRANCH</p>
+                    <h3 id="stockTransfersHeading">Stock transfers</h3>
+                  </div>
+                  <button class="secondary-button" id="createTransferButton" type="button">
+                    ⇄ Transfer stock
+                  </button>
+                </div>
+                <div class="panel-list" id="stockTransferList"></div>
+              </section>
+            </section>
+
+            <section class="view-panel" data-view="Customers" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">CUSTOMERS & LOYALTY</p>
+                <h2>Loyalty profiles</h2>
+              </div>
+              <button class="secondary-button panel-command" id="addCustomerButton" type="button">
+                ＋ Add loyalty customer
+              </button>
+              <div class="panel-list" id="customerList"></div>
+              <button
+                class="secondary-button panel-command"
+                id="campaignButton"
+              >
+                ✉ Send SMS campaign
+              </button>
+            </section>
+
+            <section class="view-panel" data-view="Purchases" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">PURCHASING</p>
+                <h2>Purchases & receiving</h2>
+              </div>
+              <div class="module-toolbar">
+                <p class="modal-note">
+                  Review suggested orders, download purchase order drafts, and
+                  receive stock into the branch recorded on each order.
+                </p>
+                <button class="secondary-button" type="button" data-view="Suppliers">
+                  View suppliers
+                </button>
+              </div>
+              <div class="panel-list" id="purchaseOrderList"></div>
+            </section>
+
+            <section class="view-panel" data-view="Staff" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">EMPLOYEES</p>
+                <h2>Staff access</h2>
+              </div>
+              <p class="modal-note" id="adminAccountCount">Administrators: 0/3</p>
+              <div class="panel-list" id="staffList"></div>
+              <button
+                class="primary-button panel-command"
+                id="addAccountButton"
+                type="button"
+                hidden
+              >
+                + Create staff account
+              </button>
+            </section>
+
+            <section class="view-panel" data-view="Reports" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">REPORTS & ANALYTICS</p>
+                <h2>Business summary</h2>
+              </div>
+              <div class="panel-grid">
+                <div class="panel-card">
+                  <span>Today</span><strong id="reportToday">KES 0.00</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Net profit</span
+                  ><strong id="reportProfit">KES 0.00</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Orders</span><strong id="reportOrders">0</strong>
+                </div>
+              </div>
+              <div class="panel-list">
+                <div class="panel-row">
+                  <span>Top-selling product</span
+                  ><strong id="reportTop">No sales yet</strong>
+                </div>
+                <div class="panel-row">
+                  <span>Payment mix</span
+                  ><strong id="reportPaymentMix">—</strong>
+                </div>
+                <div class="panel-row">
+                  <span
+                    >VAT collected (all time ·
+                    <span id="reportVatRate">0%</span>)</span
+                  ><strong id="reportVat">KES 0.00</strong>
+                </div>
+                <div class="panel-row">
+                  <span>Expenses recorded</span
+                  ><strong id="reportExpenses">KES 0.00</strong>
+                </div>
+              </div>
+              <section class="trend-section" aria-labelledby="trendHeading">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">WEEKLY PERFORMANCE</p>
+                    <h3 id="trendHeading">Sales trend · last 7 days</h3>
+                  </div>
+                  <span class="inventory-alert-count" id="trendRange">—</span>
+                </div>
+                <div class="trend-chart" id="trendChart" role="img" aria-label="Bar chart of daily sales for the last seven days"></div>
+                <div class="panel-list">
+                  <div class="panel-row">
+                    <span>Best day</span><strong id="trendBestDay">—</strong>
+                  </div>
+                  <div class="panel-row">
+                    <span>Daily average</span><strong id="trendAverage">—</strong>
+                  </div>
+                </div>
+              </section>
+              <div class="panel-list">
+                <div class="panel-row panel-row-ai">
+                  <span>✨ AI insight</span
+                  ><strong id="aiInsight"
+                    >Add a product to start selling</strong
+                  >
+                </div>
+              </div>
+              <div class="module-toolbar">
+                <button class="secondary-button" id="smsReportButton">
+                  Send daily SMS summary
+                </button>
+                <button
+                  class="secondary-button panel-command"
+                  id="exportReportButton"
+                >
+                  ⇩ Export report
+                </button>
+              </div>
+              <section class="inventory-alerts" aria-labelledby="reportScheduleHeading">
+                <div class="inventory-alerts-heading">
+                  <div>
+                    <p class="eyebrow">AUTOMATION</p>
+                    <h3 id="reportScheduleHeading">Scheduled sales export</h3>
+                  </div>
+                </div>
+                <div class="module-toolbar">
+                  <label class="setting-control">
+                    <span>Frequency</span>
+                    <select id="reportScheduleFrequency">
+                      <option value="daily">Daily</option>
+                      <option value="weekly">Weekly</option>
+                    </select>
+                  </label>
+                  <label class="setting-control">
+                    <span>Local time</span>
+                    <input id="reportScheduleTime" type="time" value="18:00" />
+                  </label>
+                  <button class="secondary-button" id="saveReportScheduleButton" type="button">
+                    Save schedule
+                  </button>
+                  <button class="text-button" id="clearReportScheduleButton" type="button">
+                    Turn off
+                  </button>
+                </div>
+                <p class="modal-note" id="reportScheduleStatus" aria-live="polite">
+                  Scheduled exports run while Tajiri POS is open on this device.
+                </p>
+              </section>
+            </section>
+
+            <section class="view-panel" data-view="Expenses" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">EXPENSE TRACKING</p>
+                <h2>Business expenses</h2>
+              </div>
+              <div class="module-toolbar">
+                <button class="primary-button" id="addExpenseButton">
+                  ＋ Record expense
+                </button>
+              </div>
+              <div class="panel-list" id="expenseList">
+                <div class="panel-row">
+                  <span>No expenses recorded yet</span><strong>—</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="view-panel" data-view="Cash Book" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">CASH MANAGEMENT</p>
+                <h2>Cash book</h2>
+              </div>
+              <div class="panel-grid">
+                <div class="panel-card">
+                  <span>Cash balance</span
+                  ><strong id="cashBookBalance">KES 0.00</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Money in</span><strong id="cashBookIn">KES 0.00</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Money out</span
+                  ><strong id="cashBookOut">KES 0.00</strong>
+                </div>
+              </div>
+              <div class="module-toolbar">
+                <button class="primary-button" id="addCashEntryButton">
+                  ＋ Add cash entry
+                </button>
+              </div>
+              <div class="panel-list" id="cashBookList"></div>
+            </section>
+
+            <section class="view-panel" data-view="Accounting" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">FINANCIAL WORKSPACE</p>
+                <h2>Accounting overview</h2>
+              </div>
+              <div class="panel-grid">
+                <div class="panel-card">
+                  <span>Recorded sales</span>
+                  <strong id="accountingSalesTotal">KES 0.00</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Recorded expenses</span>
+                  <strong id="accountingExpenseTotal">KES 0.00</strong>
+                </div>
+                <div class="panel-card">
+                  <span>Cashbook balance</span>
+                  <strong id="accountingCashBalance">KES 0.00</strong>
+                </div>
+              </div>
+              <div class="panel-list">
+                <div class="panel-row">
+                  <span>Ledger export</span>
+                  <span class="operation-row-actions">
+                    <strong>Sales and expenses · CSV</strong>
+                    <button class="row-action" id="exportAccountingButton" type="button">
+                      Export ledger
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <p class="modal-note">
+                This is a local operational summary, not a statutory accounting
+                or tax filing system.
+              </p>
+            </section>
+
+            <section class="view-panel" data-view="Branches" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">MULTI-BRANCH</p>
+                <h2>Branches & stock</h2>
+              </div>
+              <div class="module-toolbar">
+                <p class="modal-note">
+                  Branch stock is maintained separately on this device. Choose
+                  the active branch in the top bar to record sales or receiving.
+                </p>
+                <button class="secondary-button" id="branchManageButton" type="button">
+                  Manage branches
+                </button>
+                <button class="secondary-button" type="button" data-view="Inventory">
+                  Transfer stock
+                </button>
+              </div>
+              <div class="panel-list" id="branchList"></div>
+            </section>
+
+            <section class="view-panel" data-view="Marketing" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">CUSTOMER ENGAGEMENT</p>
+                <h2>Marketing</h2>
+                <p class="modal-note">
+                  Prepare a customer campaign export for a messaging provider.
+                  Tajiri POS does not send SMS messages itself.
+                </p>
+              </div>
+              <div class="module-toolbar">
+                <button class="primary-button" id="marketingCampaignButton" type="button">
+                  Create customer campaign
+                </button>
+                <button class="secondary-button" type="button" data-view="Customers">
+                  View customers
+                </button>
+              </div>
+            </section>
+
+            <section class="view-panel" data-view="Help Center" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">HELP & GUIDANCE</p>
+                <h2>Help Centre</h2>
+                <p class="modal-note">
+                  Quick guidance for common point-of-sale tasks.
+                </p>
+              </div>
+              <div class="panel-list">
+                <div class="panel-row">
+                  <span>Start a sale</span>
+                  <strong>Choose Sales, add products, select a payment method, and complete the sale.</strong>
+                </div>
+                <div class="panel-row">
+                  <span>Manage stock</span>
+                  <strong>Use Inventory to update products, review low-stock alerts, and print barcode labels.</strong>
+                </div>
+                <div class="panel-row">
+                  <span>Receive a purchase</span>
+                  <strong>Open Purchases and select Receive stock on an unreceived order.</strong>
+                </div>
+                <div class="panel-row">
+                  <span>Back up business data</span>
+                  <strong>Open Settings → Backup & data to export or restore a local business backup.</strong>
+                </div>
+                <div class="panel-row">
+                  <span>Branch and sync status</span>
+                  <strong>Branches are stored on this device; cloud synchronization is not configured.</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="view-panel" data-view="Suppliers" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">SUPPLY CHAIN</p>
+                <h2>Suppliers</h2>
+              </div>
+              <div class="panel-list" id="supplierList"></div>
+            </section>
+
+            <section class="view-panel" data-view="Settings" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">SETTINGS</p>
+                <h2>Store preferences</h2>
+              </div>
+              <div class="settings-grid">
+                <section class="settings-card">
+                  <div class="settings-card-heading">
+                    <span class="settings-icon settings-green">✦</span>
+                    <div>
+                      <h3>General</h3>
+                      <p>Language, appearance, and alerts</p>
+                    </div>
+                  </div>
+                  <div class="settings-fields">
+                    <label class="setting-control"
+                      ><span>Language & region</span
+                      ><select id="languageSelect">
+                        <option value="en-GB">English (UK) · Kenya</option>
+                      </select></label
+                    >
+                    <label class="setting-control"
+                      ><span>Theme</span
+                      ><select id="themeSelect">
+                        <option value="dark">Dark workspace</option>
+                        <option value="light">Light workspace</option>
+                      </select></label
+                    >
+                    <label class="setting-control"
+                      ><span>Background colour</span
+                      ><input
+                        id="backgroundColorInput"
+                        type="color"
+                        value="#121820"
+                    /></label>
+                    <label class="setting-toggle"
+                      ><span
+                        ><strong>Low-stock alerts</strong
+                        ><small
+                          >Notify when stock reaches 5 or less</small
+                        ></span
+                      ><input id="lowStockAlertsToggle" type="checkbox" checked
+                    /></label>
+                    <label class="setting-toggle"
+                      ><span
+                        ><strong>Daily sales reports</strong
+                        ><small>Prepare a daily summary for admin</small></span
+                      ><input
+                        id="salesReportAlertsToggle"
+                        type="checkbox"
+                        checked
+                    /></label>
+                  </div>
+                </section>
+
+                <section class="settings-card">
+                  <div class="settings-card-heading">
+                    <span class="settings-icon settings-blue">KES</span>
+                    <div>
+                      <h3>Business</h3>
+                      <p>Prices, taxes, and receipts</p>
+                    </div>
+                  </div>
+                  <div class="settings-fields">
+                    <label class="setting-control"
+                      ><span>Store name</span
+                      ><input id="storeNameInput" placeholder="Main Store"
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Business / shop name</span
+                      ><input
+                        id="receiptShopNameInput"
+                        placeholder="DanLiz Shop"
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Receipt logo URL</span
+                      ><input
+                        id="receiptLogoUrlInput"
+                        type="url"
+                        placeholder="https://example.com/logo.png"
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Receipt heading</span
+                      ><input
+                        id="receiptHeaderInput"
+                        placeholder="SALES RECEIPT"
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Location</span
+                      ><input
+                        id="receiptLocationInput"
+                        placeholder="Bondo, Siaya County"
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Phone</span
+                      ><input id="receiptPhoneInput" placeholder="0712 345 678"
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Welcome tagline</span
+                      ><input
+                        id="welcomeTaglineInput"
+                        placeholder="Smart POS Solutions for Modern Shops"
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Receipt footer</span
+                      ><input
+                        id="receiptFooterInput"
+                        placeholder="Thank you for shopping with us"
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Return policy</span
+                      ><input
+                        id="returnPolicyInput"
+                        placeholder="Goods once sold are not returnable."
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Receipt font size (px)</span
+                      ><input
+                        id="receiptFontSizeInput"
+                        type="number"
+                        min="8"
+                        max="18"
+                        step="1"
+                        value="10"
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Receipt template</span
+                      ><select id="receiptTemplateSelect">
+                        <option value="detailed">Detailed</option>
+                        <option value="simple">Simple</option>
+                      </select></label
+                    >
+                    <label class="setting-toggle"
+                      ><span
+                        ><strong>Auto-print receipt</strong
+                        ><small
+                          >Print automatically when a sale is completed</small
+                        ></span
+                      ><input
+                        id="autoPrintReceiptToggle"
+                        type="checkbox"
+                        checked
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Currency</span
+                      ><select id="currencySelect">
+                        <option value="KES">KES · Kenyan Shilling</option>
+                        <option value="USD">USD · US Dollar</option>
+                        <option value="EUR">EUR · Euro</option>
+                        <option value="UGX">UGX · Uganda Shilling</option>
+                      </select></label
+                    >
+                    <label class="setting-control"
+                      ><span>VAT rate (%)</span
+                      ><input
+                        id="taxRateInput"
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="0.5"
+                        value="0"
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Service charge (%)</span
+                      ><input
+                        id="serviceChargeInput"
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="0.5"
+                        value="0"
+                    /></label>
+                    <label class="setting-control"
+                      ><span>Discount rule</span
+                      ><select id="discountRuleSelect">
+                        <option value="percentage">Percentage discount</option>
+                        <option value="fixed">Fixed amount discount</option>
+                      </select></label
+                    >
+                    <div class="setting-note">
+                      <strong>Safaricom Daraja · STK Push</strong>
+                      <span id="darajaConnectionStatus" aria-live="polite"
+                        >Checking backend…</span
+                      >
+                      <small
+                        >Configure consumer key, secret, shortcode, passkey,
+                        and HTTPS callback in the server environment. Never
+                        enter Daraja credentials in this browser.</small
+                      >
+                    </div>
+                    <button
+                      class="secondary-button"
+                      id="checkDarajaStatusButton"
+                      type="button"
+                    >
+                      Check Daraja connection
+                    </button>
+                  </div>
+                </section>
+
+                <section class="settings-card">
+                  <div class="settings-card-heading">
+                    <span class="settings-icon settings-pink">⌁</span>
+                    <div>
+                      <h3>Users & security</h3>
+                      <p>Access and session protection</p>
+                    </div>
+                  </div>
+                  <div class="settings-fields">
+                    <label class="setting-control"
+                      ><span>Login method</span
+                      ><select id="loginMethodSelect">
+                        <option value="pin">PIN</option>
+                        <option value="password">Password</option>
+                        <option value="biometric" disabled>
+                          Biometric (not available)
+                        </option>
+                      </select></label
+                    >
+                    <label class="setting-control"
+                      ><span>Session timeout</span
+                      ><select id="sessionTimeoutSelect">
+                        <option value="0">Never</option>
+                        <option value="15">15 minutes</option>
+                        <option value="30">30 minutes</option>
+                        <option value="60">60 minutes</option>
+                      </select></label
+                    >
+                    <div class="setting-note">
+                      <strong>Role permissions</strong
+                      ><span id="settingsRole">Admin</span
+                      ><small>Manage accounts from the Staff panel</small>
+                    </div>
+                    <div class="setting-note">
+                      <strong>Active store</strong
+                      ><span id="settingsStoreName">Main Store</span
+                      ><small>Switch branches from the top bar</small>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="settings-card">
+                  <div class="settings-card-heading">
+                    <span class="settings-icon settings-yellow">⚙</span>
+                    <div>
+                      <h3>Devices & payments</h3>
+                      <p>Connect the tools at your counter</p>
+                    </div>
+                  </div>
+                  <div class="settings-fields">
+                    <label class="setting-control"
+                      ><span>Receipt printer</span
+                      ><select id="printerSelect">
+                        <option value="system">
+                          System print dialog
+                        </option></select
+                      ><small
+                        >Choose the connected printer in your device's print
+                        dialog.</small
+                      ></label
+                    >
+                    <label class="setting-toggle"
+                      ><span
+                        ><strong>Barcode scanner</strong
+                        ><small
+                          >Accept scanner input in the search bar</small
+                        ></span
+                      ><input id="scannerToggle" type="checkbox" checked
+                    /></label>
+                    <div class="payment-checks">
+                      <span>Payment methods</span
+                      ><label
+                        ><input id="mpesaToggle" type="checkbox" checked />
+                        M-Pesa</label
+                      ><label
+                        ><input id="airtelToggle" type="checkbox" /> Airtel
+                        Money</label
+                      ><label
+                        ><input id="cardToggle" type="checkbox" checked />
+                        Card</label
+                      >
+                    </div>
+                    <label class="setting-toggle"
+                      ><span
+                        ><strong>Cash drawer</strong
+                        ><small
+                          >Open drawer after completed cash sales</small
+                        ></span
+                      ><input id="cashDrawerToggle" type="checkbox"
+                    /></label>
+                  </div>
+                </section>
+
+                <section class="settings-card">
+                  <div class="settings-card-heading">
+                    <span class="settings-icon settings-blue">☁</span>
+                    <div>
+                      <h3>Backup & data</h3>
+                      <p>Keep your store information portable</p>
+                    </div>
+                  </div>
+                  <div class="settings-fields">
+                    <div class="setting-note">
+                      <strong>Cloud backup</strong><span>Not connected</span
+                      ><small
+                        >Cloud backup requires a configured secure sync service.
+                        Use local business backup below in the meantime.</small
+                      >
+                    </div>
+                    <label class="setting-toggle"
+                      ><span
+                        ><strong>Offline mode</strong
+                        ><small>Keep selling and sync later</small></span
+                      ><input id="offlineToggle" type="checkbox"
+                    /></label>
+                    <button
+                      class="secondary-button settings-export"
+                      id="exportSettingsButton"
+                    >
+                      ⇩ Export settings
+                    </button>
+                    <button
+                      class="secondary-button"
+                      id="exportBusinessBackupButton"
+                      type="button"
+                    >
+                      ⇩ Export business backup
+                    </button>
+                    <button
+                      class="secondary-button"
+                      id="importBusinessBackupButton"
+                      type="button"
+                    >
+                      ⇧ Restore business backup
+                    </button>
+                    <input
+                      id="businessBackupFile"
+                      type="file"
+                      accept="application/json,.json"
+                      hidden
+                    />
+                    <small
+                      >Local backups include sales, stock, expenses, and
+                      settings, but exclude staff accounts and passwords.</small
+                    >
+                    <button
+                      class="secondary-button settings-reset"
+                      id="resetSettingsButton"
+                    >
+                      ↺ Reset settings
+                    </button>
+                  </div>
+                </section>
+
+                <section class="settings-card">
+                  <div class="settings-card-heading">
+                    <span class="settings-icon settings-green">↻</span>
+                    <div>
+                      <h3>Application updates</h3>
+                      <p>Updates download automatically</p>
+                    </div>
+                  </div>
+                  <div class="settings-fields">
+                    <div class="setting-note">
+                      <strong>Update status</strong
+                      ><span id="updateStatus" aria-live="polite"
+                        >Checking update status…</span
+                      ><small
+                        >Downloaded updates install when you restart the
+                        app.</small
+                      >
+                    </div>
+                    <button
+                      class="secondary-button"
+                      id="checkForUpdatesButton"
+                      type="button"
+                    >
+                      Check for updates
+                    </button>
+                    <button
+                      class="primary-button"
+                      id="installUpdateButton"
+                      type="button"
+                      hidden
+                    >
+                      Install and restart
+                    </button>
+                  </div>
+                </section>
+              </div>
+              <button
+                class="primary-button panel-command"
+                id="saveSettingsButton"
+              >
+                Save settings
+              </button>
+            </section>
+
+            <section class="view-panel" data-view="Premium Tools" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">PREMIUM WORKSPACE</p>
+                <h2>Advanced store tools</h2>
+                <p class="modal-note">
+                  Loyalty rewards, smart reordering, purchase receiving,
+                  barcode labels, branch transfers, and scheduled reports.
+                </p>
+              </div>
+              <div class="panel-grid">
+                <button
+                  class="panel-card premium-tool-link"
+                  type="button"
+                  data-view="Customers"
+                >
+                  <span>Customer rewards</span>
+                  <strong>Manage loyalty points</strong>
+                </button>
+                <button
+                  class="panel-card premium-tool-link"
+                  type="button"
+                  data-view="Suppliers"
+                >
+                  <span>Purchasing</span>
+                  <strong>Orders & receiving</strong>
+                </button>
+                <button
+                  class="panel-card premium-tool-link"
+                  type="button"
+                  data-view="Inventory"
+                >
+                  <span>Inventory</span>
+                  <strong>Reorder & barcode labels</strong>
+                </button>
+                <button
+                  class="panel-card premium-tool-link"
+                  type="button"
+                  data-view="Reports"
+                >
+                  <span>Automation</span>
+                  <strong>Scheduled sales exports</strong>
+                </button>
+              </div>
+            </section>
+
+            <section class="view-panel" data-view="Receipts" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">RECEIPT PREVIEW</p>
+                <h2>Digital receipt</h2>
+              </div>
+              <div class="receipt-preview" id="receiptPreview">
+                <strong id="receiptStore">DanLiz Ltd.</strong
+                ><span>Thank you for shopping with us</span>
+                <hr />
+                <div id="receiptLines">
+                  <span>Complete a sale to see a receipt</span>
+                </div>
+              </div>
+              <div class="receipt-actions">
+                <button class="primary-button" id="printReceiptButton">
+                  ▧ Print receipt</button
+                ><button class="secondary-button" id="sendReceiptButton">
+                  Send to WhatsApp
+                </button>
+              </div>
+            </section>
+
+            <section class="view-panel" data-view="Operations" hidden>
+              <div class="panel-header">
+                <p class="eyebrow">BUSINESS OPERATIONS</p>
+                <h2>Everything in one place</h2>
+              </div>
+              <div class="panel-grid">
+                <div class="panel-card">
+                  <span>Active store</span><strong id="operationsActiveStore">Main Store</strong
+                  ><small id="operationsBranchCount">1 branch</small>
+                </div>
+                <div class="panel-card">
+                  <span>Connection</span><strong id="operationsConnection">Online</strong
+                  ><small>Local data is saved on this device</small>
+                </div>
+                <div class="panel-card">
+                  <span>VAT this month</span><strong id="operationsVatThisMonth">KES 0.00</strong
+                  ><small>Calculated from recorded sales</small>
+                </div>
+              </div>
+              <div class="operations-grid">
+                <article class="operation-card">
+                  <span class="operation-icon">⌂</span>
+                  <div>
+                    <h3>Multi-store</h3>
+                    <p>Create branches, switch stores, and manage stock separately.</p>
+                  </div>
+                  <button class="row-action" data-operation="stores">
+                    Manage
+                  </button>
+                </article>
+                <article class="operation-card">
+                  <span class="operation-icon">⌁</span>
+                  <div>
+                    <h3>Expenses</h3>
+                    <p>Rent, salaries, utilities, and other costs.</p>
+                  </div>
+                  <button class="row-action" data-operation="expense">
+                    Add expense
+                  </button>
+                </article>
+                <article class="operation-card">
+                  <span class="operation-icon">▱</span>
+                  <div>
+                    <h3>Suppliers</h3>
+                    <p>Purchase orders and delivery tracking.</p>
+                  </div>
+                  <button class="row-action" data-operation="suppliers">
+                    View suppliers
+                  </button>
+                </article>
+                <article class="operation-card">
+                  <span class="operation-icon">⚿</span>
+                  <div>
+                    <h3>Roles & access</h3>
+                    <p>Cashier and admin permissions are protected.</p>
+                  </div>
+                  <button class="row-action" data-operation="roles">
+                    Manage roles
+                  </button>
+                </article>
+                <article class="operation-card">
+                  <span class="operation-icon">◎</span>
+                  <div>
+                    <h3>Currency & wallets</h3>
+                    <p>KES, USD, M-Pesa, and card payments.</p>
+                  </div>
+                  <button class="row-action" data-operation="payments">
+                    Configure
+                  </button>
+                </article>
+                <article class="operation-card">
+                  <span class="operation-icon">✧</span>
+                  <div>
+                    <h3>AI insights</h3>
+                    <p>Review current stock and sales signals.</p>
+                  </div>
+                  <button class="row-action" data-operation="insights">
+                    Open insights
+                  </button>
+                </article>
+                <article class="operation-card">
+                  <span class="operation-icon">▱</span>
+                  <div>
+                    <h3>Direct delivery</h3>
+                    <p>
+                      Send the current sale straight to a customer's address.
+                    </p>
+                  </div>
+                  <button class="row-action" id="deliveryButton">
+                    Start delivery
+                  </button>
+                </article>
+                <article class="operation-card">
+                  <span class="operation-icon">▰</span>
+                  <div>
+                    <h3>Assign delivery guy</h3>
+                    <p>Choose a rider to handle the delivery run.</p>
+                  </div>
+                  <button class="row-action" id="assignButton">Assign</button>
+                </article>
+                <article class="operation-card">
+                  <span class="operation-icon">⟳</span>
+                  <div>
+                    <h3>Refresh</h3>
+                    <p>Clear the search and reload the product catalogue.</p>
+                  </div>
+                  <button class="row-action" id="refreshButton">Refresh</button>
+                </article>
+              </div>
+              <section class="inventory-alerts" aria-labelledby="deliveryListHeading">
+                <div class="inventory-alerts-heading">
+                  <div>
+                    <p class="eyebrow">LOCAL DELIVERY TRACKING</p>
+                    <h3 id="deliveryListHeading">Delivery orders</h3>
+                  </div>
+                  <span id="deliveryCount" class="inventory-alert-count">0 orders</span>
+                </div>
+                <div class="panel-list" id="operationsDeliveryList"></div>
+              </section>
+              <div class="panel-list">
+                <div class="panel-row">
+                  <span>Notifications</span>
+                  <span class="operation-row-actions"><strong id="operationsNotificationSummary">0 low-stock alerts</strong>
+                    <button class="row-action" type="button" data-operation="notifications">Review</button></span>
+                </div>
+                <div class="panel-row">
+                  <span>Accounting integrations</span>
+                  <span class="operation-row-actions"><strong>CSV export · no connector configured</strong>
+                    <button class="row-action" type="button" data-operation="accounting-export">Export ledger</button></span>
+                </div>
+                <div class="panel-row">
+                  <span>Customer feedback & marketing</span>
+                  <span class="operation-row-actions"><strong id="operationsFeedbackSummary">No ratings yet</strong>
+                    <button class="row-action" type="button" data-operation="campaign">Create campaign</button></span>
+                </div>
+              </div>
+            </section>
+
+            <aside class="sale-panel">
+              <div class="sale-panel-heading">
+                <div>
+                  <p class="eyebrow">CURRENT SALE</p>
+                  <h2>Sale #SALE-2084</h2>
+                </div>
+                <span class="sale-badge" id="saleTypeBadge">Retail</span>
+              </div>
+              <div class="summary-body">
+                <div class="summary-row">
+                  <span>Subtotal</span><strong id="subtotal">0.00</strong>
+                </div>
+                <div class="summary-row muted">
+                  <span>Discount</span
+                  ><button class="add-discount" id="discountButton">
+                    Add discount
+                  </button>
+                </div>
+                <div class="summary-row muted">
+                  <span>VAT (<span id="taxRateLabel">0%</span>)</span
+                  ><strong id="tax">0.00</strong>
+                </div>
+                <div class="summary-row muted">
+                  <span
+                    >Service charge (<span id="serviceChargeLabel">0%</span
+                    >)</span
+                  ><strong id="serviceCharge">0.00</strong>
+                </div>
+                <div class="summary-row total">
+                  <span>Total</span><strong id="total">0.00</strong>
+                </div>
+                <div class="points-row">
+                  <span>Points earned</span><strong id="points">0 pts</strong>
+                </div>
+              </div>
+              <div class="sale-meta">
+                <span
+                  >Cashier:
+                  <strong id="cashierName">Not signed in</strong></span
+                ><span id="syncStatus">Online</span>
+              </div>
+              <div class="payment-actions">
+                <button class="payment-button cash" id="cashButton">
+                  <span class="payment-label"><span class="payment-icon">⚑</span>Cash</span><strong>F2</strong>
+                </button>
+                <button class="payment-button card" id="cardButton">
+                  <span class="payment-label"><span class="payment-icon">▥</span>Card / M-Pesa</span><strong>F4</strong>
+                </button>
+                <button class="payment-button hold" id="holdButton">
+                  <span class="payment-label"><span class="payment-icon">Ⅱ</span>Hold sale</span><strong>Park</strong>
+                </button>
+              </div>
+              <button class="new-sale-button" id="newSaleButton">
+                ＋ New sale
+              </button>
+            </aside>
+          </main>
+        </div>
+        <div id="toast" class="toast" role="status"></div>
+        <div id="modal" class="modal" hidden>
+          <div
+            class="modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modalTitle"
+          >
+            <div class="modal-header">
+              <h2 id="modalTitle"></h2>
+              <button
+                class="modal-close"
+                id="modalClose"
+                aria-label="Close dialog"
+              >
+                ×
+              </button>
+            </div>
+            <div id="modalBody" class="modal-body"></div>
+            <div id="modalActions" class="modal-actions"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /#appView -->
+
+    <!-- WELCOME-BOOT-START -->
+    <div
+      id="appLoader"
+      class="app-loader"
+      aria-live="polite"
+      aria-label="Loading Tajiri POS"
+    >
+      <div class="loader-wrap">
+        <div class="loader-ring"></div>
+        <div class="loader-text">Loading POS...</div>
+      </div>
+    </div>
+
+    <!-- WELCOME-VIEW-START -->
+    <div id="welcomeView" hidden>
+      <nav class="site-nav" aria-label="Welcome navigation">
+        <a class="nav-brand" href="#home"
+          ><span class="nav-brand-mark">t</span
+          ><span class="nav-brand-text">Tajiri POS</span></a
+        >
+        <div class="nav-more">
+          <a class="nav-link" href="main.html">Pages</a>
+          <button
+            type="button"
+            class="nav-link nav-more-btn"
+            id="navMoreBtn"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            More ▾
+          </button>
+          <div class="nav-more-menu" id="navMoreMenu" hidden>
+            <button
+              type="button"
+              class="nav-link"
+              data-modal-open="modal-about"
+            >
+              ⓘ About
+            </button>
+            <button
+              type="button"
+              class="nav-link"
+              data-modal-open="modal-features"
+            >
+              ▤ POS Features
+            </button>
+            <button
+              type="button"
+              class="nav-link"
+              data-modal-open="modal-downloads"
+            >
+              ⇩ Downloads
+            </button>
+            <button
+              type="button"
+              class="nav-link"
+              data-modal-open="modal-contact"
+            >
+              ✉ Contact
+            </button>
+            <div class="more-sep"></div>
+            <button
+              type="button"
+              class="nav-link"
+              data-modal-open="modal-access"
+            >
+              ▶ Try the demo →
+            </button>
+            <button
+              type="button"
+              class="nav-link"
+              data-modal-open="modal-downloads"
+            >
+              📥 Download software
+            </button>
+            <div class="more-sep"></div>
+            <span class="more-chip">▣ Fast checkout</span>
+            <span class="more-chip">▤ Inventory</span>
+            <span class="more-chip">▥ Reports</span>
+            <span class="more-chip">☁ Offline</span>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        <section class="home-section" id="home">
+          <div class="hero-ladybirds" aria-hidden="true">
+            <span class="ladybird l1"></span>
+            <span class="ladybird l2"></span>
+            <span class="ladybird l3"></span>
+          </div>
+          <div class="hero-card">
+            <span class="hero-avatar" aria-hidden="true">t</span>
+            <h1 id="welcomeHeroTitle">
+              Welcome to
+              <span class="grad" id="welcomeBrandName">Tajiri POS</span>
+            </h1>
+            <p class="tagline" id="welcomeTagline">
+              Smart POS Solutions for Modern Shops
+            </p>
+            <div class="hero-actions">
+              <button
+                type="button"
+                class="hero-action primary"
+                data-modal-open="modal-access"
+                data-auth-tab="login"
+              >
+                Get Started
+              </button>
+              <button
+                type="button"
+                class="hero-action primary"
+                id="adminSetupButton"
+                data-modal-open="modal-access"
+                data-auth-tab="signup"
+                hidden
+              >
+                Admin sign up
+              </button>
+              <a
+                class="hero-action download-link"
+                href="./download-installer.html"
+                data-online-installer
+                >Download Tajiri POS</a
+              >
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="page-footer">
+        <span>
+          © <span id="heroYear"></span>
+          <span id="welcomeFooterBrand">Tajiri POS</span>
+        </span>
+      </footer>
+
+      <div class="modal-layer" id="modal-about" hidden>
+        <div
+          class="modal-card"
+          role="dialog"
+          aria-modal="true"
+          aria-label="About Tajiri POS"
+        >
+          <div class="modal-head">
+            <h2>About Tajiri POS</h2>
+            <button
+              type="button"
+              class="modal-close"
+              data-modal-close
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="section-sub">
+              A local-first retail workspace for sales, inventory, customers,
+              reports and cash management — built for Kenyan shops and
+              businesses.
+            </p>
+            <div class="about-grid">
+              <div class="about-card">
+                <span>⌂</span><strong>Multi-store</strong
+                ><small
+                  >Manage branches, stores and market stalls from one
+                  place.</small
+                >
+              </div>
+              <div class="about-card">
+                <span>⌁</span><strong>M-Pesa ready</strong
+                ><small
+                  >STK push via Daraja, paybill, till and split payments.</small
+                >
+              </div>
+              <div class="about-card">
+                <span>⚿</span><strong>Role-based access</strong
+                ><small>Admin, manager and cashier permissions built in.</small>
+              </div>
+              <div class="about-card">
+                <span>✧</span><strong>AI insights</strong
+                ><small
+                  >Reorder suggestions and daily summaries for owners.</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-layer" id="modal-features" hidden>
+        <div
+          class="modal-card"
+          role="dialog"
+          aria-modal="true"
+          aria-label="POS System Showcase"
+        >
+          <div class="modal-head">
+            <h2>POS System Showcase</h2>
+            <button
+              type="button"
+              class="modal-close"
+              data-modal-close
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="showcase">
+              <div class="showcase-shot" aria-hidden="true">
+                <div class="shot-topbar">
+                  <b></b><b></b><b></b><i>Main Store</i>
+                </div>
+                <div class="shot-cols">
+                  <div class="shot-side"><b></b><b></b><b></b></div>
+                  <div class="shot-main">
+                    <div class="shot-row search"></div>
+                    <div class="shot-row"></div>
+                    <div class="shot-row short"></div>
+                    <div class="shot-row short"></div>
+                  </div>
+                  <div class="shot-panel">
+                    <b class="shot-total"></b><b class="shot-btn"></b
+                    ><b class="shot-btn s"></b>
+                  </div>
+                </div>
+              </div>
+              <ul class="feature-list">
+                <li>
+                  <span>⌕</span>
+                  <div>
+                    <strong>Login & role-based access</strong
+                    ><small
+                      >Secure sign-in with admin, manager and cashier
+                      roles.</small
+                    >
+                  </div>
+                </li>
+                <li>
+                  <span>▤</span>
+                  <div>
+                    <strong>Product management</strong
+                    ><small
+                      >Stock levels, barcodes, low-stock alerts and
+                      suppliers.</small
+                    >
+                  </div>
+                </li>
+                <li>
+                  <span>▣</span>
+                  <div>
+                    <strong>Sales & payments</strong
+                    ><small>Cash, M-Pesa, card and split payments.</small>
+                  </div>
+                </li>
+                <li>
+                  <span>▧</span>
+                  <div>
+                    <strong>Receipts</strong
+                    ><small
+                      >Digital receipts you can print or send to
+                      WhatsApp.</small
+                    >
+                  </div>
+                </li>
+                <li>
+                  <span>▥</span>
+                  <div>
+                    <strong>Reports</strong
+                    ><small
+                      >Daily sales, profit, VAT, payment mix and AI
+                      insights.</small
+                    >
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-layer" id="modal-access" hidden>
+        <div
+          class="modal-card auth-card"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Login or create account"
+        >
+          <div class="modal-head">
+            <h2>Login or Create Account</h2>
+            <button
+              type="button"
+              class="modal-close"
+              data-modal-close
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="auth-error" id="adminSetupError" role="status" hidden></p>
+            <div class="auth-tabs" role="tablist">
+              <button
+                type="button"
+                class="auth-tab active"
+                id="tabLogin"
+                data-tab="login"
+                role="tab"
+                aria-selected="true"
+              >
+                Sign in
+              </button>
+              <button
+                type="button"
+                class="auth-tab"
+                id="tabSignup"
+                data-tab="signup"
+                role="tab"
+                aria-selected="false"
+                hidden
+              >
+                Start free trial
+              </button>
+            </div>
+
+            <form class="auth-form active" id="loginForm" novalidate>
+              <h2>Welcome back</h2>
+              <p class="auth-sub">Sign in with your phone number and password.</p>
+              <label
+                >Kenyan phone number
+                <input
+                  id="loginIdentity"
+                  type="tel"
+                  inputmode="tel"
+                  autocomplete="username"
+                  placeholder="0712345678 or +254712345678"
+                  required
+                />
+              </label>
+              <label
+                >Password
+                <input
+                  id="loginPassword"
+                  type="password"
+                  autocomplete="current-password"
+                  placeholder="Your password"
+                  required
+                />
+              </label>
+              <div class="auth-row">
+                <label class="auth-check"
+                  ><input type="checkbox" id="rememberLogin" /> Remember
+                  me</label
+                >
+                <button type="button" class="auth-link" id="forgotLink">
+                  Forgot password?
+                </button>
+              </div>
+              <button type="submit" class="auth-submit" id="loginSubmit">
+                Sign in →
+              </button>
+              <p class="auth-switch" id="signupSwitch" hidden>
+                First time setting up this POS?
+                <button type="button" data-switch="signup">
+                  Start free trial
+                </button>
+              </p>
+              <p class="auth-error" id="loginError" hidden></p>
+            </form>
+
+            <form class="auth-form" id="signupForm" novalidate hidden>
+              <h2>Start your free shop trial</h2>
+              <p class="auth-sub">Create your shop workspace and get 14 days free. Verify your phone once by SMS.</p>
+              <label
+                >Shop name
+                <input
+                  id="signupShopName"
+                  type="text"
+                  maxlength="100"
+                  autocomplete="organization"
+                  placeholder="e.g. Amina's Market"
+                  required
+              /></label>
+              <label
+                >Full name
+                <input
+                  id="signupName"
+                  type="text"
+                  placeholder="e.g. Amina Otieno"
+                  required
+              /></label>
+              <label
+                >Contact email
+                <input
+                  id="signupEmail"
+                  type="email"
+                  autocomplete="email"
+                  placeholder="amina@example.com"
+                  required
+              /></label>
+              <label
+                >Kenyan phone number
+                <input
+                  id="signupPhone"
+                  type="tel"
+                  inputmode="tel"
+                  autocomplete="tel"
+                  placeholder="0712345678 or +254712345678"
+                  required
+              /></label>
+              <label class="password-field" for="signupPassword"
+                >Password
+                <span class="password-input-wrap">
+                  <input
+                    id="signupPassword"
+                    type="password"
+                    autocomplete="new-password"
+                    placeholder="Create a strong password"
+                    aria-describedby="passwordStrength passwordRequirements"
+                    required
+                  />
+                  <button
+                    class="password-visibility"
+                    type="button"
+                    data-password-toggle="signupPassword"
+                    aria-label="Show password"
+                    aria-pressed="false"
+                  >Show</button>
+                </span>
+                <span class="password-strength" id="passwordStrength" hidden>
+                  <span class="password-strength-track" aria-hidden="true"><span id="strengthFill"></span></span>
+                  <span id="strengthLabel" aria-live="polite">Password strength</span>
+                </span>
+                <span class="password-validation-error" id="passwordValidationError" role="alert" hidden>
+                  Password must be at least 6 characters.
+                </span>
+              </label>
+              <label class="password-field" for="signupConfirmPassword"
+                >Confirm password
+                <span class="password-input-wrap">
+                  <input
+                    id="signupConfirmPassword"
+                    type="password"
+                    autocomplete="new-password"
+                    placeholder="Enter the password again"
+                    required
+                  />
+                  <button
+                    class="password-visibility"
+                    type="button"
+                    data-password-toggle="signupConfirmPassword"
+                    aria-label="Show confirm password"
+                    aria-pressed="false"
+                  >Show</button>
+                </span>
+              </label>
+              <label id="signupRoleLabel"
+                >Role
+                <select id="signupRole">
+                  <option value="admin">Shop owner — full access</option>
+                </select>
+                <small>You will be the administrator for this shop only.</small>
+              </label>
+              <button type="submit" class="auth-submit" id="signupSubmit">
+                Create account →
+              </button>
+              <p class="auth-switch">
+                Already registered?
+                <button type="button" data-switch="login">
+                  Sign in instead
+                </button>
+              </p>
+              <p class="auth-error" id="signupError" hidden></p>
+            </form>
+
+            <form class="auth-form" id="signupVerifyForm" novalidate hidden>
+              <h2>Verify your phone</h2>
+              <p class="auth-sub">
+                Enter the 6-digit code we sent to
+                <strong id="signupVerifyPhone"></strong>. You will only need to
+                verify this number once.
+              </p>
+              <label
+                >SMS verification code
+                <input
+                  id="signupVerificationCode"
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="one-time-code"
+                  pattern="[0-9]{6}"
+                  maxlength="6"
+                  placeholder="123456"
+                  required
+                />
+              </label>
+              <button type="submit" class="auth-submit" id="signupVerifySubmit">
+                Verify phone
+              </button>
+              <button type="button" class="auth-link" id="signupVerifyResend">
+                Resend code
+              </button>
+              <button type="button" class="auth-link" id="signupVerifyBack">
+                Back to sign in
+              </button>
+              <p class="auth-error" id="signupVerifyError" role="alert" hidden></p>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-layer" id="modal-password-reset" hidden>
+        <div
+          class="modal-card auth-card"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="passwordResetTitle"
+        >
+          <div class="modal-head">
+            <h2 id="passwordResetTitle">Reset your password</h2>
+            <button
+              type="button"
+              class="modal-close"
+              data-modal-close
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="auth-sub">
+              Enter the phone number on your account. We’ll send a password
+              reset code by SMS.
+            </p>
+            <form class="auth-form active" id="passwordResetForm" novalidate>
+              <label
+                >Kenyan phone number
+                <input
+                  id="passwordResetIdentity"
+                  type="tel"
+                  inputmode="tel"
+                  autocomplete="username"
+                  placeholder="0712345678 or +254712345678"
+                  required
+                />
+              </label>
+              <button
+                type="submit"
+                class="auth-submit"
+                id="passwordResetSubmit"
+              >
+                Send reset code
+              </button>
+              <p
+                class="auth-error"
+                id="passwordResetError"
+                role="status"
+                aria-live="polite"
+                hidden
+              ></p>
+            </form>
+            <form
+              class="auth-form"
+              id="passwordResetConfirmForm"
+              hidden
+              novalidate
+            >
+              <label
+                >6-digit code
+                <input
+                  id="passwordResetCode"
+                  type="text"
+                  inputmode="numeric"
+                  maxlength="6"
+                  placeholder="123456"
+                  required
+                />
+              </label>
+              <label
+                >New password
+                <input
+                  id="passwordResetNewPassword"
+                  type="password"
+                  autocomplete="new-password"
+                  minlength="6"
+                  placeholder="At least 6 characters"
+                  required
+                />
+              </label>
+              <button
+                type="submit"
+                class="auth-submit"
+                id="passwordResetConfirmSubmit"
+              >
+                Set new password
+              </button>
+              <p
+                class="auth-error"
+                id="passwordResetConfirmError"
+                role="status"
+                aria-live="polite"
+                hidden
+              ></p>
+              <p class="auth-sub">
+                Code not arrived?
+                <a href="#" id="passwordResetResend">Resend code</a>
+              </p>
+            </form>
+            <p class="auth-sub">
+              For store accounts managed by the local or MySQL service, contact
+              your administrator to reset the password.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-layer" id="modal-downloads" hidden>
+        <div
+          class="modal-card"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Download the software"
+        >
+          <div class="modal-head">
+            <h2>Download the software</h2>
+            <button
+              type="button"
+              class="modal-close"
+              data-modal-close
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="download-grid">
+              <a
+                class="dl-card"
+                href="downloads/DanLiz-POS-demo.apk"
+                data-release-asset="DanLiz-POS-demo.apk"
+                download
+              >
+                <span>▾</span><strong>Android demo</strong
+                ><small>DanLiz-POS-demo.apk</small>
+              </a>
+              <a
+                class="dl-card"
+                href="./download-installer.html"
+                data-online-installer
+                data-release-asset="TajiriPOSSetup-1.0.0.exe"
+              >
+                <span>▾</span><strong>Windows installer</strong
+                ><small>TajiriPOSSetup-1.0.0.exe · Windows 10/11, 64-bit</small>
+              </a>
+              <a
+                class="dl-card"
+                href="downloads/DanLiz-POS-documentation.pdf"
+                data-release-asset="DanLiz-POS-documentation.pdf"
+                download
+              >
+                <span>▤</span><strong>Documentation</strong
+                ><small>DanLiz-POS-documentation.pdf</small>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-layer" id="modal-contact" hidden>
+        <div
+          class="modal-card"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Contact"
+        >
+          <div class="modal-head">
+            <h2>Contact</h2>
+            <button
+              type="button"
+              class="modal-close"
+              data-modal-close
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="section-sub">
+              Questions, demos or custom setups — reach out any time.
+            </p>
+            <div class="contact-list">
+              <a href="mailto:hello@danlizpos.example"
+                >✉ hello@danlizpos.example</a
+              >
+              <a href="https://github.com/" target="_blank" rel="noopener"
+                >⌥ GitHub</a
+              >
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener"
+                >in LinkedIn</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /#welcomeView -->
+
+    <div id="toast" class="toast auth-toast" role="status"></div>
+    <!-- WELCOME-VIEW-END -->
+    <!-- WELCOME-BOOT-END -->
+
+    <script>
+      window.TAJIRI_GITHUB_REPOSITORY = "__TAJIRI_GITHUB_REPOSITORY__";
+
+      // Supabase project settings. Replace the placeholders with your project
+      // URL and anon key from Supabase Dashboard → Settings → API.
+      window.TAJIRI_SUPABASE_CONFIG = {
+        url: "https://stwjfbylnbajjdrkxlzb.supabase.co",
+        anonKey: "sb_publishable_eQ97c7njdvpnzsRwZoGDRA_XITgNUG7",
+      };
+      window.TAJIRI_SUPABASE_URL = window.TAJIRI_SUPABASE_CONFIG.url;
+      window.TAJIRI_SUPABASE_ANON_KEY = window.TAJIRI_SUPABASE_CONFIG.anonKey;
+    </script>
+    <script src="supabase-shim.js"></script>
+    <script src="offline-db.js"></script>
+    <script>
+      /* Cloud roles come from the verified Supabase profile; local sessions must
+         match a saved account and its allowed role before the app is opened. */
+      function tajiriMakeSessionSignature(user, role) {
+        const input = `${String(user || "").trim()}|${String(role || "").trim()}|tajiri-pos-session-v1`;
+        let hash = 2166136261;
+        for (let index = 0; index < input.length; index += 1) {
+          hash = Math.imul(hash ^ input.charCodeAt(index), 16777619);
+        }
+        return (hash >>> 0).toString(16).padStart(8, "0");
+      }
+
+      function tajiriReadSignedStorageSession(
+        storage,
+        userKey,
+        roleKey,
+        signatureKey,
+      ) {
+        const user = storage.getItem(userKey);
+        const role = storage.getItem(roleKey);
+        const signature = storage.getItem(signatureKey);
+        if (!user || !role || !signature) return null;
+
+        const expectedSignature = tajiriMakeSessionSignature(user, role);
+        if (signature !== expectedSignature) {
+          storage.removeItem(userKey);
+          storage.removeItem(roleKey);
+          storage.removeItem(signatureKey);
+          return null;
+        }
+
+        return {
+          user: String(user).trim(),
+          role: String(role).trim().toLowerCase(),
+        };
+      }
+
+      const appView = document.getElementById("appView");
+      const welcomeView = document.getElementById("welcomeView");
+      const startupLoader = document.getElementById("appLoader");
+      let startupComplete = false;
+      let welcomeFallbackShown = false;
+
+      window.addEventListener("pageshow", event => {
+        if (event.persisted) window.location.reload();
+      });
+
+      function loadWelcomeScript() {
+        if (document.querySelector('script[data-tajiri-welcome]')) return;
+        const script = document.createElement("script");
+        script.src = "welcome.js";
+        script.dataset.tajiriWelcome = "true";
+        script.onerror = () => {
+          console.error("Could not load the Tajiri POS welcome screen.");
+          welcomeView.innerHTML =
+            "<main><p role=\"alert\">Could not load the sign-in screen. Check your connection and refresh to try again.</p></main>";
+        };
+        document.body.appendChild(script);
+      }
+
+      function showWelcomeFallback() {
+        if (startupComplete || welcomeFallbackShown) return;
+        welcomeFallbackShown = true;
+        appView.hidden = true;
+        welcomeView.hidden = false;
+        document.getElementById("appStyles").disabled = true;
+        document.getElementById("welcomeStyles").disabled = false;
+        startupLoader?.classList.add("hidden");
+        loadWelcomeScript();
+      }
+
+      const startupFallbackTimer = window.setTimeout(
+        showWelcomeFallback,
+        850,
+      );
+
+      if ("serviceWorker" in navigator && window.location.protocol !== "file:") {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js").catch(error => {
+            console.error("Could not register the Tajiri POS app shell:", error);
+          });
+        });
+      }
+
+      (async function () {
+        const backendReady = window.__tajiriBackendReady || Promise.resolve(false);
+        const backendInitialization = await backendReady;
+        const sessionState = tajiriReadSignedStorageSession(
+          sessionStorage,
+          "tajiri-session-user",
+          "tajiri-session-role",
+          "tajiri-session-signature",
+        );
+        let session = sessionState?.user || "";
+        let sessionRole = sessionState?.role || "";
+        const backendUnavailable =
+          !backendInitialization && Boolean(window.TAJIRI_SUPABASE_CONFIG?.url);
+        if (backendUnavailable) {
+          session = "";
+          sessionRole = "";
+        }
+        const roleShell =
+          new URLSearchParams(window.location.search)
+            .get("roleShell")
+            ?.toLowerCase() || "";
+        const loginRequested =
+          new URLSearchParams(window.location.search).get("login") === "1";
+        const requestedRole =
+          /(?:^|\/)(admin|cashier)(?:\.html)?\/?$/i
+            .exec(window.location.pathname || "")?.[1]
+            ?.toLowerCase() ||
+          (roleShell === "admin" || roleShell === "cashier" ? roleShell : "");
+        const embeddedRoleShell =
+          roleShell === "admin" || roleShell === "cashier";
+        let accounts = (() => {
+          try {
+            const stored = JSON.parse(
+              localStorage.getItem("tajiri-pos-accounts") || "null",
+            );
+            if (Array.isArray(stored)) return stored;
+            const state = JSON.parse(
+              localStorage.getItem("tajiri-pos") || "null",
+            );
+            return Array.isArray(state?.users) ? state.users : [];
+          } catch (error) {
+            return [];
+          }
+        })();
+        const firebaseEnabled =
+          Boolean(backendInitialization) &&
+          Boolean(window.firebaseAuth && window.firebaseDb);
+          if (firebaseEnabled) {
+            session = "";
+            sessionRole = "";
+            accounts = [];
+            try {
+              const firebaseUser = await new Promise((resolve, reject) => {
+                let unsubscribe = () => {};
+                const timeout = window.setTimeout(() => {
+                  unsubscribe();
+                  reject(new Error("Timed out while checking Supabase sign-in."));
+                }, 10000);
+                unsubscribe = window.firebaseAuth.onAuthStateChanged(
+                  user => {
+                    window.clearTimeout(timeout);
+                    unsubscribe();
+                    resolve(user);
+                  },
+                  error => {
+                    window.clearTimeout(timeout);
+                    unsubscribe();
+                    reject(error);
+                  },
+                );
+              });
+            if (firebaseUser) {
+              const userSnapshot = await window.firebaseDb
+                .collection("users")
+                .doc(firebaseUser.uid)
+                .get();
+              const profile = userSnapshot.exists
+                ? { ...userSnapshot.data(), uid: firebaseUser.uid }
+                : null;
+              let verifiedProfile = profile;
+              if (!verifiedProfile && roleShell === "admin") {
+                let pendingProfile = null;
+                try {
+                  pendingProfile = JSON.parse(
+                    localStorage.getItem("tajiri-pending-admin-profile") || "null",
+                  );
+                } catch (error) {
+                  console.error("Could not read pending shop signup details:", error);
+                }
+                if (pendingProfile) {
+                  verifiedProfile = await window.firebaseDb.createShopForCurrentUser(
+                    pendingProfile,
+                  );
+                  localStorage.removeItem("tajiri-pending-admin-profile");
+                }
+              }
+              if (
+                verifiedProfile?.tenant_id &&
+                (verifiedProfile.role === "admin" || verifiedProfile.role === "cashier")
+              ) {
+                session = String(
+                  verifiedProfile.username || verifiedProfile.phone || firebaseUser.phone || "",
+                )
+                  .trim()
+                  .toLowerCase();
+                sessionRole = verifiedProfile.role;
+                sessionStorage.setItem("tajiri-session-user", session);
+                sessionStorage.setItem("tajiri-session-role", sessionRole);
+                sessionStorage.setItem(
+                  "tajiri-session-signature",
+                  tajiriMakeSessionSignature(session, sessionRole),
+                );
+                window.__tajiriAuthProfile = verifiedProfile;
+                window.__tajiriCloudTenantId = verifiedProfile.tenant_id;
+                const stateStorageKey = `tajiri-pos:${verifiedProfile.tenant_id}`;
+                const accountsStorageKey = `tajiri-pos-accounts:${verifiedProfile.tenant_id}`;
+                accounts =
+                  verifiedProfile.role === "admin"
+                    ? (await window.firebaseDb.collection("users").get()).docs.map(
+                        document => ({ ...document.data(), uid: document.id }),
+                      )
+                    : [verifiedProfile];
+                localStorage.setItem(accountsStorageKey, JSON.stringify(accounts));
+                const offlineFallback = !navigator.onLine;
+                let cloudState = { state: null, revision: 0 };
+                if (!offlineFallback) {
+                  try {
+                    cloudState = await window.tajiriSupabase.loadShopState(
+                      verifiedProfile.tenant_id,
+                    );
+                  } catch (cloudLoadError) {
+                    console.warn(
+                      "Could not reach the cloud; using the local copy of the shop data.",
+                      cloudLoadError,
+                    );
+                  }
+                }
+                window.__tajiriCloudRevision = cloudState.revision;
+                const savedState = cloudState.state ||
+                  JSON.parse(localStorage.getItem(stateStorageKey) || "{}");
+                localStorage.setItem(
+                  stateStorageKey,
+                  JSON.stringify({ ...savedState, users: accounts }),
+                );
+                if (offlineFallback) {
+                  window.__tajiriOfflineMode = true;
+                }
+              } else {
+                await window.firebaseAuth.signOut();
+              }
+            } else if (firebaseUser) {
+              await window.firebaseAuth.signOut();
+            }
+          } catch (error) {
+            console.error("Could not verify the Supabase account:", error);
+            session = "";
+            sessionRole = "";
+            accounts = [];
+            window.__tajiriAuthProfile = null;
+            window.__tajiriCloudTenantId = "";
+            sessionStorage.removeItem("tajiri-session-user");
+            sessionStorage.removeItem("tajiri-session-role");
+            sessionStorage.removeItem("tajiri-session-signature");
+            try {
+              await window.firebaseAuth.signOut();
+            } catch (signOutError) {
+              console.error(
+                "Could not close the unverified cloud session:",
+                signOutError,
+              );
+            }
+            window.__tajiriFirebaseError =
+              "Could not verify your cloud account. Check your connection and Supabase setup, then try again.";
+          }
+        }
+        const identity = String(session || "").toLowerCase();
+        const account = accounts.find((user) =>
+          [user.username, user.email, user.name]
+            .filter(Boolean)
+            .some((value) => String(value).toLowerCase() === identity),
+        );
+        const accountRole = String(account?.role || "").toLowerCase();
+        const role =
+          ["admin", "cashier"].includes(accountRole) &&
+          accountRole === String(sessionRole || "").toLowerCase()
+            ? accountRole
+            : "";
+        const workspaceRole =
+          role === "admin" && requestedRole === "cashier" ? "cashier" : role;
+        document.body.dataset.roleView =
+          role === "cashier"
+            ? "cashier"
+            : role === "admin"
+              ? "admin"
+              : "";
+        const inApp = Boolean(session && account && role);
+        const currentPath =
+          (window.location.pathname || "/").replace(/\/+$/, "") || "/";
+        if (
+          !inApp &&
+          !loginRequested &&
+          !requestedRole &&
+          !embeddedRoleShell &&
+          /(?:^|\/)index\.html$/i.test(currentPath)
+        ) {
+          window.location.replace(
+            new URL("main.html", window.location.href).href,
+          );
+          return;
+        }
+        if (!inApp && embeddedRoleShell && window.top !== window) {
+          const loginUrl = new URL("login.html", window.top.location.href);
+          loginUrl.searchParams.set("roleShell", roleShell);
+          window.top.location.replace(loginUrl.href);
+          return;
+        }
+        const appRole = workspaceRole === "admin" ? "admin" : "cashier";
+        const navigationTarget =
+          embeddedRoleShell && window.top !== window ? window.top : window;
+        const targetUrl = new URL(
+          `${appRole}.html`,
+          navigationTarget.location.href,
+        );
+        if (targetUrl.protocol !== "file:") {
+          targetUrl.pathname = `/${appRole}.html`;
+        }
+        targetUrl.search = "";
+        targetUrl.hash = "";
+        window.__tajiriRequestedRole = requestedRole;
+        window.__tajiriWorkspaceRole = workspaceRole;
+        window.__tajiriInApp = inApp;
+
+        if (inApp && role) {
+          const targetRolePath = targetUrl.pathname;
+          if (requestedRole && requestedRole !== appRole) {
+            navigationTarget.location.replace(targetUrl.href);
+            return;
+          }
+          if (
+            embeddedRoleShell &&
+            window.top === window &&
+            currentPath !== targetRolePath
+          ) {
+            window.location.replace(targetUrl.href);
+            return;
+          }
+          if (
+            !requestedRole &&
+            !embeddedRoleShell &&
+            currentPath !== targetRolePath &&
+            (currentPath === "/" ||
+              currentPath === "/index.html" ||
+              ["/admin", "/cashier"].includes(currentPath))
+          ) {
+            window.location.replace(targetRolePath);
+            return;
+          }
+        }
+
+        startupComplete = true;
+        window.clearTimeout(startupFallbackTimer);
+        const script = document.createElement("script");
+        if (inApp) {
+          welcomeView.hidden = true;
+          appView.hidden = false;
+          document.getElementById("appStyles").disabled = false;
+          document.getElementById("welcomeStyles").disabled = true;
+          startupLoader?.classList.add("hidden");
+          script.src = "app.js";
+        } else {
+          appView.hidden = true;
+          welcomeView.hidden = false;
+          document.getElementById("appLoader").classList.add("hidden");
+          document.getElementById("appStyles").disabled = true;
+          document.getElementById("welcomeStyles").disabled = false;
+          loadWelcomeScript();
+        }
+        if (inApp) document.body.appendChild(script);
+      })().catch(error => {
+        console.error("Tajiri POS startup failed:", error);
+        window.clearTimeout(startupFallbackTimer);
+        showWelcomeFallback();
+        startupComplete = true;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0f17">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <title>Sign in · Tajiri POS</title>
+  </head>
+  <body>
+    <p>Redirecting to Tajiri POS sign-in…</p>
+    <script>
+      const signInUrl = new URL("index.html", window.location.href);
+      signInUrl.searchParams.set("login", "1");
+      const roleShell = new URLSearchParams(window.location.search)
+        .get("roleShell")
+        ?.toLowerCase();
+      if (roleShell === "admin" || roleShell === "cashier") {
+        signInUrl.searchParams.set("roleShell", roleShell);
+      }
+      window.location.replace(signInUrl.href);
+    </script>
+    <noscript>
+      <p><a href="index.html">Continue to Tajiri POS sign-in</a></p>
+    </noscript>
+  </body>
+</html>

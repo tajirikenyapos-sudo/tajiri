@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0d1518" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/tajiri-pos.svg" type="image/svg+xml" />
+    <title>Tajiri POS · Welcome</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b0f17;
+        --panel: rgb(19 28 41 / 88%);
+        --line: rgb(163 181 204 / 16%);
+        --text: #f4f6fb;
+        --muted: #aab5c6;
+        --green: #34d399;
+        --blue: #86a5e8;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        min-width: 320px;
+      }
+      body {
+        min-height: 100vh;
+        margin: 0;
+        padding: 40px 22px;
+        display: grid;
+        place-items: center;
+        overflow-x: hidden;
+        color: var(--text);
+        background:
+          radial-gradient(
+            ellipse at 18% 8%,
+            rgb(70 119 163 / 22%),
+            transparent 38rem
+          ),
+          radial-gradient(
+            ellipse at 88% 88%,
+            rgb(33 126 102 / 15%),
+            transparent 34rem
+          ),
+          var(--bg);
+        font:
+          16px/1.5 "DM Sans",
+          "Segoe UI",
+          sans-serif;
+      }
+      main {
+        width: min(100%, 880px);
+        margin-inline: auto;
+      }
+      header {
+        margin-bottom: 38px;
+        text-align: center;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 34px;
+        color: #dce5f2;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+      .brand-mark {
+        font-family: "Outfit", "Segoe UI", sans-serif;
+        display: inline-grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border: 1px solid rgb(119 226 184 / 38%);
+        border-radius: 14px;
+        color: var(--bg);
+        background: linear-gradient(145deg, #a3f1d0, var(--green));
+        box-shadow: 0 8px 26px rgb(61 187 143 / 20%);
+        font-size: 1.4rem;
+        font-weight: 800;
+      }
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--green);
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      h1 {
+        margin: 0;
+        font-family: "Outfit", "Segoe UI", sans-serif;
+        font-size: clamp(2.2rem, 6vw, 3.8rem);
+        letter-spacing: -0.055em;
+        line-height: 1.08;
+      }
+      header p {
+        margin: 14px 0 0;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+      .page-links {
+        width: min(100%, 760px);
+        margin-inline: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      @media (min-width: 720px) {
+        .page-links {
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        .page-link {
+          min-height: 220px;
+        }
+      }
+      @keyframes pageLinkIn {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .page-link {
+        animation: pageLinkIn 0.5s ease backwards;
+      }
+      .page-link:nth-child(1) {
+        animation-delay: 0.08s;
+      }
+      .page-link:nth-child(2) {
+        animation-delay: 0.18s;
+      }
+      .page-link:nth-child(3) {
+        animation-delay: 0.28s;
+      }
+      @keyframes headerIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      header {
+        animation: headerIn 0.5s ease backwards;
+      }
+      .page-link {
+        position: relative;
+        min-height: 252px;
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        color: inherit;
+        background: linear-gradient(145deg, rgb(26 38 55 / 95%), var(--panel));
+        box-shadow: 0 18px 50px rgb(0 0 0 / 22%);
+        text-decoration: none;
+        transition:
+          border-color 0.2s ease,
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .page-link::after {
+        position: absolute;
+        top: -72px;
+        right: -62px;
+        width: 190px;
+        height: 190px;
+        border-radius: 50%;
+        background: var(--glow);
+        content: "";
+        filter: blur(1px);
+        opacity: 0.11;
+        pointer-events: none;
+      }
+      .page-link.admin {
+        --glow: var(--blue);
+        --accent: var(--blue);
+      }
+      .page-link.cashier {
+        --glow: var(--green);
+        --accent: var(--green);
+      }
+      .page-link:hover,
+      .page-link:focus-visible {
+        transform: translateY(-4px);
+        border-color: color-mix(in srgb, var(--accent), transparent 28%);
+        box-shadow: 0 24px 58px rgb(0 0 0 / 32%);
+        outline: none;
+      }
+      .page-link:focus-visible {
+        box-shadow:
+          0 0 0 3px var(--bg),
+          0 0 0 5px var(--accent);
+      }
+      .page-link[hidden] {
+        display: none;
+      }
+      .page-icon {
+        width: 54px;
+        height: 54px;
+        margin-bottom: 28px;
+        display: grid;
+        place-items: center;
+        border: 1px solid color-mix(in srgb, var(--accent), transparent 75%);
+        border-radius: 17px;
+        color: var(--accent);
+        background: color-mix(in srgb, var(--accent), transparent 91%);
+      }
+      .page-icon svg {
+        width: 25px;
+        height: 25px;
+      }
+      .page-link strong {
+        font-family: "Outfit", "Segoe UI", sans-serif;
+        font-size: 1.35rem;
+        letter-spacing: -0.02em;
+      }
+      .page-description {
+        max-width: 31ch;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+      .page-cta {
+        margin-top: auto;
+        padding-top: 24px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent);
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+      .page-cta span {
+        transition: transform 0.2s ease;
+      }
+      .page-link:hover .page-cta span,
+      .page-link:focus-visible .page-cta span {
+        transform: translateX(4px);
+      }
+      footer {
+        margin-top: 28px;
+        color: #8491a4;
+        text-align: center;
+        font-size: 0.86rem;
+      }
+      #installAppButton {
+        margin-top: 22px;
+        padding: 12px 18px;
+        border: 1px solid rgb(119 226 184 / 35%);
+        border-radius: 12px;
+        color: var(--green);
+        background: rgb(119 226 184 / 9%);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      #installAppButton:hover,
+      #installAppButton:focus-visible {
+        border-color: var(--green);
+        outline: 2px solid transparent;
+        box-shadow: 0 0 0 3px rgb(119 226 184 / 16%);
+      }
+      #installAppButton[hidden] {
+        display: none;
+      }
+      .install-help {
+        max-width: 62ch;
+        margin: 14px auto 0;
+        color: var(--muted);
+        text-align: center;
+        font-size: 0.86rem;
+      }
+      .install-status {
+        min-height: 1.4em;
+        margin: 8px 0 0;
+        color: var(--green);
+        text-align: center;
+        font-size: 0.86rem;
+      }
+      .footer-lock {
+        margin-right: 6px;
+        color: var(--green);
+      }
+      .trial-link {
+        display: block;
+        width: fit-content;
+        margin: 14px auto 0;
+        padding: 10px 16px;
+        border-radius: 10px;
+        color: var(--green);
+        font-weight: 700;
+        text-decoration: none;
+        background: rgb(119 226 184 / 8%);
+      }
+      .trial-link:hover,
+      .trial-link:focus-visible {
+        outline: 2px solid var(--green);
+        outline-offset: 3px;
+      }
+      .trial-link[hidden] {
+        display: none;
+      }
+      @media (max-width: 580px) {
+        body {
+          padding: 30px 18px;
+        }
+        header {
+          margin-bottom: 28px;
+        }
+        .brand {
+          margin-bottom: 28px;
+        }
+        .page-links {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        .page-link {
+          min-height: 220px;
+          padding: 23px;
+        }
+        .page-icon {
+          margin-bottom: 20px;
+        }
+        footer {
+          margin-top: 22px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-delay: 0s !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">t</span
+          ><span>Tajiri POS</span>
+        </div>
+        <p class="eyebrow">Your store, in control</p>
+        <h1>Welcome to Tajiri POS.</h1>
+        <p>Sign in once. Your account role opens the right workspace.</p>
+      </header>
+      <nav class="page-links" aria-label="Application pages">
+        <a class="page-link cashier" id="getStartedLink" href="login.html">
+          <span class="page-icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </span>
+          <strong>Get Started</strong>
+          <span class="page-description"
+            >Sign in securely. Admin or cashier access is determined by your
+            account.</span
+          >
+          <span class="page-cta"
+            >Continue to sign in <span aria-hidden="true">→</span></span
+          >
+        </a>
+      </nav>
+      <footer>
+        <span class="footer-lock" aria-hidden="true">●</span>Sign-in is
+        required. Your account role controls which tools are available.
+      </footer>
+      <a class="trial-link" href="admin.html" id="startTrialLink">
+        Start your 14-day free trial →
+      </a>
+      <button id="installAppButton" type="button" hidden>
+        Install Tajiri POS
+      </button>
+      <p class="install-help" id="installHelp">
+        Install on Windows with Microsoft Edge or Chrome using the install icon
+        in the address bar, or use the browser menu and choose
+        <strong>Install Tajiri POS</strong>. On a phone, use the browser menu
+        (or Share menu on iPhone) and choose
+        <strong>Add to Home Screen</strong>. Open the app once while online so
+        its screens are saved for offline use. Signing in and cloud sync still
+        require internet.
+      </p>
+      <p class="install-status" id="installStatus" aria-live="polite"></p>
+    </main>
+    <script>
+      const installButton = document.querySelector("#installAppButton");
+      const installHelp = document.querySelector("#installHelp");
+      const installStatus = document.querySelector("#installStatus");
+      let installPrompt;
+
+      function isInstalled() {
+        return (
+          window.matchMedia?.("(display-mode: standalone)").matches ||
+          window.navigator.standalone === true
+        );
+      }
+
+      function updateInstallState() {
+        if (isInstalled()) {
+          installButton.hidden = true;
+          installHelp.hidden = true;
+          installStatus.textContent = "Tajiri POS is installed on this device.";
+          return;
+        }
+        installHelp.hidden = false;
+      }
+
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+        installPrompt = event;
+        installButton.hidden = false;
+      });
+      installButton.addEventListener("click", async () => {
+        if (!installPrompt) {
+          installStatus.textContent =
+            "Use the browser menu to install Tajiri POS.";
+          return;
+        }
+        const prompt = installPrompt;
+        installPrompt = null;
+        installButton.hidden = true;
+        try {
+          await prompt.prompt();
+          const choice = await prompt.userChoice;
+          installStatus.textContent =
+            choice.outcome === "accepted"
+              ? "Tajiri POS installation started."
+              : "Installation was cancelled. You can install it later from the browser menu.";
+        } catch (error) {
+          console.error("Could not start Tajiri POS installation:", error);
+          installStatus.textContent =
+            "Installation did not start. Use the browser menu to install Tajiri POS.";
+        }
+      });
+      window.addEventListener("appinstalled", () => {
+        installPrompt = null;
+        installButton.hidden = true;
+        installHelp.hidden = true;
+        installStatus.textContent = "Tajiri POS is installed on this device.";
+      });
+      updateInstallState();
+
+      if (
+        "serviceWorker" in navigator &&
+        window.location.protocol !== "file:"
+      ) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./service-worker.js")
+            .catch((error) => {
+              console.error(
+                "Could not register the Tajiri POS app shell:",
+                error,
+              );
+            });
+        });
+      }
+
+      function readSignedRole(storage, userKey, roleKey, signatureKey) {
+        const user = storage.getItem(userKey);
+        const role = storage.getItem(roleKey);
+        const signature = storage.getItem(signatureKey);
+        if (!user || !role || !signature) return null;
+
+        const value = `${String(user).trim()}|${String(role).trim()}|tajiri-pos-session-v1`;
+        let hash = 2166136261;
+        for (let index = 0; index < value.length; index += 1) {
+          hash = Math.imul(hash ^ value.charCodeAt(index), 16777619);
+        }
+        if (signature !== (hash >>> 0).toString(16).padStart(8, "0")) {
+          return null;
+        }
+        return {
+          user: String(user).trim().toLowerCase(),
+          role: String(role).trim().toLowerCase(),
+        };
+      }
+
+      const session =
+        readSignedRole(
+          sessionStorage,
+          "tajiri-session-user",
+          "tajiri-session-role",
+          "tajiri-session-signature",
+        ) ||
+        readSignedRole(
+          localStorage,
+          "tajiri-remembered-user",
+          "tajiri-remembered-role",
+          "tajiri-remembered-signature",
+        );
+      if (session?.role === "cashier") {
+        const adminLink = document.querySelector(".page-link.admin");
+        if (adminLink) adminLink.hidden = true;
+      }
+      if (session) document.querySelector("#startTrialLink").hidden = true;
+    </script>
+  </body>
+</html>

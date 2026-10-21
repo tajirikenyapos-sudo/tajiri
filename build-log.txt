@@ -1,0 +1,27 @@
+  • electron-builder  version=26.15.3 os=10.0.19045
+  • loaded configuration  file=package.json ("build" field)
+  • executing @electron/rebuild  electronVersion=44.9.0 arch=x64 buildFromSource=false workspaceRoot=C:\Users\konya\OneDrive\Desktop\POS projectDir=./ appDir=./
+  • installing native dependencies  arch=x64
+  • completed installing native dependencies
+  • packaging       platform=win32 arch=x64 electron=44.9.0 appOutDir=dist\win-unpacked
+  • downloaded      label=electron progress=100%
+  • downloaded electron zip extracted successfully  output=C:\Users\konya\OneDrive\Desktop\POS\dist\win-unpacked
+  • searching for node modules  pm=npm searchDir=C:\Users\konya\OneDrive\Desktop\POS
+  • searching for node modules  pm=traversal searchDir=C:\Users\konya\OneDrive\Desktop\POS
+  • using manual traversal of node_modules to build dependency tree
+  • no node modules returned while searching directories  searchDirectories=[""]
+  • updating asar integrity executable resource  executablePath=dist\win-unpacked\Tajiri POS.exe
+  • downloaded      label=icons-bundle.tar.gz progress=100%
+  ⨯ UNKNOWN: unknown error, open 'C:\Users\konya\OneDrive\Desktop\POS\dist\win-unpacked\Tajiri POS.exe'  failedTask=build stackTrace=Error: UNKNOWN: unknown error, open 'C:\Users\konya\OneDrive\Desktop\POS\dist\win-unpacked\Tajiri POS.exe'
+    at open (node:internal/fs/promises:1345:25)
+    at writeFile (node:internal/fs/promises:1965:14)
+    at editWindowsResources (C:\Users\konya\OneDrive\Desktop\POS\node_modules\app-builder-lib\src\util\resEdit.ts:50:3)
+    at WinPackager.signAndEditResources (C:\Users\konya\OneDrive\Desktop\POS\node_modules\app-builder-lib\src\winPackager.ts:229:5)
+    at WinPackager.signApp (C:\Users\konya\OneDrive\Desktop\POS\node_modules\app-builder-lib\src\winPackager.ts:291:9)
+    at WinPackager.doSignAfterPack (C:\Users\konya\OneDrive\Desktop\POS\node_modules\app-builder-lib\src\platformPackager.ts:442:21)
+    at WinPackager.doPack (C:\Users\konya\OneDrive\Desktop\POS\node_modules\app-builder-lib\src\platformPackager.ts:356:7)
+    at WinPackager.pack (C:\Users\konya\OneDrive\Desktop\POS\node_modules\app-builder-lib\src\platformPackager.ts:163:5)
+    at Packager.doBuild (C:\Users\konya\OneDrive\Desktop\POS\node_modules\app-builder-lib\src\packager.ts:530:11)
+    at executeFinally (C:\Users\konya\OneDrive\Desktop\POS\node_modules\builder-util\src\promise.ts:12:14)
+    at Packager.build (C:\Users\konya\OneDrive\Desktop\POS\node_modules\app-builder-lib\src\packager.ts:450:31)
+    at executeFinally (C:\Users\konya\OneDrive\Desktop\POS\node_modules\builder-util\src\promise.ts:12:14)
