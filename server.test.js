@@ -187,9 +187,11 @@ describe("Daraja HTTP API", () => {
     expect(home.status).toBe(200);
     expect(home.headers.get("cache-control")).toBe("no-store");
     const homeHtml = await home.text();
-    expect(homeHtml).toContain("Choose a workspace to continue to your point of sale.");
-    expect(homeHtml).toContain('href="admin.html"');
-    expect(homeHtml).toContain('href="cashier.html"');
+    expect(homeHtml).toContain("Sign in once. Your account role opens the right workspace.");
+    expect(homeHtml).toContain('id="getStartedLink" href="login.html"');
+    expect(homeHtml).toContain('id="startTrialLink"');
+    expect(homeHtml).not.toContain('class="page-link admin"');
+    expect(homeHtml).not.toContain('class="page-link cashier"');
 
     for (const route of ["/login.html", "/admin.html", "/cashier.html"]) {
       const response = await fetch(`${baseUrl}${route}`);
@@ -215,10 +217,37 @@ describe("Daraja HTTP API", () => {
       "/service-worker.js",
       "/icons/tajiri-pos-192.png",
       "/icons/tajiri-pos-512.png",
+      "/download-installer.html",
     ]) {
       const response = await fetch(`${baseUrl}${route}`);
       expect(response.status).toBe(200);
     }
+
+    const installerPart = await fetch(
+      `${baseUrl}/downloads/TajiriPOSSetup-1.0.0.exe.part1`,
+      { headers: { Range: "bytes=0-31" } },
+    );
+    expect(installerPart.status).toBe(206);
+    expect(installerPart.headers.get("content-type")).toBe(
+      "application/octet-stream",
+    );
+    expect(installerPart.headers.get("content-range")).toBe(
+      "bytes 0-31/90000000",
+    );
+    expect(installerPart.headers.get("accept-ranges")).toBe("bytes");
+    const installerHeader = Buffer.from(await installerPart.arrayBuffer());
+    expect(installerHeader.length).toBe(32);
+    expect(installerHeader.subarray(0, 2).toString()).toBe("MZ");
+
+    const installerHead = await fetch(
+      `${baseUrl}/downloads/TajiriPOSSetup-1.0.0.exe.part2`,
+      { method: "HEAD" },
+    );
+    expect(installerHead.status).toBe(200);
+    expect(installerHead.headers.get("content-length")).toBe("12843536");
+    expect(installerHead.headers.get("content-type")).toBe(
+      "application/octet-stream",
+    );
   });
 
   it("starts STK Push and reports success only after the matching callback", async () => {

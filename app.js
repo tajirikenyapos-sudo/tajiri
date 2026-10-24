@@ -58,23 +58,31 @@ function productSearchMatches(product, query) {
     normalizeSearchText(product.supplier || ""),
   ].filter(Boolean);
 
-  const code = normalizeSearchText(product.code).replace(/^sku\s+/, "");
+  const code = normalizeSearchText(product.code || "").replace(/^sku\s+/,
+    "",
+  );
   const codeQuery = q.replace(/^sku\s+/, "");
+  const codeQueryHasLetter = /[a-z]/.test(codeQuery);
+  const looksLikeCode = /^[a-z]{0,3}\d{2,}$/i;
 
-  if (code && codeQuery) {
+  const codeQueryIsPureCode = looksLikeCode.test(codeQuery);
+  if (codeQueryIsPureCode && code) {
     const exactCodeMatch = code === codeQuery;
     const prefixCodeMatch = code.startsWith(codeQuery);
     if (exactCodeMatch || prefixCodeMatch) {
-      const isCodeAwareLookup =
-        /[a-z]\d|\d[a-z]/i.test(codeQuery) || /^sku\s+/.test(rawQuery);
+      const isCodeAwareLookup = codeQueryHasLetter || /^sku\s+/.test(rawQuery);
       if (isCodeAwareLookup) return true;
+      // Numeric-only fragment (e.g. "003") is never a code-aware lookup:
+      // never match on code alone, and never fall through to word matching.
+      return false;
     }
+    // Code-like query that does not match this product's code: reject.
+    return false;
   }
 
   const hasMeaningfulText = queryTokens.every((token) => token.length >= 2);
   if (!hasMeaningfulText) return false;
 
-  const looksLikeCode = /^[a-z]{0,3}\d{2,}$/i;
   const allWords = [
     ...new Set(
       haystacks.flatMap((value) => value.split(/\s+/).filter(Boolean)),
@@ -87,7 +95,7 @@ function productSearchMatches(product, query) {
       return true;
     if (looksLikeCode.test(qt)) return false;
     if (qt.length < 3) return false;
-
+    if (/\d/.test(qt)) return false; // digits-bearing tokens never typo-match words
     return allWords.some(
       (word) =>
         word.length >= 3 &&

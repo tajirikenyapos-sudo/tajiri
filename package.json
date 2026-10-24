@@ -18,7 +18,7 @@
     "electron:dev": "electron .",
     "dist": "electron-builder --win --x64",
     "dist:portable": "electron-builder --win portable --x64",
-    "test": "vitest run"
+    "test": "vitest run --maxWorkers=1 --isolate=false"
   },
   "allowScripts": {
     "electron@44.9.0": true,

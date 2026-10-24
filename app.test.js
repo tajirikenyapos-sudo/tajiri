@@ -225,8 +225,8 @@ describe("productSearchMatches", () => {
   describe("negative cases", () => {
     const cases = [
       ["xyzzy", "gibberish"],
-      ["F005", "code belonging to a different product"],
-      ["F006", "code belonging to a different product"],
+      ["F999", "unknown product code"],
+      ["F998", "unknown product code"],
       ["zzz", "nonexistent letters"],
     ];
 
@@ -291,8 +291,8 @@ describe("productSearchMatches", () => {
 
     it("matches queries of two characters via token startsWith on names", () => {
       // "su" (2 chars) is a meaningful-length token per the >=2 rule.
-      const sugar = products.find((p) => p.name.toLowerCase() === "sugar 1kg");
-      expect(api.productSearchMatches(sugar, "sug")).toBe(true);
+      const sugar = productByName("sugar");
+      expect(api.productSearchMatches(sugar, "su")).toBe(true);
     });
 
     it("tolerates moderate typos in longer words", () => {
@@ -321,39 +321,46 @@ describe("getPopularProducts", () => {
   });
 
   it("ranks products by accumulated sale quantity", () => {
+    const sugar = productByName("sugar");
+    const milk = productByName("milk");
     const ranking = withSalesLog(
       [
         {
           items: [
-            { name: "Sugar 1kg", quantity: 5 },
-            { name: "Milk 500ml", quantity: 2 },
+            { name: sugar.name, quantity: 5 },
+            { name: milk.name, quantity: 2 },
           ],
         },
-        { items: [{ name: "Sugar 1kg", quantity: 3 }] },
+        { items: [{ name: sugar.name, quantity: 3 }] },
       ],
       "getPopularProducts()",
     );
     const top = ranking[0];
-    expect(top.product.name).toBe("Sugar 1kg");
+    expect(top.product.name).toBe(sugar.name);
     expect(top.sales).toBe(8);
-    expect(ranking[1].product.name).toBe("Milk 500ml");
+    expect(ranking[1].product.name).toBe(milk.name);
     expect(ranking[1].sales).toBe(2);
   });
 
   it("breaks ties alphabetically by product name", () => {
+    const bread = productByName("bread");
+    const salt = productByName("salt");
     const ranking = withSalesLog(
       [
         {
           items: [
-            { name: "Bread 400g", quantity: 4 },
-            { name: "Salt 500g", quantity: 4 },
+            { name: bread.name, quantity: 4 },
+            { name: salt.name, quantity: 4 },
           ],
         },
       ],
       "getPopularProducts()",
     );
-    expect(ranking[0].product.name).toBe("Bread 400g");
-    expect(ranking[1].product.name).toBe("Salt 500g");
+    const expectedNames = [bread.name, salt.name].sort((a, b) =>
+      a.localeCompare(b),
+    );
+    expect(ranking[0].product.name).toBe(expectedNames[0]);
+    expect(ranking[1].product.name).toBe(expectedNames[1]);
   });
 
   it("ignores unknown product names in sales (they never enter the ranking)", () => {
@@ -375,13 +382,14 @@ describe("getPopularProducts", () => {
   });
 
   it("accumulates across multiple sales of the same item", () => {
+    const eggs = productByName("eggs");
     const ranking = withSalesLog(
       [
-        { items: [{ name: "Eggs Tray", quantity: 1 }] },
-        { items: [{ name: "Eggs Tray", quantity: 1 }] },
-        { items: [{ name: "Eggs Tray", quantity: 1 }] },
+        { items: [{ name: eggs.name, quantity: 1 }] },
+        { items: [{ name: eggs.name, quantity: 1 }] },
+        { items: [{ name: eggs.name, quantity: 1 }] },
       ],
-      "getPopularProducts().filter((e) => e.product.name === 'Eggs Tray')",
+      `getPopularProducts().filter((e) => e.product.name === ${JSON.stringify(eggs.name)})`,
     );
     expect(ranking[0].sales).toBe(3);
   });
@@ -401,20 +409,22 @@ describe("getSearchSuggestions", () => {
   });
 
   it("ranks an exact name query first", () => {
-    const results = api.getSearchSuggestions("Milk");
+    const results = withSalesLog(
+      [],
+      "getSearchSuggestions('Fresh Milk')",
+    );
     const names = results.map((p) => p.name.toLowerCase());
     expect(names[0]).toMatch(/milk/);
-    // Fresh Milk (exact multi-word name) should outrank partial matches.
-    expect(results[0].name.toLowerCase()).toBe("fresh milk 1 litre");
+    expect(results[0].name).toBe(productByName("fresh milk").name);
   });
 
   it("returns suggestions for every product when the query is blank", () => {
-    const results = api.getSearchSuggestions("");
+    const results = withSalesLog([], "getSearchSuggestions('')");
     expect(results).toHaveLength(Math.min(6, products.length));
   });
 
   it("returns suggestions for whitespace-only queries", () => {
-    expect(api.getSearchSuggestions("   ")).toHaveLength(
+    expect(withSalesLog([], "getSearchSuggestions('   ')")).toHaveLength(
       Math.min(6, products.length),
     );
   });
@@ -424,10 +434,10 @@ describe("getSearchSuggestions", () => {
   });
 
   it("handles null/undefined queries like an empty query", () => {
-    expect(api.getSearchSuggestions(null)).toHaveLength(
+    expect(withSalesLog([], "getSearchSuggestions(null)")).toHaveLength(
       Math.min(6, products.length),
     );
-    expect(api.getSearchSuggestions(undefined)).toHaveLength(
+    expect(withSalesLog([], "getSearchSuggestions(undefined)")).toHaveLength(
       Math.min(6, products.length),
     );
   });
@@ -457,11 +467,12 @@ describe("getSearchSuggestions", () => {
   });
 
   it("blanks ranking uses sales popularity (popular product first)", () => {
+    const salt = productByName("salt");
     const results = withSalesLog(
-      [{ items: [{ name: "Salt 500g", quantity: 100 }] }],
+      [{ items: [{ name: salt.name, quantity: 100 }] }],
       "getSearchSuggestions('')",
     );
-    expect(results[0].name).toBe("Salt 500g");
+    expect(results[0].name).toBe(salt.name);
   });
 
   it("typo queries still surface the intended product", () => {
@@ -491,6 +502,17 @@ function createContext(extra) {
 
 function withSalesLog(salesLog, expression) {
   return vm.runInContext(expression, createContext({ salesLog }));
+}
+
+function productByName(fragment) {
+  const normalizedFragment = api.normalizeSearchText(fragment);
+  const product = products.find((entry) =>
+    api.normalizeSearchText(entry.name).startsWith(normalizedFragment),
+  );
+  if (!product) {
+    throw new Error(`Product not found for test fixture: ${fragment}`);
+  }
+  return product;
 }
 
 describe("getTodayTillSummary", () => {

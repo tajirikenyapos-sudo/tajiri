@@ -32,7 +32,16 @@ async function hashFile(filePath) {
 describe("Windows installer downloads", () => {
   it("routes the old hash and both download links to a real download page", () => {
     expect(indexHtml).toContain('window.location.hash === "#download-installer"');
-    expect(indexHtml.match(/href="\.\/download-installer\.html"/g)).toHaveLength(2);
+    expect(
+      indexHtml.match(
+        /href="https:\/\/pos-tajiri\.vercel\.app\/download-installer\.html"/g,
+      ),
+    ).toHaveLength(2);
+    expect(
+      indexHtml.match(
+        /<a\b(?=[^>]*data-online-installer)(?=[^>]*target="_blank")(?=[^>]*rel="noopener")[^>]*>/g,
+      ),
+    ).toHaveLength(2);
     expect(indexHtml).not.toContain('href="#download-installer"');
     expect(fs.existsSync(path.join(root, "download-installer.html"))).toBe(true);
   });

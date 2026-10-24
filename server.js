@@ -1,6 +1,7 @@
 "use strict";
 
 const crypto = require("node:crypto");
+const fsSync = require("node:fs");
 const fs = require("node:fs/promises");
 const http = require("node:http");
 const path = require("node:path");
@@ -16,7 +17,9 @@ const MAX_STK_AMOUNT = 150_000;
 const PAYMENT_ID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const MIME_TYPES = {
+  ".apk": "application/vnd.android.package-archive",
   ".css": "text/css; charset=utf-8",
+  ".exe": "application/vnd.microsoft.portable-executable",
   ".html": "text/html; charset=utf-8",
   ".ico": "image/x-icon",
   ".jpg": "image/jpeg",
@@ -24,6 +27,9 @@ const MIME_TYPES = {
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".png": "image/png",
+  ".pdf": "application/pdf",
+  ".part1": "application/octet-stream",
+  ".part2": "application/octet-stream",
   ".svg": "image/svg+xml",
   ".webp": "image/webp",
   ".webmanifest": "application/manifest+json; charset=utf-8",
@@ -261,7 +267,7 @@ function validateCallbackToken(provided, expected) {
   );
 }
 
-async function serveStaticFile(response, pathname) {
+async function serveStaticFile(request, response, pathname) {
   let decodedPath;
   try {
     decodedPath = decodeURIComponent(pathname);
@@ -281,17 +287,64 @@ async function serveStaticFile(response, pathname) {
     return;
   }
   try {
-    const file = await fs.readFile(filePath);
-    response.writeHead(200, {
+    const { size } = await fs.stat(filePath);
+    const rangeHeader = request.headers.range;
+    let start = 0;
+    let end = size - 1;
+    let statusCode = 200;
+    if (rangeHeader) {
+      const match = /^bytes=(\d*)-(\d*)$/.exec(rangeHeader);
+      if (!match || (!match[1] && !match[2])) {
+        response.writeHead(416, {
+          "Content-Range": `bytes */${size}`,
+          "Content-Length": 0,
+        });
+        response.end();
+        return;
+      }
+      if (match[1]) {
+        start = Number(match[1]);
+        end = match[2] ? Number(match[2]) : size - 1;
+      } else {
+        const suffixLength = Number(match[2]);
+        start = Math.max(0, size - suffixLength);
+      }
+      if (
+        !Number.isSafeInteger(start) ||
+        !Number.isSafeInteger(end) ||
+        start >= size ||
+        start > end
+      ) {
+        response.writeHead(416, {
+          "Content-Range": `bytes */${size}`,
+          "Content-Length": 0,
+        });
+        response.end();
+        return;
+      }
+      end = Math.min(end, size - 1);
+      statusCode = 206;
+    }
+    const headers = {
       "Cache-Control":
         path.extname(filePath).toLowerCase() === ".html"
           ? "no-store"
           : "no-cache",
-      "Content-Length": file.length,
+      "Accept-Ranges": "bytes",
+      "Content-Length": end - start + 1,
       "Content-Type": mimeType,
       "X-Content-Type-Options": "nosniff",
-    });
-    response.end(file);
+    };
+    if (statusCode === 206)
+      headers["Content-Range"] = `bytes ${start}-${end}/${size}`;
+    response.writeHead(statusCode, headers);
+    if (request.method === "HEAD") {
+      response.end();
+      return;
+    }
+    const stream = fsSync.createReadStream(filePath, { start, end });
+    stream.on("error", (error) => response.destroy(error));
+    stream.pipe(response);
   } catch (error) {
     if (error.code === "ENOENT") {
       sendJson(response, 404, { success: false, message: "Not found" });
@@ -534,7 +587,7 @@ function createAppServer({
         sendJson(response, 405, { success: false, message: "Method not allowed" });
         return;
       }
-      await serveStaticFile(response, pathname);
+      await serveStaticFile(request, response, pathname);
     } catch (error) {
       console.error("POS API request failed:", error);
       if (!response.headersSent)

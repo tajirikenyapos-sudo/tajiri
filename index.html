@@ -40,9 +40,6 @@
       #welcomeView[hidden] {
         display: none !important;
       }
-      html.offline-desktop-app [data-online-installer] {
-        display: none !important;
-      }
       body[data-role-view="cashier"] #downloadDataButton,
       body[data-role-view="cashier"] [data-modal-open="modal-downloads"],
       body[data-role-view="cashier"] [data-installer-download],
@@ -188,9 +185,6 @@
                   ▦ Dashboard
                 </button>
                 <button class="more-menu-item" data-view="Sales">▣ Sales</button>
-                <button class="more-menu-item" data-view="Inventory">
-                  ▤ Inventory
-                </button>
                 <button class="more-menu-item" data-view="Purchases">
                   ⇄ Purchases
                 </button>
@@ -208,9 +202,6 @@
                 </button>
                 <button class="more-menu-item" data-view="Accounting">
                   ▥ Accounting
-                </button>
-                <button class="more-menu-item" data-view="Reports">
-                  ▥ Reports
                 </button>
                 <button class="more-menu-item" data-view="Branches">
                   ⌂ Branches
@@ -236,13 +227,6 @@
                 </button>
                 <button class="more-menu-item" data-view="Premium Tools">
                   ✦ Premium tools
-                </button>
-                <button
-                  class="more-menu-item"
-                  id="downloadDataButton"
-                  type="button"
-                >
-                  ⇩ Download data
                 </button>
                 <button class="more-menu-item" id="aboutButton" type="button">
                   ⓘ About Tajiri POS
@@ -1828,7 +1812,9 @@
               </button>
               <a
                 class="hero-action download-link"
-                href="./download-installer.html"
+                href="https://pos-tajiri.vercel.app/download-installer.html"
+                target="_blank"
+                rel="noopener"
                 data-online-installer
                 >Download Tajiri POS</a
               >
@@ -2345,32 +2331,19 @@
             <div class="download-grid">
               <a
                 class="dl-card"
-                href="downloads/DanLiz-POS-demo.apk"
-                data-release-asset="DanLiz-POS-demo.apk"
-                download
-              >
-                <span>▾</span><strong>Android demo</strong
-                ><small>DanLiz-POS-demo.apk</small>
-              </a>
-              <a
-                class="dl-card"
-                href="./download-installer.html"
+                href="https://pos-tajiri.vercel.app/download-installer.html"
+                target="_blank"
+                rel="noopener"
                 data-online-installer
-                data-release-asset="TajiriPOSSetup-1.0.0.exe"
               >
                 <span>▾</span><strong>Windows installer</strong
                 ><small>TajiriPOSSetup-1.0.0.exe · Windows 10/11, 64-bit</small>
               </a>
-              <a
-                class="dl-card"
-                href="downloads/DanLiz-POS-documentation.pdf"
-                data-release-asset="DanLiz-POS-documentation.pdf"
-                download
-              >
-                <span>▤</span><strong>Documentation</strong
-                ><small>DanLiz-POS-documentation.pdf</small>
-              </a>
             </div>
+            <p class="auth-sub">
+              The Android APK is not included in this release yet. Install the
+              web app from your Android browser menu in the meantime.
+            </p>
           </div>
         </div>
       </div>

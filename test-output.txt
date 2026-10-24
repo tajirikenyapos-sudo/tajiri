@@ -1,0 +1,2295 @@
+﻿
+> tajiri-pos@1.0.0 test
+> vitest run
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.4 [39m[90mC:/Users/konya/OneDrive/Desktop/POS[39m
+
+ [31m❯[39m installer.test.js [2m([22m[2m3 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 5056[2mms[22m[39m
+   [31m❯[39m Windows installer downloads [2m(3)[22m
+     [32m✓[39m routes the old hash and both download links to a real download page[32m 7[2mms[22m[39m
+[31m     [31m×[31m contains both complete, verified installer parts[39m[33m 5025[2mms[22m[39m
+     [32m✓[39m sets Vercel download cache and binary content headers[32m 20[2mms[22m[39m
+node.exe : [90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mboot-time rendering[2m > 
+[22m[2mactivates the login tab by default and hides other forms
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([90mstderr[2m...des other forms:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mboot-time rendering[2m > [22m[2mshows 
+the offline toast when the cloud backend is unavailable
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mboot-time rendering[2m > [22m[2mrenders 
+brand/tagline from saved settings with safe fallbacks
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mboot-time rendering[2m > [22m[2mstamps 
+the current year into the hero
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mboot-time rendering[2m > [22m[2mopens 
+sign in when navigating through the generic login page
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mboot-time rendering[2m > 
+[22m[2mauto-opens the access modal for the admin role shell
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mboot-time rendering[2m > 
+[22m[2mauto-opens the access modal for the cashier role shell
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mboot-time rendering[2m > [22m[2mblocks 
+admin signup when Supabase is not configured
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mmodal and tab interactions[2m > 
+[22m[2mopens the modal from a [data-modal-open] trigger and switches tabs
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mmodal and tab interactions[2m > 
+[22m[2mswitches to the signup tab via [data-tab] clicks when cloud auth is ready
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mmodal and tab interactions[2m > 
+[22m[2mcloses open modals on the Escape key
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mmodal and tab interactions[2m > 
+[22m[2mtoggles the nav menu on button clicks
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mmodal and tab interactions[2m > 
+[22m[2mopens the password-reset modal from the forgot link
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mlocal (non-cloud) login[2m > 
+[22m[2mrejects empty credentials with a local-specific message
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mlocal (non-cloud) login[2m > 
+[22m[2mrejects an unknown username
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mlocal (non-cloud) login[2m > 
+[22m[2mrejects a wrong password for a known account
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mlocal (non-cloud) login[2m > 
+[22m[2mrejects accounts without an authorized POS role
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mlocal (non-cloud) login[2m > 
+[22m[2mfails closed when cloud auth is configured but unavailable
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mlocal (non-cloud) login[2m > 
+[22m[2maccepts matching credentials and starts a session
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mlocal (non-cloud) login[2m > 
+[22m[2maccepts matching credentials and starts a session
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mlocal (non-cloud) login[2m > 
+[22m[2mclears remembered credentials when 'remember me' is unchecked
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mlocal (non-cloud) login[2m > 
+[22m[2mclears remembered credentials when 'remember me' is unchecked
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mlocal (non-cloud) login[2m > 
+[22m[2mmatches login identity against email and name fields too
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mlocal (non-cloud) login[2m > 
+[22m[2mmatches login identity against email and name fields too
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2mblocks signup entirely when Supabase is unavailable
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2mrequires every field
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2mderives a safe username from the contact email after verifying the phone
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2mrejects malformed emails
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2mrejects non-Kenyan phone numbers
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2maccepts a valid Kenyan phone number: +254712345678
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2maccepts a valid Kenyan phone number: +254112345678
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2maccepts a valid Kenyan phone number: 0712345678
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2maccepts a valid Kenyan phone number: 0112345678
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2mrejects passwords shorter than 6 characters
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2mrejects mismatched password confirmation
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup validation (cloud required)[2m > 
+[22m[2mrejects an invalid SMS code and supports resending
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup with Supabase[2m > [22m[2mshows 
+phone verification after signup even when legacy admin bootstrap exists
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup with Supabase[2m > 
+[22m[2mrequires one SMS code before preparing phone/password sign-in
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup with Supabase[2m > 
+[22m[2mexplains when the signup phone is already registered
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2msignup with Supabase[2m > 
+[22m[2mexplains when Supabase phone signup is disabled
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mSupabase login[2m > [22m[2mdemands a 
+Kenyan phone number for cloud sign-in
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mSupabase login[2m > [22m[2msigns out 
+accounts that have no Tajiri POS role
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mSupabase login[2m > [22m[2mmaps Supabase 
+auth error codes to a friendly message
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mSupabase login[2m > [22m[2mmaps Supabase 
+auth error codes to a friendly message
+[22m[39mTajiri POS sign-in failed: Error: bad
+    at C:/Users/konya/OneDrive/Desktop/POS/welcome.test.js:1017:25
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:1632:35
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:2794:26
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:3334:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/ru
+n.Cm2sd7-x.js:3329:10[90m)[39m
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:3314:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/r
+un.Cm2sd7-x.js:3272:10[90m)[39m
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:3895:64 
+{
+  code: [32m'auth/wrong-password'[39m
+}
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mSupabase login[2m > [22m[2mreports 
+disabled phone confirmation without opening a code form
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mSupabase login[2m > [22m[2mreports 
+disabled phone confirmation without opening a code form
+[22m[39mTajiri POS sign-in failed: Error: phone not confirmed
+    at C:/Users/konya/OneDrive/Desktop/POS/welcome.test.js:1035:25
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:1632:35
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:2794:26
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:3334:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/ru
+n.Cm2sd7-x.js:3329:10[90m)[39m
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:3314:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/r
+un.Cm2sd7-x.js:3272:10[90m)[39m
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:3895:64 
+{
+  code: [32m'auth/phone-not-confirmed'[39m
+}
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mSupabase login[2m > [22m[2mblocks a 
+login session for an unverified phone
+[22m[39mNot implemented: navigation to another Document
+
+ [31m❯[39m server.test.js [2m([22m[2m8 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1361[2mms[22m[39m
+   [32m✓[39m Daraja server helpers [2m(5)[22m
+     [32m✓[39m normalizes Kenya M-Pesa numbers[32m 4[2mms[22m[39m
+     [32m✓[39m requires valid server credentials and an HTTPS callback[32m 1[2mms[22m[39m
+     [32m✓[39m validates whole-shilling amounts and Kenyan phone numbers[32m 2[2mms[22m[39m
+     [32m✓[39m formats the timestamp in the Daraja-required Kenya time zone[32m 64[2mms[22m[39m
+     [32m✓[39m confirms a payment only when callback amount, phone, and receipt match[32m 2[2mms[22m[39m
+   [31m❯[39m Daraja HTTP API [2m(3)[22m
+[31m     [31m×[31m serves authentication entry pages without browser caching[39m[33m 369[2mms[22m[39m
+     [33m[2m✓[22m[39m starts STK Push and reports success only after the matching callback[33m 900[2mms[22m[39m
+     [32m✓[39m rejects cross-origin payment initiation[32m 14[2mms[22m[39m
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mSupabase login[2m > [22m[2mstarts a 
+session for a verified admin profile
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mSupabase login[2m > [22m[2mstarts a 
+session for a verified admin profile
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mSupabase login[2m > [22m[2mcreates a 
+tenant when the verified owner logs in
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mpassword reset[2m > [22m[2mreports that 
+reset delivery is not configured without Supabase
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mpassword reset[2m > [22m[2msends a 
+password reset SMS and opens the code form
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mpassword reset[2m > [22m[2mshows an 
+error when reset SMS delivery fails
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mpassword reset[2m > [22m[2mshows an 
+error when reset SMS delivery fails
+[22m[39mTajiri POS password reset failed: Error: network unavailable
+    at C:/Users/konya/OneDrive/Desktop/POS/welcome.test.js:1184:28
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:1632:35
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:2794:26
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:3334:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/ru
+n.Cm2sd7-x.js:3329:10[90m)[39m
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:3314:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/r
+un.Cm2sd7-x.js:3272:10[90m)[39m
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:3895:64
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mpassword reset[2m > [22m[2mrequires a 
+six-digit SMS code before resetting a password
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mpassword strength meter[2m > 
+[22m[2mhides the meter for an empty password
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mpassword strength meter[2m > 
+[22m[2mscores an all-lowercase short password as 'Very weak'
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mpassword strength meter[2m > 
+[22m[2mscores a strong password at the top level
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mpassword strength meter[2m > [22m[2mcaps 
+the score at 4 levels
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2mpassword strength meter[2m > 
+[22m[2mgives a medium password an intermediate level and color
+[22m[39mNot implemented: navigation to another Document
+
+[90mstderr[2m | welcome.test.js[2m > [22m[2mwelcome.js[2m > [22m[2madmin setup status messaging[2m > 
+[22m[2mallows admin signup when cloud auth is ready without a legacy bootstrap check
+[22m[39mNot implemented: navigation to another Document
+
+ [31m❯[39m welcome.test.js [2m([22m[2m57 tests[22m[2m | [22m[31m23 failed[39m[2m)[22m[33m 3728[2mms[22m[39m
+   [31m❯[39m welcome.js [2m(57)[22m
+     [31m❯[39m boot-time rendering [2m(11)[22m
+       [32m✓[39m activates the login tab by default and hides other forms[32m 294[2mms[22m[39m
+       [32m✓[39m shows the offline toast when the cloud backend is unavailable[32m 51[2mms[22m[39m
+       [32m✓[39m renders brand/tagline from saved settings with safe fallbacks[32m 52[2mms[22m[39m
+       [32m✓[39m stamps the current year into the hero[32m 47[2mms[22m[39m
+[31m       [31m×[31m offers one Get Started entry before account-role routing[39m[32m 214[2mms[22m[39m
+       [32m✓[39m opens sign in when navigating through the generic login page[32m 100[2mms[22m[39m
+[31m       [31m×[31m auto-opens the access modal for the admin role shell[39m[32m 54[2mms[22m[39m
+       [32m✓[39m auto-opens the access modal for the cashier role shell[32m 49[2mms[22m[39m
+[31m       [31m×[31m blocks admin signup when Supabase is not configured[39m[32m 39[2mms[22m[39m
+       [32m✓[39m remembered user restore [2m(2)[22m
+         [32m✓[39m pre-fills the login form when the stored signature is valid[32m 28[2mms[22m[39m
+         [32m✓[39m ignores a remembered user whose signature does not match[32m 25[2mms[22m[39m
+     [31m❯[39m modal and tab interactions [2m(5)[22m
+       [32m✓[39m opens the modal from a [data-modal-open] trigger and switches tabs[32m 77[2mms[22m[39m
+[31m       [31m×[31m switches to the signup tab via [data-tab] clicks when cloud auth is ready[39m[32m 50[2mms[22m[39m
+       [32m✓[39m closes open modals on the Escape key[32m 37[2mms[22m[39m
+       [32m✓[39m toggles the nav menu on button clicks[32m 41[2mms[22m[39m
+       [32m✓[39m opens the password-reset modal from the forgot link[32m 126[2mms[22m[39m
+     [32m✓[39m local (non-cloud) login [2m(8)[22m
+       [32m✓[39m rejects empty credentials with a local-specific message[32m 48[2mms[22m[39m
+       [32m✓[39m rejects an unknown username[32m 72[2mms[22m[39m
+       [32m✓[39m rejects a wrong password for a known account[32m 128[2mms[22m[39m
+       [32m✓[39m rejects accounts without an authorized POS role[32m 78[2mms[22m[39m
+       [32m✓[39m fails closed when cloud auth is configured but unavailable[32m 62[2mms[22m[39m
+       [32m✓[39m accepts matching credentials and starts a session[32m 47[2mms[22m[39m
+       [32m✓[39m clears remembered credentials when 'remember me' is unchecked[32m 62[2mms[22m[39m
+       [32m✓[39m matches login identity against email and name fields too[32m 62[2mms[22m[39m
+     [31m❯[39m signup validation (cloud required) [2m(12)[22m
+[31m       [31m×[31m blocks signup entirely when Supabase is unavailable[39m[32m 39[2mms[22m[39m
+[31m       [31m×[31m requires every field[39m[32m 53[2mms[22m[39m
+[31m       [31m×[31m derives a safe username from the contact email after verifying the phone[39m[32m 62[2mms[22m[39m
+[31m       [31m×[31m rejects malformed emails[39m[32m 41[2mms[22m[39m
+[31m       [31m×[31m rejects non-Kenyan phone numbers[39m[32m 115[2mms[22m[39m
+[31m       [31m×[31m accepts a valid Kenyan phone number: +254712345678[39m[32m 66[2mms[22m[39m
+[31m       [31m×[31m accepts a valid Kenyan phone number: +254112345678[39m[32m 104[2mms[22m[39m
+[31m       [31m×[31m accepts a valid Kenyan phone number: 0712345678[39m[32m 65[2mms[22m[39m
+[31m       [31m×[31m accepts a valid Kenyan phone number: 0112345678[39m[32m 47[2mms[22m[39m
+[31m       [31m×[31m rejects passwords shorter than 6 characters[39m[32m 50[2mms[22m[39m
+[31m       [31m×[31m rejects mismatched password confirmation[39m[32m 47[2mms[22m[39m
+[31m       [31m×[31m rejects an invalid SMS code and supports resending[39m[32m 40[2mms[22m[39m
+     [31m❯[39m signup with Supabase [2m(4)[22m
+[31m       [31m×[31m shows phone verification after signup even when legacy admin bootstrap exists[39m[32m 55[2mms[22m[39m
+[31m       [31m×[31m requires one SMS code before preparing phone/password sign-in[39m[32m 61[2mms[22m[39m
+[31m       [31m×[31m explains when the signup phone is already registered[39m[32m 42[2mms[22m[39m
+[31m       [31m×[31m explains when Supabase phone signup is disabled[39m[32m 39[2mms[22m[39m
+     [31m❯[39m Supabase login [2m(7)[22m
+       [32m✓[39m demands a Kenyan phone number for cloud sign-in[32m 43[2mms[22m[39m
+       [32m✓[39m signs out accounts that have no Tajiri POS role[32m 65[2mms[22m[39m
+       [32m✓[39m maps Supabase auth error codes to a friendly message[32m 77[2mms[22m[39m
+       [32m✓[39m reports disabled phone confirmation without opening a code form[32m 63[2mms[22m[39m
+       [32m✓[39m blocks a login session for an unverified phone[32m 63[2mms[22m[39m
+       [32m✓[39m starts a session for a verified admin profile[32m 108[2mms[22m[39m
+[31m       [31m×[31m creates a tenant when the verified owner logs in[39m[32m 48[2mms[22m[39m
+     [31m❯[39m password reset [2m(4)[22m
+       [32m✓[39m reports that reset delivery is not configured without Supabase[32m 77[2mms[22m[39m
+       [32m✓[39m sends a password reset SMS and opens the code form[32m 95[2mms[22m[39m
+       [32m✓[39m shows an error when reset SMS delivery fails[32m 77[2mms[22m[39m
+[31m       [31m×[31m requires a six-digit SMS code before resetting a password[39m[32m 36[2mms[22m[39m
+     [32m✓[39m password strength meter [2m(5)[22m
+       [32m✓[39m hides the meter for an empty password[32m 52[2mms[22m[39m
+       [32m✓[39m scores an all-lowercase short password as 'Very weak'[32m 36[2mms[22m[39m
+       [32m✓[39m scores a strong password at the top level[32m 32[2mms[22m[39m
+       [32m✓[39m caps the score at 4 levels[32m 23[2mms[22m[39m
+       [32m✓[39m gives a medium password an intermediate level and color[32m 30[2mms[22m[39m
+     [31m❯[39m admin setup status messaging [2m(1)[22m
+[31m       [31m×[31m allows admin signup when cloud auth is ready without a legacy bootstrap check[39m[32m 29[2mms[22m[39m
+ [31m❯[39m app.test.js [2m([22m[2m82 tests[22m[2m | [22m[31m12 failed[39m[2m)[22m[33m 405[2mms[22m[39m
+   [32m✓[39m normalizeSearchText [2m(7)[22m
+     [32m✓[39m lowercases input[32m 3[2mms[22m[39m
+     [32m✓[39m strips diacritics via NFD decomposition[32m 2[2mms[22m[39m
+     [32m✓[39m replaces punctuation with spaces[32m 0[2mms[22m[39m
+     [32m✓[39m collapses runs of whitespace to a single space and trims[32m 0[2mms[22m[39m
+     [32m✓[39m keeps digits and letters only[32m 1[2mms[22m[39m
+     [32m✓[39m returns an empty string for empty input[32m 0[2mms[22m[39m
+     [32m✓[39m coerces non-string values via String()[32m 1[2mms[22m[39m
+   [32m✓[39m normalizeIdentity [2m(6)[22m
+     [32m✓[39m lowercases and trims[32m 1[2mms[22m[39m
+     [32m✓[39m applies NFKC compatibility folding (e.g. fullwidth digits)[32m 1[2mms[22m[39m
+     [32m✓[39m converts non-breaking spaces to regular spaces[32m 0[2mms[22m[39m
+     [32m✓[39m maps various bullet characters to the middot separator[32m 1[2mms[22m[39m
+     [32m✓[39m normalizes spacing around middots[32m 0[2mms[22m[39m
+     [32m✓[39m handles empty input[32m 0[2mms[22m[39m
+   [32m✓[39m levenshteinDistance [2m(6)[22m
+     [32m✓[39m returns 0 for identical strings[32m 1[2mms[22m[39m
+     [32m✓[39m returns the length of the other string when one is empty[32m 0[2mms[22m[39m
+     [32m✓[39m counts single substitutions as 1[32m 0[2mms[22m[39m
+     [32m✓[39m counts insertions and deletions[32m 0[2mms[22m[39m
+     [32m✓[39m is symmetric[32m 0[2mms[22m[39m
+     [32m✓[39m handles unicode input deterministically[32m 0[2mms[22m[39m
+   [32m✓[39m product catalog fixtures [2m(3)[22m
+     [32m✓[39m exposes a non-empty catalog with required fields[32m 4[2mms[22m[39m
+     [32m✓[39m gives every product a unique id and code[32m 0[2mms[22m[39m
+     [32m✓[39m finds a product by a known code[32m 0[2mms[22m[39m
+   [31m❯[39m productSearchMatches [2m(40)[22m
+     [32m✓[39m positive cases [2m(24)[22m
+       [32m✓[39m matches "pishori" (exact name token)[32m 3[2mms[22m[39m
+       [32m✓[39m matches "rice" (name token)[32m 1[2mms[22m[39m
+       [32m✓[39m matches "Rice (Pishori)" (full display name)[32m 1[2mms[22m[39m
+       [32m✓[39m matches "rice 2kg" (name plus unit)[32m 1[2mms[22m[39m
+       [32m✓[39m matches "basmati" (second rice variant)[32m 1[2mms[22m[39m
+       [32m✓[39m matches "F003" (product code)[32m 0[2mms[22m[39m
+       [32m✓[39m matches "f003" (lowercased code)[32m 0[2mms[22m[39m
+       [32m✓[39m matches "sku f003" (SKU-prefixed code query)[32m 0[2mms[22m[39m
+       [32m✓[39m matches "sugar" (product name)[32m 1[2mms[22m[39m
+       [32m✓[39m matches "premium sugar" (multi-word name)[32m 2[2mms[22m[39m
+       [32m✓[39m matches "tomato" (fresh produce)[32m 9[2mms[22m[39m
+       [32m✓[39m matches "sukuma" (partial fresh produce name)[32m 9[2mms[22m[39m
+       [32m✓[39m matches "water" (bottled water)[32m 4[2mms[22m[39m
+       [32m✓[39m matches "eggs" (fresh item)[32m 7[2mms[22m[39m
+       [32m✓[39m matches "tooth" (prefix of toothpaste/toothbrush)[32m 7[2mms[22m[39m
+       [32m✓[39m matches "milk" (simple product)[32m 9[2mms[22m[39m
+       [32m✓[39m matches "biscuits" (snacks)[32m 4[2mms[22m[39m
+       [32m✓[39m matches "biscut" (single-character typo (edit distance 1))[32m 3[2mms[22m[39m
+       [32m✓[39m matches "stationery" (category match)[32m 8[2mms[22m[39m
+       [32m✓[39m matches "kibera fresh mart" (supplier match)[32m 10[2mms[22m[39m
+       [32m✓[39m matches "pembe" (supplier partial)[32m 0[2mms[22m[39m
+       [32m✓[39m matches the rice product by its code prefix[32m 0[2mms[22m[39m
+       [32m✓[39m matches with mixed case and extra whitespace[32m 1[2mms[22m[39m
+       [32m✓[39m matches multi-token queries across name and unit[32m 0[2mms[22m[39m
+     [31m❯[39m negative cases [2m(6)[22m
+       [32m✓[39m does not match any product for "xyzzy" (gibberish)[32m 10[2mms[22m[39m
+[31m       [31m×[31m does not match any product for "F005" (code belonging to a different product)[39m[32m 23[2mms[22m[39m
+[31m       [31m×[31m does not match any product for "F006" (code belonging to a different product)[39m[32m 2[2mms[22m[39m
+       [32m✓[39m does not match any product for "zzz" (nonexistent letters)[32m 13[2mms[22m[39m
+       [32m✓[39m does not cross-match products with similar names[32m 1[2mms[22m[39m
+       [32m✓[39m rejects short queries that are not meaningful text (single character)[32m 1[2mms[22m[39m
+     [31m❯[39m edge cases [2m(10)[22m
+       [32m✓[39m returns true for an empty query (no filter)[32m 0[2mms[22m[39m
+       [32m✓[39m returns true for null/undefined query (coerced to empty)[32m 0[2mms[22m[39m
+       [32m✓[39m returns false for a query made only of punctuation (normalizes to nothing)[32m 0[2mms[22m[39m
+       [32m✓[39m handles missing optional fields (no aliases, no supplier)[32m 0[2mms[22m[39m
+       [32m✓[39m handles an empty aliases array[32m 0[2mms[22m[39m
+       [32m✓[39m is resilient to a null query with a bare product[32m 0[2mms[22m[39m
+[31m       [31m×[31m matches numeric-looking codes only in code-aware lookups[39m[32m 1[2mms[22m[39m
+[31m       [31m×[31m matches queries of two characters via token startsWith on names[39m[32m 1[2mms[22m[39m
+       [32m✓[39m tolerates moderate typos in longer words[32m 9[2mms[22m[39m
+       [32m✓[39m does not typo-match very short tokens (under 3 characters)[32m 2[2mms[22m[39m
+   [31m❯[39m getPopularProducts [2m(6)[22m
+     [32m✓[39m returns all products even with no sales[32m 42[2mms[22m[39m
+[31m     [31m×[31m ranks products by accumulated sale quantity[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m breaks ties alphabetically by product name[39m[32m 4[2mms[22m[39m
+     [32m✓[39m ignores unknown product names in sales (they never enter the ranking)[32m 3[2mms[22m[39m
+     [32m✓[39m treats a sale with a missing items array as zero sales[32m 3[2mms[22m[39m
+[31m     [31m×[31m accumulates across multiple sales of the same item[39m[32m 4[2mms[22m[39m
+   [31m❯[39m getSearchSuggestions [2m(12)[22m
+     [32m✓[39m returns at most 6 suggestions[32m 9[2mms[22m[39m
+     [32m✓[39m ranks an exact code query first[32m 3[2mms[22m[39m
+[31m     [31m×[31m ranks an exact name query first[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m returns suggestions for every product when the query is blank[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m returns suggestions for whitespace-only queries[39m[32m 2[2mms[22m[39m
+     [32m✓[39m returns nothing for gibberish[32m 19[2mms[22m[39m
+[31m     [31m×[31m handles null/undefined queries like an empty query[39m[32m 1[2mms[22m[39m
+     [32m✓[39m never returns duplicates[32m 18[2mms[22m[39m
+     [32m✓[39m returns consistent suggestions regardless of query casing[32m 17[2mms[22m[39m
+     [32m✓[39m keeps only products that actually match the query[32m 13[2mms[22m[39m
+[31m     [31m×[31m blanks ranking uses sales popularity (popular product first)[39m[32m 42[2mms[22m[39m
+     [32m✓[39m typo queries still surface the intended product[32m 10[2mms[22m[39m
+   [32m✓[39m getTodayTillSummary [2m(2)[22m
+     [32m✓[39m groups today's order counts and sales totals by Till 1–4[32m 3[2mms[22m[39m
+     [32m✓[39m keeps sales without a valid till visible as unassigned[32m 1[2mms[22m[39m
+ [32m✓[39m app.core.test.js [2m([22m[2m78 tests[22m[2m)[22m[33m 434[2mms[22m[39m
+[90mstderr[2m | supabase-shim.test.js[2m > [22m[2mconfiguration bootstrap[2m > [22m[2mresolves ready=false 
+with a friendly error when initialization throws
+[22m[39mSupabase initialization failed: Error: boom
+    at Object.<anonymous> (C:/Users/konya/OneDrive/Desktop/POS/supabase-shim.test.js:325:13)
+    at Object.Mock [as createClient] [90m(file:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24
+m/dist/chunks/spy.DDMXghXv.js:353:40[90m)[39m
+    at initializeSupabase (supabase-shim.js:133:36)
+    at script.onload (supabase-shim.js:70:7)
+    at C:/Users/konya/OneDrive/Desktop/POS/supabase-shim.test.js:327:20
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:1632:35
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:2794:26
+    at 
+[90mfile:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/run.Cm2sd7-x.js:3334:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///C:/Users/konya/OneDrive/Desktop/POS/[39mnode_modules/[4mvitest[24m/dist/chunks/ru
+n.Cm2sd7-x.js:3329:10[90m)[39m
+
+ [32m✓[39m service-worker.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m supabase-shim.test.js [2m([22m[2m81 tests[22m[2m)[22m[33m 1601[2mms[22m[39m
+ [31m❯[39m tests/probe.test.js [2m([22m[2m12 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 30831[2mms[22m[39m
+   [31m❯[39m .probe.cjs [2m(12)[22m
+     [31m❯[39m positive cases [2m(4)[22m
+       [33m[2m✓[22m[39m exits successfully when app.js is present in the cwd[33m 648[2mms[22m[39m
+       [33m[2m✓[22m[39m reports that search is defined (typeof search: object)[33m 752[2mms[22m[39m
+[31m       [31m×[31m logs exactly one probe line to stdout[39m[33m 7676[2mms[22m[39m
+[31m       [31m×[31m produces no stderr output on success[39m[33m 8403[2mms[22m[39m
+     [32m✓[39m negative cases [2m(1)[22m
+       [33m[2m✓[22m[39m fails with a non-zero status when app.js is missing from the cwd[33m 925[2mms[22m[39m
+     [31m❯[39m edge cases (script run against a synthetic app.js) [2m(3)[22m
+       [33m[2m✓[22m[39m handles an app.js containing only the money function (markers found)[33m 755[2mms[22m[39m
+[31m       [31m×[31m does not crash when the marker slice is empty (no markers present)[39m[33m 6177[2mms[22m[39m
+[31m       [31m×[31m does not evaluate code outside the money..showToast slice[39m[33m 5445[2mms[22m[39m
+     [32m✓[39m white-box: probe vm contract (mirrors the script's logic) [2m(4)[22m
+       [32m✓[39m defines search as null (document stub returns null)[32m 23[2mms[22m[39m
+       [32m✓[39m exposes a working money() function in the sandbox[32m 11[2mms[22m[39m
+       [32m✓[39m does not leak variables from the slice into the host runtime[32m 10[2mms[22m[39m
+       [32m✓[39m the probe source reads app.js and slices between the known markers[32m 1[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 41 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mproductSearchMatches[2m > [22mnegative cases[2m > [22mdoes not 
+match any product for "F005" (code belonging to a different product)
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mproductSearchMatches[2m > [22mnegative cases[2m > [22mdoes not 
+match any product for "F006" (code belonging to a different product)
+[31m[1mAssertionError[22m: expected true to be false // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- false[39m
+[31m+ true[39m
+
+[36m [2m❯[22m app.test.js:[2m234:72[22m[39m
+    [90m232|[39m
+    [90m233|[39m     it.each(cases)("does not match any product for %j (%s)", (query) =…
+    [90m234|[39m       expect(products.some((p) => api.productSearchMatches(p, query)))…
+    [90m   |[39m                                                                        [31m^[39m
+    [90m235|[39m         false,
+    [90m236|[39m       );
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mproductSearchMatches[2m > [22medge cases[2m > [22mmatches 
+numeric-looking codes only in code-aware lookups
+[31m[1mAssertionError[22m: expected true to be false // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- false[39m
+[31m+ true[39m
+
+[36m [2m❯[22m app.test.js:[2m289:56[22m[39m
+    [90m287|[39m       // "003" alone looks like a code fragment but is a numeric token…
+    [90m288|[39m       // code-aware, so it should not match on code alone.
+    [90m289|[39m       expect(api.productSearchMatches(pishori, "003")).toBe(false);
+    [90m   |[39m                                                        [31m^[39m
+    [90m290|[39m     });
+    [90m291|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mproductSearchMatches[2m > [22medge cases[2m > [22mmatches queries 
+of two characters via token startsWith on names
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'name')[39m
+[90m [2m❯[22m Object.productSearchMatches evalmachine.<anonymous>:[2m169:13[22m[39m
+[36m [2m❯[22m app.test.js:[2m295:18[22m[39m
+    [90m293|[39m       // "su" (2 chars) is a meaningful-length token per the >=2 rule.
+    [90m294|[39m       const sugar = products.find((p) => p.name.toLowerCase() === "sug…
+    [90m295|[39m       expect(api.productSearchMatches(sugar, "sug")).toBe(true);
+    [90m   |[39m                  [31m^[39m
+    [90m296|[39m     });
+    [90m297|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mgetPopularProducts[2m > [22mranks products by accumulated sale 
+quantity
+[31m[1mAssertionError[22m: expected 'Bar soap (800g)' to be 'Sugar 1kg' // Object.is equality[39m
+
+Expected: [32m"Sugar 1kg"[39m
+Received: [31m"Bar soap (800g)"[39m
+
+[36m [2m❯[22m app.test.js:[2m337:30[22m[39m
+    [90m335|[39m     );
+    [90m336|[39m     const top = ranking[0];
+    [90m337|[39m     expect(top.product.name).toBe("Sugar 1kg");
+    [90m   |[39m                              [31m^[39m
+    [90m338|[39m     expect(top.sales).toBe(8);
+    [90m339|[39m     expect(ranking[1].product.name).toBe("Milk 500ml");
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mgetPopularProducts[2m > [22mbreaks ties alphabetically by product 
+name
+[31m[1mAssertionError[22m: expected 'Bar soap (800g)' to be 'Bread 400g' // Object.is equality[39m
+
+Expected: [32m"B[7mread 4[27m00g"[39m
+Received: [31m"B[7mar soap (8[27m00g[7m)[27m"[39m
+
+[36m [2m❯[22m app.test.js:[2m355:37[22m[39m
+    [90m353|[39m       "getPopularProducts()",
+    [90m354|[39m     );
+    [90m355|[39m     expect(ranking[0].product.name).toBe("Bread 400g");
+    [90m   |[39m                                     [31m^[39m
+    [90m356|[39m     expect(ranking[1].product.name).toBe("Salt 500g");
+    [90m357|[39m   });
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mgetPopularProducts[2m > [22maccumulates across multiple sales of 
+the same item
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'sales')[39m
+[36m [2m❯[22m app.test.js:[2m386:23[22m[39m
+    [90m384|[39m       "getPopularProducts().filter((e) => e.product.name === 'Eggs Tra…
+    [90m385|[39m     );
+    [90m386|[39m     expect(ranking[0].sales).toBe(3);
+    [90m   |[39m                       [31m^[39m
+    [90m387|[39m   });
+    [90m388|[39m });
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mgetSearchSuggestions[2m > [22mranks an exact name query first
+[31m[1mAssertionError[22m: expected 'milk (500ml)' to be 'fresh milk 1 litre' // Object.is equality[39m
+
+Expected: [32m"fresh milk 1 litre"[39m
+Received: [31m"milk (500ml)"[39m
+
+[36m [2m❯[22m app.test.js:[2m408:43[22m[39m
+    [90m406|[39m     expect(names[0]).toMatch(/milk/);
+    [90m407|[39m     // Fresh Milk (exact multi-word name) should outrank partial match…
+    [90m408|[39m     expect(results[0].name.toLowerCase()).toBe("fresh milk 1 litre");
+    [90m   |[39m                                           [31m^[39m
+    [90m409|[39m   });
+    [90m410|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mgetSearchSuggestions[2m > [22mreturns suggestions for every product 
+when the query is blank
+[31m[1mReferenceError[22m: salesLog is not defined[39m
+[90m [2m❯[22m getPopularProducts evalmachine.<anonymous>:[2m222:3[22m[39m
+[90m [2m❯[22m evalmachine.<anonymous>:[2m249:25[22m[39m
+[90m [2m❯[22m Object.getSearchSuggestions evalmachine.<anonymous>:[2m240:6[22m[39m
+[36m [2m❯[22m app.test.js:[2m412:25[22m[39m
+    [90m410|[39m
+    [90m411|[39m   it("returns suggestions for every product when the query is blank", …
+    [90m412|[39m     const results = api.getSearchSuggestions("");
+    [90m   |[39m                         [31m^[39m
+    [90m413|[39m     expect(results).toHaveLength(Math.min(6, products.length));
+    [90m414|[39m   });
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mgetSearchSuggestions[2m > [22mreturns suggestions for 
+whitespace-only queries
+[31m[1mReferenceError[22m: salesLog is not defined[39m
+[90m [2m❯[22m getPopularProducts evalmachine.<anonymous>:[2m222:3[22m[39m
+[90m [2m❯[22m evalmachine.<anonymous>:[2m249:25[22m[39m
+[90m [2m❯[22m Object.getSearchSuggestions evalmachine.<anonymous>:[2m240:6[22m[39m
+[36m [2m❯[22m app.test.js:[2m417:16[22m[39m
+    [90m415|[39m
+    [90m416|[39m   it("returns suggestions for whitespace-only queries", () => {
+    [90m417|[39m     expect(api.getSearchSuggestions("   ")).toHaveLength(
+    [90m   |[39m                [31m^[39m
+    [90m418|[39m       Math.min(6, products.length),
+    [90m419|[39m     );
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mgetSearchSuggestions[2m > [22mhandles null/undefined queries like 
+an empty query
+[31m[1mReferenceError[22m: salesLog is not defined[39m
+[90m [2m❯[22m getPopularProducts evalmachine.<anonymous>:[2m222:3[22m[39m
+[90m [2m❯[22m evalmachine.<anonymous>:[2m249:25[22m[39m
+[90m [2m❯[22m Object.getSearchSuggestions evalmachine.<anonymous>:[2m240:6[22m[39m
+[36m [2m❯[22m app.test.js:[2m427:16[22m[39m
+    [90m425|[39m
+    [90m426|[39m   it("handles null/undefined queries like an empty query", () => {
+    [90m427|[39m     expect(api.getSearchSuggestions(null)).toHaveLength(
+    [90m   |[39m                [31m^[39m
+    [90m428|[39m       Math.min(6, products.length),
+    [90m429|[39m     );
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m app.test.js[2m > [22mgetSearchSuggestions[2m > [22mblanks ranking uses sales popularity 
+(popular product first)
+[31m[1mAssertionError[22m: expected 'Bar soap (800g)' to be 'Salt 500g' // Object.is equality[39m
+
+Expected: [32m"[7mSalt 5[27m00g"[39m
+Received: [31m"[7mBar soap (8[27m00g[7m)[27m"[39m
+
+[36m [2m❯[22m app.test.js:[2m464:29[22m[39m
+    [90m462|[39m       "getSearchSuggestions('')",
+    [90m463|[39m     );
+    [90m464|[39m     expect(results[0].name).toBe("Salt 500g");
+    [90m   |[39m                             [31m^[39m
+    [90m465|[39m   });
+    [90m466|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m installer.test.js[2m > [22mWindows installer downloads[2m > [22mcontains both complete, 
+verified installer parts
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with 
+"testTimeout".[39m
+[36m [2m❯[22m installer.test.js:[2m40:3[22m[39m
+    [90m 38|[39m   });
+    [90m 39|[39m
+    [90m 40|[39m   it("contains both complete, verified installer parts", async () => {
+    [90m   |[39m   [31m^[39m
+    [90m 41|[39m     for (const part of parts) {
+    [90m 42|[39m       const filePath = path.join(root, part.file);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m server.test.js[2m > [22mDaraja HTTP API[2m > [22mserves authentication entry pages 
+without browser caching
+[31m[1mAssertionError[22m: expected '<!doctype html>\r\n<html lang="en-GB"…' to contain 'Choose a workspace to 
+continue to you…'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Choose a workspace to continue to your point of sale.[39m
+[31m+ <!doctype html>
+[39m
+[31m+ <html lang="en-GB">
+[39m
+[31m+   <head>
+[39m
+[31m+     <meta charset="UTF-8" />
+[39m
+[31m+     <meta name="viewport" content="width=device-width, initial-scale=1" />
+[39m
+[31m+     <meta name="theme-color" content="#0d1518" />
+[39m
+[31m+     <link rel="manifest" href="./manifest.webmanifest" />
+[39m
+[31m+     <link rel="icon" href="./icons/tajiri-pos.svg" type="image/svg+xml" />
+[39m
+[31m+     <title>Tajiri POS · Welcome</title>
+[39m
+[31m+     <style>
+[39m
+[31m+       :root {
+[39m
+[31m+         color-scheme: dark;
+[39m
+[31m+         --bg: #0b0f17;
+[39m
+[31m+         --panel: rgb(19 28 41 / 88%);
+[39m
+[31m+         --line: rgb(163 181 204 / 16%);
+[39m
+[31m+         --text: #f4f6fb;
+[39m
+[31m+         --muted: #aab5c6;
+[39m
+[31m+         --green: #34d399;
+[39m
+[31m+         --blue: #86a5e8;
+[39m
+[31m+       }
+[39m
+[31m+       * {
+[39m
+[31m+         box-sizing: border-box;
+[39m
+[31m+       }
+[39m
+[31m+       html {
+[39m
+[31m+         min-width: 320px;
+[39m
+[31m+       }
+[39m
+[31m+       body {
+[39m
+[31m+         min-height: 100vh;
+[39m
+[31m+         margin: 0;
+[39m
+[31m+         padding: 40px 22px;
+[39m
+[31m+         display: grid;
+[39m
+[31m+         place-items: center;
+[39m
+[31m+         overflow-x: hidden;
+[39m
+[31m+         color: var(--text);
+[39m
+[31m+         background:
+[39m
+[31m+           radial-gradient(
+[39m
+[31m+             ellipse at 18% 8%,
+[39m
+[31m+             rgb(70 119 163 / 22%),
+[39m
+[31m+             transparent 38rem
+[39m
+[31m+           ),
+[39m
+[31m+           radial-gradient(
+[39m
+[31m+             ellipse at 88% 88%,
+[39m
+[31m+             rgb(33 126 102 / 15%),
+[39m
+[31m+             transparent 34rem
+[39m
+[31m+           ),
+[39m
+[31m+           var(--bg);
+[39m
+[31m+         font:
+[39m
+[31m+           16px/1.5 "DM Sans",
+[39m
+[31m+           "Segoe UI",
+[39m
+[31m+           sans-serif;
+[39m
+[31m+       }
+[39m
+[31m+       main {
+[39m
+[31m+         width: min(100%, 880px);
+[39m
+[31m+         margin-inline: auto;
+[39m
+[31m+       }
+[39m
+[31m+       header {
+[39m
+[31m+         margin-bottom: 38px;
+[39m
+[31m+         text-align: center;
+[39m
+[31m+       }
+[39m
+[31m+       .brand {
+[39m
+[31m+         display: inline-flex;
+[39m
+[31m+         align-items: center;
+[39m
+[31m+         gap: 12px;
+[39m
+[31m+         margin-bottom: 34px;
+[39m
+[31m+         color: #dce5f2;
+[39m
+[31m+         font-size: 0.95rem;
+[39m
+[31m+         font-weight: 700;
+[39m
+[31m+         letter-spacing: 0.02em;
+[39m
+[31m+       }
+[39m
+[31m+       .brand-mark {
+[39m
+[31m+         font-family: "Outfit", "Segoe UI", sans-serif;
+[39m
+[31m+         display: inline-grid;
+[39m
+[31m+         width: 42px;
+[39m
+[31m+         height: 42px;
+[39m
+[31m+         place-items: center;
+[39m
+[31m+         border: 1px solid rgb(119 226 184 / 38%);
+[39m
+[31m+         border-radius: 14px;
+[39m
+[31m+         color: var(--bg);
+[39m
+[31m+         background: linear-gradient(145deg, #a3f1d0, var(--green));
+[39m
+[31m+         box-shadow: 0 8px 26px rgb(61 187 143 / 20%);
+[39m
+[31m+         font-size: 1.4rem;
+[39m
+[31m+         font-weight: 800;
+[39m
+[31m+       }
+[39m
+[31m+       .eyebrow {
+[39m
+[31m+         margin: 0 0 10px;
+[39m
+[31m+         color: var(--green);
+[39m
+[31m+         font-size: 0.74rem;
+[39m
+[31m+         font-weight: 700;
+[39m
+[31m+         letter-spacing: 0.18em;
+[39m
+[31m+         text-transform: uppercase;
+[39m
+[31m+       }
+[39m
+[31m+       h1 {
+[39m
+[31m+         margin: 0;
+[39m
+[31m+         font-family: "Outfit", "Segoe UI", sans-serif;
+[39m
+[31m+         font-size: clamp(2.2rem, 6vw, 3.8rem);
+[39m
+[31m+         letter-spacing: -0.055em;
+[39m
+[31m+         line-height: 1.08;
+[39m
+[31m+       }
+[39m
+[31m+       header p {
+[39m
+[31m+         margin: 14px 0 0;
+[39m
+[31m+         color: var(--muted);
+[39m
+[31m+         font-size: 1.05rem;
+[39m
+[31m+       }
+[39m
+[31m+       .page-links {
+[39m
+[31m+         width: min(100%, 760px);
+[39m
+[31m+         margin-inline: auto;
+[39m
+[31m+         display: grid;
+[39m
+[31m+         grid-template-columns: 1fr;
+[39m
+[31m+         gap: 18px;
+[39m
+[31m+       }
+[39m
+[31m+       @media (min-width: 720px) {
+[39m
+[31m+         .page-links {
+[39m
+[31m+           grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+[39m
+[31m+         }
+[39m
+[31m+         .page-link {
+[39m
+[31m+           min-height: 220px;
+[39m
+[31m+         }
+[39m
+[31m+       }
+[39m
+[31m+       @keyframes pageLinkIn {
+[39m
+[31m+         from {
+[39m
+[31m+           opacity: 0;
+[39m
+[31m+           transform: translateY(18px);
+[39m
+[31m+         }
+[39m
+[31m+         to {
+[39m
+[31m+           opacity: 1;
+[39m
+[31m+           transform: none;
+[39m
+[31m+         }
+[39m
+[31m+       }
+[39m
+[31m+       .page-link {
+[39m
+[31m+         animation: pageLinkIn 0.5s ease backwards;
+[39m
+[31m+       }
+[39m
+[31m+       .page-link:nth-child(1) {
+[39m
+[31m+         animation-delay: 0.08s;
+[39m
+[31m+       }
+[39m
+[31m+       .page-link:nth-child(2) {
+[39m
+[31m+         animation-delay: 0.18s;
+[39m
+[31m+       }
+[39m
+[31m+       .page-link:nth-child(3) {
+[39m
+[31m+         animation-delay: 0.28s;
+[39m
+[31m+       }
+[39m
+[31m+       @keyframes headerIn {
+[39m
+[31m+         from {
+[39m
+[31m+           opacity: 0;
+[39m
+[31m+           transform: translateY(-10px);
+[39m
+[31m+         }
+[39m
+[31m+         to {
+[39m
+[31m+           opacity: 1;
+[39m
+[31m+           transform: none;
+[39m
+[31m+         }
+[39m
+[31m+       }
+[39m
+[31m+       header {
+[39m
+[31m+         animation: headerIn 0.5s ease backwards;
+[39m
+[31m+       }
+[39m
+[31m+       .page-link {
+[39m
+[31m+         position: relative;
+[39m
+[31m+         min-height: 252px;
+[39m
+[31m+         padding: 26px;
+[39m
+[31m+         display: flex;
+[39m
+[31m+         flex-direction: column;
+[39m
+[31m+         align-items: flex-start;
+[39m
+[31m+         overflow: hidden;
+[39m
+[31m+         border: 1px solid var(--line);
+[39m
+[31m+         border-radius: 22px;
+[39m
+[31m+         color: inherit;
+[39m
+[31m+         background: linear-gradient(145deg, rgb(26 38 55 / 95%), var(--panel));
+[39m
+[31m+         box-shadow: 0 18px 50px rgb(0 0 0 / 22%);
+[39m
+[31m+         text-decoration: none;
+[39m
+[31m+         transition:
+[39m
+[31m+           border-color 0.2s ease,
+[39m
+[31m+           transform 0.2s ease,
+[39m
+[31m+           box-shadow 0.2s ease;
+[39m
+[31m+       }
+[39m
+[31m+       .page-link::after {
+[39m
+[31m+         position: absolute;
+[39m
+[31m+         top: -72px;
+[39m
+[31m+         right: -62px;
+[39m
+[31m+         width: 190px;
+[39m
+[31m+         height: 190px;
+[39m
+[31m+         border-radius: 50%;
+[39m
+[31m+         background: var(--glow);
+[39m
+[31m+         content: "";
+[39m
+[31m+         filter: blur(1px);
+[39m
+[31m+         opacity: 0.11;
+[39m
+[31m+         pointer-events: none;
+[39m
+[31m+       }
+[39m
+[31m+       .page-link.admin {
+[39m
+[31m+         --glow: var(--blue);
+[39m
+[31m+         --accent: var(--blue);
+[39m
+[31m+       }
+[39m
+[31m+       .page-link.cashier {
+[39m
+[31m+         --glow: var(--green);
+[39m
+[31m+         --accent: var(--green);
+[39m
+[31m+       }
+[39m
+[31m+       .page-link:hover,
+[39m
+[31m+       .page-link:focus-visible {
+[39m
+[31m+         transform: translateY(-4px);
+[39m
+[31m+         border-color: color-mix(in srgb, var(--accent), transparent 28%);
+[39m
+[31m+         box-shadow: 0 24px 58px rgb(0 0 0 / 32%);
+[39m
+[31m+         outline: none;
+[39m
+[31m+       }
+[39m
+[31m+       .page-link:focus-visible {
+[39m
+[31m+         box-shadow:
+[39m
+[31m+           0 0 0 3px var(--bg),
+[39m
+[31m+           0 0 0 5px var(--accent);
+[39m
+[31m+       }
+[39m
+[31m+       .page-link[hidden] {
+[39m
+[31m+         display: none;
+[39m
+[31m+       }
+[39m
+[31m+       .page-icon {
+[39m
+[31m+         width: 54px;
+[39m
+[31m+         height: 54px;
+[39m
+[31m+         margin-bottom: 28px;
+[39m
+[31m+         display: grid;
+[39m
+[31m+         place-items: center;
+[39m
+[31m+         border: 1px solid color-mix(in srgb, var(--accent), transparent 75%);
+[39m
+[31m+         border-radius: 17px;
+[39m
+[31m+         color: var(--accent);
+[39m
+[31m+         background: color-mix(in srgb, var(--accent), transparent 91%);
+[39m
+[31m+       }
+[39m
+[31m+       .page-icon svg {
+[39m
+[31m+         width: 25px;
+[39m
+[31m+         height: 25px;
+[39m
+[31m+       }
+[39m
+[31m+       .page-link strong {
+[39m
+[31m+         font-family: "Outfit", "Segoe UI", sans-serif;
+[39m
+[31m+         font-size: 1.35rem;
+[39m
+[31m+         letter-spacing: -0.02em;
+[39m
+[31m+       }
+[39m
+[31m+       .page-description {
+[39m
+[31m+         max-width: 31ch;
+[39m
+[31m+         margin-top: 8px;
+[39m
+[31m+         color: var(--muted);
+[39m
+[31m+         font-size: 0.94rem;
+[39m
+[31m+       }
+[39m
+[31m+       .page-cta {
+[39m
+[31m+         margin-top: auto;
+[39m
+[31m+         padding-top: 24px;
+[39m
+[31m+         display: flex;
+[39m
+[31m+         align-items: center;
+[39m
+[31m+         gap: 8px;
+[39m
+[31m+         color: var(--accent);
+[39m
+[31m+         font-size: 0.9rem;
+[39m
+[31m+         font-weight: 700;
+[39m
+[31m+       }
+[39m
+[31m+       .page-cta span {
+[39m
+[31m+         transition: transform 0.2s ease;
+[39m
+[31m+       }
+[39m
+[31m+       .page-link:hover .page-cta span,
+[39m
+[31m+       .page-link:focus-visible .page-cta span {
+[39m
+[31m+         transform: translateX(4px);
+[39m
+[31m+       }
+[39m
+[31m+       footer {
+[39m
+[31m+         margin-top: 28px;
+[39m
+[31m+         color: #8491a4;
+[39m
+[31m+         text-align: center;
+[39m
+[31m+         font-size: 0.86rem;
+[39m
+[31m+       }
+[39m
+[31m+       #installAppButton {
+[39m
+[31m+         margin-top: 22px;
+[39m
+[31m+         padding: 12px 18px;
+[39m
+[31m+         border: 1px solid rgb(119 226 184 / 35%);
+[39m
+[31m+         border-radius: 12px;
+[39m
+[31m+         color: var(--green);
+[39m
+[31m+         background: rgb(119 226 184 / 9%);
+[39m
+[31m+         font: inherit;
+[39m
+[31m+         font-weight: 700;
+[39m
+[31m+         cursor: pointer;
+[39m
+[31m+       }
+[39m
+[31m+       #installAppButton:hover,
+[39m
+[31m+       #installAppButton:focus-visible {
+[39m
+[31m+         border-color: var(--green);
+[39m
+[31m+         outline: 2px solid transparent;
+[39m
+[31m+         box-shadow: 0 0 0 3px rgb(119 226 184 / 16%);
+[39m
+[31m+       }
+[39m
+[31m+       #installAppButton[hidden] {
+[39m
+[31m+         display: none;
+[39m
+[31m+       }
+[39m
+[31m+       .install-help {
+[39m
+[31m+         max-width: 62ch;
+[39m
+[31m+         margin: 14px auto 0;
+[39m
+[31m+         color: var(--muted);
+[39m
+[31m+         text-align: center;
+[39m
+[31m+         font-size: 0.86rem;
+[39m
+[31m+       }
+[39m
+[31m+       .install-status {
+[39m
+[31m+         min-height: 1.4em;
+[39m
+[31m+         margin: 8px 0 0;
+[39m
+[31m+         color: var(--green);
+[39m
+[31m+         text-align: center;
+[39m
+[31m+         font-size: 0.86rem;
+[39m
+[31m+       }
+[39m
+[31m+       .footer-lock {
+[39m
+[31m+         margin-right: 6px;
+[39m
+[31m+         color: var(--green);
+[39m
+[31m+       }
+[39m
+[31m+       .trial-link {
+[39m
+[31m+         display: block;
+[39m
+[31m+         width: fit-content;
+[39m
+[31m+         margin: 14px auto 0;
+[39m
+[31m+         padding: 10px 16px;
+[39m
+[31m+         border-radius: 10px;
+[39m
+[31m+         color: var(--green);
+[39m
+[31m+         font-weight: 700;
+[39m
+[31m+         text-decoration: none;
+[39m
+[31m+         background: rgb(119 226 184 / 8%);
+[39m
+[31m+       }
+[39m
+[31m+       .trial-link:hover,
+[39m
+[31m+       .trial-link:focus-visible {
+[39m
+[31m+         outline: 2px solid var(--green);
+[39m
+[31m+         outline-offset: 3px;
+[39m
+[31m+       }
+[39m
+[31m+       .trial-link[hidden] {
+[39m
+[31m+         display: none;
+[39m
+[31m+       }
+[39m
+[31m+       @media (max-width: 580px) {
+[39m
+[31m+         body {
+[39m
+[31m+           padding: 30px 18px;
+[39m
+[31m+         }
+[39m
+[31m+         header {
+[39m
+[31m+           margin-bottom: 28px;
+[39m
+[31m+         }
+[39m
+[31m+         .brand {
+[39m
+[31m+           margin-bottom: 28px;
+[39m
+[31m+         }
+[39m
+[31m+         .page-links {
+[39m
+[31m+           grid-template-columns: 1fr;
+[39m
+[31m+           gap: 12px;
+[39m
+[31m+         }
+[39m
+[31m+         .page-link {
+[39m
+[31m+           min-height: 220px;
+[39m
+[31m+           padding: 23px;
+[39m
+[31m+         }
+[39m
+[31m+         .page-icon {
+[39m
+[31m+           margin-bottom: 20px;
+[39m
+[31m+         }
+[39m
+[31m+         footer {
+[39m
+[31m+           margin-top: 22px;
+[39m
+[31m+         }
+[39m
+[31m+       }
+[39m
+[31m+       @media (prefers-reduced-motion: reduce) {
+[39m
+[31m+         *,
+[39m
+[31m+         *::before,
+[39m
+[31m+         *::after {
+[39m
+[31m+           scroll-behavior: auto !important;
+[39m
+[31m+           transition-duration: 0.01ms !important;
+[39m
+[31m+           animation-duration: 0.01ms !important;
+[39m
+[31m+           animation-delay: 0s !important;
+[39m
+[31m+         }
+[39m
+[31m+       }
+[39m
+[31m+     </style>
+[39m
+[31m+   </head>
+[39m
+[31m+   <body>
+[39m
+[31m+     <main>
+[39m
+[31m+       <header>
+[39m
+[31m+         <div class="brand">
+[39m
+[31m+           <span class="brand-mark" aria-hidden="true">t</span
+[39m
+[31m+           ><span>Tajiri POS</span>
+[39m
+[31m+         </div>
+[39m
+[31m+         <p class="eyebrow">Your store, in control</p>
+[39m
+[31m+         <h1>Welcome to Tajiri POS.</h1>
+[39m
+[31m+         <p>Sign in once. Your account role opens the right workspace.</p>
+[39m
+[31m+       </header>
+[39m
+[31m+       <nav class="page-links" aria-label="Application pages">
+[39m
+[31m+         <a class="page-link cashier" id="getStartedLink" href="login.html">
+[39m
+[31m+           <span class="page-icon" aria-hidden="true">
+[39m
+[31m+             <svg
+[39m
+[31m+               viewBox="0 0 24 24"
+[39m
+[31m+               fill="none"
+[39m
+[31m+               stroke="currentColor"
+[39m
+[31m+               stroke-width="1.8"
+[39m
+[31m+               stroke-linecap="round"
+[39m
+[31m+               stroke-linejoin="round"
+[39m
+[31m+             >
+[39m
+[31m+               <path d="M5 12h14M13 6l6 6-6 6" />
+[39m
+[31m+             </svg>
+[39m
+[31m+           </span>
+[39m
+[31m+           <strong>Get Started</strong>
+[39m
+[31m+           <span class="page-description"
+[39m
+[31m+             >Sign in securely. Admin or cashier access is determined by your
+[39m
+[31m+             account.</span
+[39m
+[31m+           >
+[39m
+[31m+           <span class="page-cta"
+[39m
+[31m+             >Continue to sign in <span aria-hidden="true">→</span></span
+[39m
+[31m+           >
+[39m
+[31m+         </a>
+[39m
+[31m+       </nav>
+[39m
+[31m+       <footer>
+[39m
+[31m+         <span class="footer-lock" aria-hidden="true">●</span>Sign-in is
+[39m
+[31m+         required. Your account role controls which tools are available.
+[39m
+[31m+       </footer>
+[39m
+[31m+       <a class="trial-link" href="admin.html" id="startTrialLink">
+[39m
+[31m+         Start your 14-day free trial →
+[39m
+[31m+       </a>
+[39m
+[31m+       <button id="installAppButton" type="button" hidden>
+[39m
+[31m+         Install Tajiri POS
+[39m
+[31m+       </button>
+[39m
+[31m+       <p class="install-help" id="installHelp">
+[39m
+[31m+         Install on Windows with Microsoft Edge or Chrome using the install icon
+[39m
+[31m+         in the address bar, or use the browser menu and choose
+[39m
+[31m+         <strong>Install Tajiri POS</strong>. On a phone, use the browser menu
+[39m
+[31m+         (or Share menu on iPhone) and choose
+[39m
+[31m+         <strong>Add to Home Screen</strong>. Open the app once while online so
+[39m
+[31m+         its screens are saved for offline use. Signing in and cloud sync still
+[39m
+[31m+         require internet.
+[39m
+[31m+       </p>
+[39m
+[31m+       <p class="install-status" id="installStatus" aria-live="polite"></p>
+[39m
+[31m+     </main>
+[39m
+[31m+     <script>
+[39m
+[31m+       const installButton = document.querySelector("#installAppButton");
+[39m
+[31m+       const installHelp = document.querySelector("#installHelp");
+[39m
+[31m+       const installStatus = document.querySelector("#installStatus");
+[39m
+[31m+       let installPrompt;
+[39m
+[31m+ 
+[39m
+[31m+       function isInstalled() {
+[39m
+[31m+         return (
+[39m
+[31m+           window.matchMedia?.("(display-mode: standalone)").matches ||
+[39m
+[31m+           window.navigator.standalone === true
+[39m
+[31m+         );
+[39m
+[31m+       }
+[39m
+[31m+ 
+[39m
+[31m+       function updateInstallState() {
+[39m
+[31m+         if (isInstalled()) {
+[39m
+[31m+           installButton.hidden = true;
+[39m
+[31m+           installHelp.hidden = true;
+[39m
+[31m+           installStatus.textContent = "Tajiri POS is installed on this device.";
+[39m
+[31m+           return;
+[39m
+[31m+         }
+[39m
+[31m+         installHelp.hidden = false;
+[39m
+[31m+       }
+[39m
+[31m+ 
+[39m
+[31m+       window.addEventListener("beforeinstallprompt", (event) => {
+[39m
+[31m+         event.preventDefault();
+[39m
+[31m+         installPrompt = event;
+[39m
+[31m+         installButton.hidden = false;
+[39m
+[31m+       });
+[39m
+[31m+       installButton.addEventListener("click", async () => {
+[39m
+[31m+         if (!installPrompt) {
+[39m
+[31m+           installStatus.textContent =
+[39m
+[31m+             "Use the browser menu to install Tajiri POS.";
+[39m
+[31m+           return;
+[39m
+[31m+         }
+[39m
+[31m+         const prompt = installPrompt;
+[39m
+[31m+         installPrompt = null;
+[39m
+[31m+         installButton.hidden = true;
+[39m
+[31m+         try {
+[39m
+[31m+           await prompt.prompt();
+[39m
+[31m+           const choice = await prompt.userChoice;
+[39m
+[31m+           installStatus.textContent =
+[39m
+[31m+             choice.outcome === "accepted"
+[39m
+[31m+               ? "Tajiri POS installation started."
+[39m
+[31m+               : "Installation was cancelled. You can install it later from the browser menu.";
+[39m
+[31m+         } catch (error) {
+[39m
+[31m+           console.error("Could not start Tajiri POS installation:", error);
+[39m
+[31m+           installStatus.textContent =
+[39m
+[31m+             "Installation did not start. Use the browser menu to install Tajiri POS.";
+[39m
+[31m+         }
+[39m
+[31m+       });
+[39m
+[31m+       window.addEventListener("appinstalled", () => {
+[39m
+[31m+         installPrompt = null;
+[39m
+[31m+         installButton.hidden = true;
+[39m
+[31m+         installHelp.hidden = true;
+[39m
+[31m+         installStatus.textContent = "Tajiri POS is installed on this device.";
+[39m
+[31m+       });
+[39m
+[31m+       updateInstallState();
+[39m
+[31m+ 
+[39m
+[31m+       if (
+[39m
+[31m+         "serviceWorker" in navigator &&
+[39m
+[31m+         window.location.protocol !== "file:"
+[39m
+[31m+       ) {
+[39m
+[31m+         window.addEventListener("load", () => {
+[39m
+[31m+           navigator.serviceWorker
+[39m
+[31m+             .register("./service-worker.js")
+[39m
+[31m+             .catch((error) => {
+[39m
+[31m+               console.error(
+[39m
+[31m+                 "Could not register the Tajiri POS app shell:",
+[39m
+[31m+                 error,
+[39m
+[31m+               );
+[39m
+[31m+             });
+[39m
+[31m+         });
+[39m
+[31m+       }
+[39m
+[31m+ 
+[39m
+[31m+       function readSignedRole(storage, userKey, roleKey, signatureKey) {
+[39m
+[31m+         const user = storage.getItem(userKey);
+[39m
+[31m+         const role = storage.getItem(roleKey);
+[39m
+[31m+         const signature = storage.getItem(signatureKey);
+[39m
+[31m+         if (!user || !role || !signature) return null;
+[39m
+[31m+ 
+[39m
+[31m+         const value = `${String(user).trim()}|${String(role).trim()}|tajiri-pos-session-v1`;
+[39m
+[31m+         let hash = 2166136261;
+[39m
+[31m+         for (let index = 0; index < value.length; index += 1) {
+[39m
+[31m+           hash = Math.imul(hash ^ value.charCodeAt(index), 16777619);
+[39m
+[31m+         }
+[39m
+[31m+         if (signature !== (hash >>> 0).toString(16).padStart(8, "0")) {
+[39m
+[31m+           return null;
+[39m
+[31m+         }
+[39m
+[31m+         return {
+[39m
+[31m+           user: String(user).trim().toLowerCase(),
+[39m
+[31m+           role: String(role).trim().toLowerCase(),
+[39m
+[31m+         };
+[39m
+[31m+       }
+[39m
+[31m+ 
+[39m
+[31m+       const session =
+[39m
+[31m+         readSignedRole(
+[39m
+[31m+           sessionStorage,
+[39m
+[31m+           "tajiri-session-user",
+[39m
+[31m+           "tajiri-session-role",
+[39m
+[31m+           "tajiri-session-signature",
+[39m
+[31m+         ) ||
+[39m
+[31m+         readSignedRole(
+[39m
+[31m+           localStorage,
+[39m
+[31m+           "tajiri-remembered-user",
+[39m
+[31m+           "tajiri-remembered-role",
+[39m
+[31m+           "tajiri-remembered-signature",
+[39m
+[31m+         );
+[39m
+[31m+       if (session?.role === "cashier") {
+[39m
+[31m+         const adminLink = document.querySelector(".page-link.admin");
+[39m
+[31m+         if (adminLink) adminLink.hidden = true;
+[39m
+[31m+       }
+[39m
+[31m+       if (session) document.querySelector("#startTrialLink").hidden = true;
+[39m
+[31m+     </script>
+[39m
+[31m+   </body>
+[39m
+[31m+ </html>
+[39m
+[31m+[39m
+
+[36m [2m❯[22m server.test.js:[2m190:22[22m[39m
+    [90m188|[39m     expect(home.headers.get("cache-control")).toBe("no-store");
+    [90m189|[39m     const homeHtml = await home.text();
+    [90m190|[39m     expect(homeHtml).toContain("Choose a workspace to continue to your…
+    [90m   |[39m                      [31m^[39m
+    [90m191|[39m     expect(homeHtml).toContain('href="admin.html"');
+    [90m192|[39m     expect(homeHtml).toContain('href="cashier.html"');
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22mboot-time rendering[2m > [22moffers one 
+Get Started entry before account-role routing
+[31m[1mAssertionError[22m: expected HTMLAnchorElement{ …(1) } to be null[39m
+
+[32m- Expected:[39m
+null
+
+[31m+ Received:[39m
+<a
+  class="page-link cashier"
+  href="login.html"
+  id="getStartedLink"
+>
+  
+          
+  <span
+    aria-hidden="true"
+    class="page-icon"
+  >
+    
+            
+    <svg
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+      viewBox="0 0 24 24"
+    >
+      
+              
+      <path
+        d="M5 12h14M13 6l6 6-6 6"
+      />
+      
+            
+    </svg>
+    
+          
+  </span>
+  
+          
+  <strong>
+    Get Started
+  </strong>
+  
+          
+  <span
+    class="page-description"
+  >
+    Sign in securely. Admin or cashier access is determined by your
+            account.
+  </span>
+  
+          
+  <span
+    class="page-cta"
+  >
+    Continue to sign in 
+    <span
+      aria-hidden="true"
+    >
+      →
+    </span>
+  </span>
+  
+        
+</a>
+
+[36m [2m❯[22m welcome.test.js:[2m349:55[22m[39m
+    [90m347|[39m       expect(getStarted?.getAttribute("href")).toBe("login.html");
+    [90m348|[39m       expect(doc.querySelector(".page-link.admin")).toBeNull();
+    [90m349|[39m       expect(doc.querySelector(".page-link.cashier")).toBeNull();
+    [90m   |[39m                                                       [31m^[39m
+    [90m350|[39m     });
+    [90m351|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22mboot-time rendering[2m > [22mauto-opens 
+the access modal for the admin role shell
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m365:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22mboot-time rendering[2m > [22mblocks admin 
+signup when Supabase is not configured
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m389:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22mmodal and tab interactions[2m > 
+[22mswitches to the signup tab via [data-tab] clicks when cloud auth is ready
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m451:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22mblocks signup entirely when Supabase is unavailable
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m689:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22mrequires every field
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m700:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22mderives a safe username from the contact email after verifying the phone
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m713:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22mrejects malformed emails
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m732:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22mrejects non-Kenyan phone numbers
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m745:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22maccepts a valid Kenyan phone number: +254712345678
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22maccepts a valid Kenyan phone number: +254112345678
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22maccepts a valid Kenyan phone number: 0712345678
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22maccepts a valid Kenyan phone number: 0112345678
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m761:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22mrejects passwords shorter than 6 characters
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m784:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22mrejects mismatched password confirmation
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m797:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup validation (cloud required)[2m > 
+[22mrejects an invalid SMS code and supports resending
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m818:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup with Supabase[2m > [22mshows phone 
+verification after signup even when legacy admin bootstrap exists
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m856:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup with Supabase[2m > [22mrequires 
+one SMS code before preparing phone/password sign-in
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m871:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup with Supabase[2m > [22mexplains 
+when the signup phone is already registered
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m936:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22msignup with Supabase[2m > [22mexplains 
+when Supabase phone signup is disabled
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m959:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22mSupabase login[2m > [22mcreates a tenant 
+when the verified owner logs in
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m1121:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22mpassword reset[2m > [22mrequires a 
+six-digit SMS code before resetting a password
+[31m[1mAssertionError[22m: expected '' to be 'Enter the 6-digit SMS code.' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Enter the 6-digit SMS code.[39m
+
+[36m [2m❯[22m welcome.test.js:[2m1199:66[22m[39m
+    [90m1197|[39m       const dom = loadWelcomePage();
+    [90m1198|[39m       submitForm(dom, "passwordResetConfirmForm");
+    [90m1199|[39m       expect(textOfError(dom, "passwordResetConfirmError").text).toBe(
+    [90m   |[39m                                                                  [31m^[39m
+    [90m1200|[39m         "Enter the 6-digit SMS code.",
+    [90m1201|[39m       );
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m welcome.test.js[2m > [22mwelcome.js[2m > [22madmin setup status messaging[2m > 
+[22mallows admin signup when cloud auth is ready without a legacy bootstrap check
+[31m[1mReferenceError[22m: pendingVerificationPhoneKey is not defined[39m
+[36m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m eval welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m loadWelcomePage welcome.test.js:[2m232:7[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m1256:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/probe.test.js[2m > [22m.probe.cjs[2m > [22mpositive cases[2m > [22mlogs exactly 
+one probe line to stdout
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with 
+"testTimeout".[39m
+[36m [2m❯[22m tests/probe.test.js:[2m47:5[22m[39m
+    [90m 45|[39m     });
+    [90m 46|[39m
+    [90m 47|[39m     it("logs exactly one probe line to stdout", () => {
+    [90m   |[39m     [31m^[39m
+    [90m 48|[39m       const result = runProbe(PROJECT_ROOT);
+    [90m 49|[39m       const lines = result.stdout.split("\n").filter(Boolean);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/probe.test.js[2m > [22m.probe.cjs[2m > [22mpositive cases[2m > [22mproduces no 
+stderr output on success
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with 
+"testTimeout".[39m
+[36m [2m❯[22m tests/probe.test.js:[2m53:5[22m[39m
+    [90m 51|[39m     });
+    [90m 52|[39m
+
+[2m Test Files [22m [1m[31m5 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (8)[39m
+[2m      Tests [22m [1m[31m41 failed[39m[22m[2m | [22m[1m[32m282 passed[39m[22m[90m (323)[39m
+[2m     Errors [22m [1m[31m1 error[39m[22m
+[2m   Start at [22m 20:40:11
+[2m   Duration [22m 35.93s[2m (tests 79%, import 20%)[22m
+
+[2m    Isolate [22m [33m8 workers spawned[39m[2m · ~3.10s startup each (spawn + environment, per file)[22m
+[2m            [22m [2mat least ~5.16s faster with [22m[33misolate: false[39m[2m — reuses workers across files instead of one per file[22m
+
+    [90m 53|[39m     it("produces no stderr output on success", () => {
+    [90m   |[39m     [31m^[39m
+    [90m 54|[39m       const result = runProbe(PROJECT_ROOT);
+    [90m 55|[39m       expect(result.stderr).toBe("");
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/probe.test.js[2m > [22m.probe.cjs[2m > [22medge cases (script run against a 
+synthetic app.js)[2m > [22mdoes not crash when the marker slice is empty (no markers present)
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with 
+"testTimeout".[39m
+[36m [2m❯[22m tests/probe.test.js:[2m103:5[22m[39m
+    [90m101|[39m     });
+    [90m102|[39m
+    [90m103|[39m     it("does not crash when the marker slice is empty (no markers pres…
+    [90m   |[39m     [31m^[39m
+    [90m104|[39m       // Without markers, slice(…, …) yields "" — vm.runInContext("") …
+    [90m105|[39m       const result = runProbeWithFixture("nomarkers", "console.log('hi…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/41]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/probe.test.js[2m > [22m.probe.cjs[2m > [22medge cases (script run against a 
+synthetic app.js)[2m > [22mdoes not evaluate code outside the money..showToast slice
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with 
+"testTimeout".[39m
+[36m [2m❯[22m tests/probe.test.js:[2m110:5[22m[39m
+    [90m108|[39m     });
+    [90m109|[39m
+    [90m110|[39m     it("does not evaluate code outside the money..showToast slice", ()…
+    [90m   |[39m     [31m^[39m
+    [90m111|[39m       // The trap is outside the sliced region, so the vm must never r…
+    [90m112|[39m       const result = runProbeWithFixture(
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/41]⎯[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Errors [49m[22m[31m⎯⎯⎯⎯⎯⎯[39m
+[31m[1m
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.[22m[39m
+
+[31m⎯⎯⎯⎯[39m[1m[41m Unhandled Rejection [49m[22m[31m⎯⎯⎯⎯⎯[39m
+[31m[1mReferenceError[22m: resetPhone is not defined[39m
+[36m [2m❯[22m Proxy.eval welcome.test.js:[2m232:7[22m[39m
+    [90m230|[39m   win.addEventListener("error", () => {});
+    [90m231|[39m
+    [90m232|[39m   win.eval(source);
+    [90m   |[39m       [31m^[39m
+    [90m233|[39m   return dom;
+    [90m234|[39m }
+[90m [2m❯[22m Proxy.callTheUserObjectsOperation 
+node_modules/jsdom/lib/generated/idl/EventListener.js:[2m26:30[22m[39m
+[90m [2m❯[22m innerInvokeEventListeners 
+node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m378:16[22m[39m
+[90m [2m❯[22m invokeEventListeners 
+node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m320:3[22m[39m
+[90m [2m❯[22m HTMLFormElementImpl._dispatch 
+node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m269:9[22m[39m
+[90m [2m❯[22m HTMLFormElementImpl.dispatchEvent 
+node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m137:17[22m[39m
+[90m [2m❯[22m Proxy.dispatchEvent node_modules/jsdom/lib/generated/idl/EventTarget.js:[2m226:20[22m[39m
+[90m [2m❯[22m submitForm welcome.test.js:[2m241:46[22m[39m
+[90m [2m❯[22m welcome.test.js:[2m1198:7[22m[39m
+[90m [2m❯[22m node_modules/vitest/dist/chunks/run.Cm2sd7-x.js:[2m1632:35[22m[39m
+
+[31mThis error originated in "[1mwelcome.test.js[22m" test file. It doesn't mean the error was thrown inside the 
+file itself, but while it was running.[39m
+[31m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39m
+

@@ -9,10 +9,12 @@
   let lastFocusedElement = null;
   let adminSignupAllowed = false;
   let resetEmail = "";
-  let pendingSignupEmail = "";
+  let resetPhone = "";
+  let pendingSignupPhone = "";
   let pendingSignupProfile = null;
-  let emailVerificationPending = false;
+  let phoneVerificationPending = false;
   const pendingVerificationEmailKey = "tajiri-pending-verification-email";
+  const pendingVerificationPhoneKey = "tajiri-pending-verification-phone";
 
   function normalizeKenyanPhone(value) {
     const digits = String(value || "").replace(/\D/g, "");

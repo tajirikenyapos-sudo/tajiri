@@ -20,6 +20,10 @@ const MAIN_PAGE_SOURCE = fs.readFileSync(
   path.join(__dirname, "main.html"),
   "utf8",
 );
+const INDEX_PAGE_SOURCE = fs.readFileSync(
+  path.join(__dirname, "index.html"),
+  "utf8",
+);
 const openDoms = new Set();
 
 /* ---------- DOM fixture ---------- */
@@ -347,6 +351,54 @@ describe("welcome.js", () => {
       expect(getStarted?.getAttribute("href")).toBe("login.html");
       expect(doc.querySelector(".page-link.admin")).toBeNull();
       expect(doc.querySelector(".page-link.cashier")).toBeNull();
+      expect(doc.querySelector("#startTrialLink")?.getAttribute("href")).toBe(
+        "admin.html",
+      );
+      expect(doc.querySelector(".download-link")?.getAttribute("href")).toBe(
+        "https://pos-tajiri.vercel.app/download-installer.html",
+      );
+      const appDoc = new JSDOM(INDEX_PAGE_SOURCE).window.document;
+      const downloadLinks = [
+        ...appDoc.querySelectorAll("#modal-downloads a"),
+      ];
+      expect(downloadLinks.map((link) => link.getAttribute("href"))).toEqual([
+        "https://pos-tajiri.vercel.app/download-installer.html",
+      ]);
+      expect(
+        downloadLinks.every((link) => link.getAttribute("target") === "_blank"),
+      ).toBe(true);
+      expect(appDoc.querySelector("#modal-downloads")?.textContent).toContain(
+        "The Android APK is not included in this release yet.",
+      );
+    });
+
+    it("omits Inventory, Reports, and data downloads from the POS More menu", () => {
+      const doc = new JSDOM(INDEX_PAGE_SOURCE).window.document;
+      const moreMenu = doc.querySelector("#appView #moreDropdown");
+
+      expect(moreMenu).not.toBeNull();
+      expect(moreMenu.querySelector('[data-view="Inventory"]')).toBeNull();
+      expect(moreMenu.querySelector('[data-view="Reports"]')).toBeNull();
+      expect(moreMenu.querySelector("#downloadDataButton")).toBeNull();
+      expect(moreMenu.querySelector('[data-view="Sales"]')).not.toBeNull();
+      expect(moreMenu.querySelector('[data-view="Purchases"]')).not.toBeNull();
+    });
+
+    it("updates the install status when the app is installed", () => {
+      const dom = new JSDOM(MAIN_PAGE_SOURCE, {
+        runScripts: "dangerously",
+        url: "https://pos.example.test/main.html",
+      });
+      openDoms.add(dom);
+      const { document } = dom.window;
+
+      dom.window.dispatchEvent(new dom.window.Event("appinstalled"));
+
+      expect(document.getElementById("installAppButton").hidden).toBe(true);
+      expect(document.getElementById("installHelp").hidden).toBe(true);
+      expect(document.getElementById("installStatus").textContent).toBe(
+        "Tajiri POS is installed on this device.",
+      );
     });
 
     it("opens sign in when navigating through the generic login page", () => {
