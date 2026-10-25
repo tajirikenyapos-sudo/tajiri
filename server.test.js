@@ -188,8 +188,14 @@ describe("Daraja HTTP API", () => {
     expect(home.headers.get("cache-control")).toBe("no-store");
     const homeHtml = await home.text();
     expect(homeHtml).toContain("Sign in once. Your account role opens the right workspace.");
-    expect(homeHtml).toContain('id="getStartedLink" href="login.html"');
-    expect(homeHtml).toContain('id="startTrialLink"');
+    expect(homeHtml).toContain(
+      'id="adminLoginLink" class="role-entry-link admin" href="login.html?roleShell=admin"',
+    );
+    expect(homeHtml).toContain(
+      'id="cashierLoginLink" class="role-entry-link cashier" href="login.html?roleShell=cashier"',
+    );
+    expect(homeHtml).not.toContain('id="startTrialLink"');
+    expect(homeHtml).not.toContain("14-day free trial");
     expect(homeHtml).not.toContain('class="page-link admin"');
     expect(homeHtml).not.toContain('class="page-link cashier"');
 

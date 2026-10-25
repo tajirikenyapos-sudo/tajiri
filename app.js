@@ -669,7 +669,7 @@ function showStaffLogin(primaryLabel = "Sign in") {
     .join("");
   openModal(
     "Staff login",
-    `<p class="auth-kicker">Sign in securely with your staff PIN.</p><label>Staff account<select id="staffAccount">${accountOptions}</select></label><label>PIN<input id="staffPin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="Enter your PIN"></label><div class="auth-links"><button type="button" class="auth-link" id="forgotPasswordButton">Forgot PIN?</button></div>`,
+    `<p class="auth-kicker">Unlock this device with your staff PIN.</p><label>Staff account<select id="staffAccount">${accountOptions}</select></label><label>Device PIN<input id="staffPin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="Enter your PIN"></label><div class="auth-links"><button type="button" class="auth-link" id="forgotPasswordButton">Forgot PIN?</button></div>`,
     actionButtons(primaryLabel),
   );
   const remembered = localStorage.getItem("tajiri-remembered-user");
@@ -1287,6 +1287,25 @@ document
 document.querySelector("#modalClose").addEventListener("click", closeModal);
 modal.addEventListener("click", (event) => {
   if (event.target === modal && !mpesaPaymentLocked) closeModal();
+});
+modalBody.addEventListener("click", (event) => {
+  const button = event.target.closest?.("[data-setup-guide-view]");
+  if (!button) return;
+  if (currentUser?.role !== "admin")
+    return showToast("Admin permission required");
+  const view = button.dataset.setupGuideView;
+  const focusTarget = button.dataset.setupGuideFocus;
+  if (!["Inventory", "Settings"].includes(view))
+    return showToast("That setup step is unavailable");
+  closeModal();
+  activateView(view);
+  if (focusTarget) {
+    window.setTimeout(() => {
+      const target = document.querySelector(focusTarget);
+      target?.scrollIntoView({ behavior: "smooth", block: "center" });
+      target?.focus();
+    }, 0);
+  }
 });
 modalActions.addEventListener("click", async (event) => {
   const actionButton = event.target.closest?.("[data-modal-action]");
@@ -2037,7 +2056,7 @@ document.querySelector("#signupButton")?.addEventListener("click", () => {
     return showToast("Admin permission required");
   openModal(
     "Create account",
-    `<p class="auth-kicker">Create a secure account for a cashier or manager.</p><label>Full name<input id="signupName" placeholder="e.g. Amina Otieno" required></label><label>Username<input id="signupUsername" autocomplete="username" placeholder="e.g. amina" required></label><label>Email<input id="signupEmail" type="email" placeholder="amina@example.com" required></label><label>Password<input id="signupPassword" type="password" autocomplete="new-password" placeholder="At least 5 characters" required></label><label>Confirm password<input id="signupConfirmPassword" type="password" autocomplete="new-password" maxlength="5" required></label><label>Role<select id="signupRole"><option value="cashier">Cashier</option><option value="manager">Manager</option><option value="admin">Admin</option></select></label><label>Phone (optional)<input id="signupPhone" type="tel" placeholder="For M-Pesa notifications"></label>`,
+    `<p class="auth-kicker">Create a secure account for a cashier or manager.</p><label>Full name<input id="signupName" placeholder="e.g. Amina Otieno" required></label><label>Username<input id="signupUsername" autocomplete="username" placeholder="e.g. amina" required></label><label>Email<input id="signupEmail" type="email" placeholder="amina@example.com" required></label><label>Password<input id="signupPassword" type="password" autocomplete="new-password" placeholder="At least 5 characters" required></label><label>Confirm password<input id="signupConfirmPassword" type="password" autocomplete="new-password" maxlength="5" required></label><label>Role<select id="signupRole"><option value="cashier">Cashier</option><option value="manager">Manager</option><option value="admin">Admin</option></select></label>`,
     actionButtons("Create account"),
   );
 });
@@ -3494,6 +3513,17 @@ document
       return showToast("Admin permission required");
     document.querySelector("#addAccountButton")?.click();
   });
+document
+  .querySelector("#adminSetupGuideButton")
+  ?.addEventListener("click", () => {
+    if (currentUser?.role !== "admin")
+      return showToast("Admin permission required");
+    openModal(
+      "Optional store setup guide",
+      `<p class="modal-note">Use these steps when setting up a store for the first time. Nothing changes until you save it in the relevant screen.</p><ol class="setup-guide-list"><li><strong>Add your products</strong><span>Set product names, prices, and opening stock.</span><button type="button" class="modal-secondary" data-setup-guide-view="Inventory" data-setup-guide-focus="#addProductButton">Open products</button></li><li><strong>Review your tax rate</strong><span>Set VAT and any service charge for your store.</span><button type="button" class="modal-secondary" data-setup-guide-view="Settings" data-setup-guide-focus="#taxRateInput">Review tax settings</button></li><li><strong>Choose payment methods</strong><span>Enable the payment methods your cashiers accept.</span><button type="button" class="modal-secondary" data-setup-guide-view="Settings" data-setup-guide-focus="#mpesaToggle">Review payment settings</button></li></ol>`,
+      '<button type="button" class="modal-primary" data-modal-action="cancel">Close guide</button>',
+    );
+  });
 
 document
   .querySelector("#operationsDeliveryList")
@@ -3737,6 +3767,7 @@ async function loginWithPassword(identity, password) {
 }
 
 function loginWithPin(account, pin) {
+  const authenticatedUser = window.firebaseAuth?.currentUser;
   const identity = normalizeIdentity(account);
   const user = users.find((entry) => {
     const fullAccount = `${entry.name} · ${entry.role}`;
@@ -3754,6 +3785,8 @@ function loginWithPin(account, pin) {
   const role = String(user?.role || "").toLowerCase();
   if (
     !user ||
+    !authenticatedUser?.emailVerified ||
+    user.uid !== authenticatedUser.uid ||
     !["admin", "cashier"].includes(role) ||
     !user.pin ||
     String(pin).trim() !== String(user.pin)
@@ -5020,10 +5053,9 @@ document.querySelector("#addAccountButton")?.addEventListener("click", () => {
     <label>Full name<input id="newAccountName" required></label>
     <label>Username<input id="newAccountUsername" autocomplete="username" required></label>
     <label>Email<input id="newAccountEmail" type="email" autocomplete="email" required></label>
-    <label>Phone number<input id="newAccountPhone" type="tel" inputmode="tel" placeholder="07XXXXXXXX or +2547XXXXXXX" required></label>
-    <label>Password<input id="newAccountPassword" type="password" autocomplete="new-password" minlength="6" required></label>
+    <label>Initial password<input id="newAccountPassword" type="password" autocomplete="new-password" minlength="6" required></label>
     <label>Role<select id="newAccountRole"><option value="cashier">Cashier</option>${adminOption}</select></label>
-    <p class="modal-note">Up to 3 administrator accounts are allowed, including the first administrator. Staff sign in with the phone number and password set by an administrator.</p>`,
+    <p class="modal-note">Up to 3 administrator accounts are allowed, including the first administrator. Staff can sign in immediately with their email and initial password; share the password securely.</p>`,
     actionButtons("Create account"),
   );
 });
@@ -5115,14 +5147,12 @@ document.addEventListener("click", async (event) => {
       return showToast("Passwords do not match");
     if (password.length < 5)
       return showToast("Password must be at least 5 characters");
-    const phone = document.querySelector("#signupPhone").value.trim();
     const selfSignup = modalPurpose === "self-signup";
     users.push({
       name,
       username,
       email,
       role,
-      phone,
       passwordHash: await hashPassword(password),
     });
     saveState();
@@ -5191,11 +5221,10 @@ document.addEventListener("click", async (event) => {
       .querySelector("#newAccountEmail")
       .value.trim()
       .toLowerCase();
-    const phone = document.querySelector("#newAccountPhone").value.trim();
     const password = document.querySelector("#newAccountPassword").value;
     const role = document.querySelector("#newAccountRole").value;
     const adminCount = users.filter((user) => user.role === "admin").length;
-    if (!name || !username || !email || !phone || !password)
+    if (!name || !username || !email || !password)
       return showToast("Complete all required staff details");
     if (!/^[a-z0-9._-]{2,60}$/i.test(username))
       return showToast(
@@ -5203,8 +5232,6 @@ document.addEventListener("click", async (event) => {
       );
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       return showToast("Enter a valid email address");
-    const normalizedPhone = normalizeKenyanPhone(phone);
-    if (!normalizedPhone) return showToast("Enter a valid Kenyan phone number");
     if (password.length < 6)
       return showToast("Password must be at least 6 characters");
     if (!["admin", "cashier"].includes(role))
@@ -5224,9 +5251,8 @@ document.addEventListener("click", async (event) => {
         name,
         username,
         email,
-        phone: `+${normalizedPhone}`,
-        role,
         password,
+        role,
       });
       users.push(staffAccount);
       const stateSaved = saveState();
@@ -5243,10 +5269,10 @@ document.addEventListener("click", async (event) => {
       let userMessage =
         "Could not create the cloud account. Check Supabase Auth and the create-staff Edge Function.";
       if (
-        error.code === "auth/phone-already-in-use" ||
-        message.includes("phone number already has an account")
+        error.code === "auth/email-already-in-use" ||
+        message.includes("email already has an account")
       ) {
-        userMessage = "That phone number already has a Supabase account.";
+        userMessage = "That email address already has a Supabase account.";
       } else if (message.includes("maximum of 3 administrators")) {
         userMessage = "The store already has the maximum of 3 administrators.";
       } else if (message.includes("contact email is already used")) {

@@ -3,19 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#101116" />
+    <meta name="theme-color" content="#08131f" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" href="./icons/tajiri-pos.svg" type="image/svg+xml" />
     <title>Tajiri POS · Welcome</title>
     <style>
       :root {
         color-scheme: dark;
-        --bg: #101116;
-        --panel: rgb(25 26 33 / 92%);
-        --line: rgb(214 180 119 / 18%);
-        --text: #f7f3eb;
-        --muted: #b8b2a6;
-        --gold: #d6b477;
+        --bg: #08131f;
+        --panel: rgb(16 29 43 / 94%);
+        --line: rgb(161 198 218 / 18%);
+        --text: #eaf4fa;
+        --muted: #a1b6c5;
+        --gold: #72e3d1;
+        --blue: #66bff0;
+        --teal-strong: #42d2bd;
       }
       * {
         box-sizing: border-box;
@@ -294,24 +296,181 @@
         margin-right: 6px;
         color: var(--gold);
       }
-      .trial-link {
-        display: block;
-        width: fit-content;
-        margin: 14px auto 0;
-        padding: 10px 16px;
-        border-radius: 10px;
-        color: var(--gold);
-        font-weight: 700;
-        text-decoration: none;
-        background: rgb(214 180 119 / 9%);
+      body {
+        padding: 24px;
+        color: #f5f1e8;
+        background:
+          radial-gradient(ellipse at 50% 35%, #172954 0, transparent 54rem),
+          #070d1d;
       }
-      .trial-link:hover,
-      .trial-link:focus-visible {
-        outline: 2px solid var(--gold);
-        outline-offset: 3px;
+      main {
+        width: min(100%, 1024px);
+        min-height: min(700px, calc(100vh - 48px));
+        padding: 0 0 34px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgb(218 166 69 / 45%);
+        border-top: 4px solid #d7a448;
+        border-radius: 4px;
+        background: linear-gradient(150deg, #101b39, #071027 72%);
+        box-shadow: 0 20px 65px rgb(0 0 0 / 40%);
       }
-      .trial-link[hidden] {
+      header {
+        margin-bottom: 0;
+        padding: 24px 18px 19px;
+        border-bottom: 1px solid rgb(218 166 69 / 45%);
+        text-align: center;
+      }
+      .brand {
+        margin-bottom: 0;
+        color: #edc36c;
+        font-family: "Outfit", "Segoe UI", sans-serif;
+        font-size: clamp(1.65rem, 4vw, 2.5rem);
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .brand-mark {
+        width: 48px;
+        height: 48px;
+        border: 0;
+        color: #edb94f;
+        background: transparent;
+        box-shadow: none;
+      }
+      .brand-mark svg {
+        width: 100%;
+        height: 100%;
+      }
+      header .eyebrow,
+      header h1 {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      header p {
+        margin-top: 9px;
+        color: #d5d9e6;
+        font-size: 0.9rem;
+      }
+      .page-links {
+        width: min(100%, 900px);
+        flex: 1;
+        align-content: center;
+        gap: 0;
+        padding: 25px 20px 10px;
+      }
+      .page-link {
+        min-height: 246px;
+        padding: 12px 24px 22px;
+        align-items: center;
+        border: 0;
+        border-radius: 0;
+        text-align: center;
+        background: transparent;
+        box-shadow: none;
+      }
+      .page-link::after {
         display: none;
+      }
+      .page-link.admin {
+        --accent: #efbd5a;
+      }
+      .page-link.cashier {
+        --accent: #efbd5a;
+      }
+      .page-link:hover,
+      .page-link:focus-visible {
+        transform: none;
+        border-color: transparent;
+        box-shadow: none;
+      }
+      .page-link:focus-visible .page-action {
+        outline: 3px solid #ffe09a;
+        outline-offset: 4px;
+      }
+      .role-heading {
+        width: min(100%, 360px);
+        margin: 0 0 24px;
+        padding: 0 0 11px;
+        border-bottom: 1px solid rgb(218 166 69 / 62%);
+        color: #efbd5a;
+        font-family: "Outfit", "Segoe UI", sans-serif;
+        font-size: clamp(1.25rem, 3vw, 1.65rem);
+        font-weight: 600;
+      }
+      .page-action {
+        width: min(100%, 360px);
+        min-height: 80px;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        border: 1px solid #dba846;
+        border-radius: 8px;
+        color: #fff;
+        background: linear-gradient(120deg, #0a1836, #12254a 55%, #09142d);
+        box-shadow: 0 0 0 3px rgb(218 166 69 / 9%), 0 8px 20px rgb(0 0 0 / 30%);
+        transition: box-shadow 0.2s ease, background 0.2s ease;
+      }
+      .page-link:hover .page-action {
+        background: linear-gradient(120deg, #13264a, #1b3260 55%, #102044);
+        box-shadow: 0 0 0 4px rgb(218 166 69 / 15%), 0 11px 25px rgb(0 0 0 / 34%);
+      }
+      .page-icon {
+        width: 48px;
+        height: 48px;
+        margin: 0;
+        border: 0;
+        color: #efbd5a;
+        background: transparent;
+      }
+      .page-icon svg {
+        width: 38px;
+        height: 38px;
+      }
+      .page-link strong {
+        font-size: clamp(1.05rem, 2.6vw, 1.35rem);
+        letter-spacing: 0;
+      }
+      .page-description {
+        max-width: 360px;
+        margin-top: 12px;
+        color: #edb94f;
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+      @media (min-width: 720px) {
+        .page-links {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .page-link.admin {
+          border-right: 1px solid rgb(218 166 69 / 24%);
+        }
+      }
+      @media (max-width: 520px) {
+        body {
+          padding: 12px;
+        }
+        main {
+          min-height: calc(100vh - 24px);
+        }
+        .page-links {
+          padding-inline: 12px;
+        }
+        .page-link {
+          min-height: 210px;
+        }
+        .page-link.admin {
+          border-bottom: 1px solid rgb(218 166 69 / 24%);
+        }
       }
       .download-link {
         display: block;
@@ -325,30 +484,140 @@
       .download-link:focus-visible {
         color: var(--gold);
       }
-      @media (max-width: 580px) {
-        body {
-          padding: 30px 18px;
-        }
-        header {
-          margin-bottom: 28px;
-        }
-        .brand {
-          margin-bottom: 28px;
-        }
-        .page-links {
-          grid-template-columns: 1fr;
-          gap: 12px;
-        }
-        .page-link {
-          min-height: 220px;
-          padding: 23px;
-        }
-        .page-icon {
-          margin-bottom: 20px;
-        }
-        footer {
-          margin-top: 22px;
-        }
+      .role-entry-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin: 22px auto 0;
+      }
+      .role-entry-link {
+        min-width: 190px;
+        min-height: 78px;
+        padding: 14px 20px;
+        display: grid;
+        align-content: center;
+        gap: 4px;
+        border: 1px solid rgb(102 191 240 / 42%);
+        border-radius: 10px;
+        color: var(--text);
+        background: linear-gradient(135deg, #15344b, #122b3d);
+        text-decoration: none;
+        transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      }
+      .role-entry-title {
+        font-weight: 700;
+      }
+      .role-entry-description {
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 400;
+      }
+      .role-entry-link.admin {
+        border-color: rgb(102 191 240 / 42%);
+      }
+      .role-entry-link.cashier {
+        border-color: rgb(66 210 189 / 42%);
+      }
+      .role-entry-link:hover,
+      .role-entry-link:focus-visible {
+        transform: translateY(-2px);
+        border-color: var(--teal-strong);
+        background: linear-gradient(135deg, #19445b, #16433f);
+        outline: 2px solid transparent;
+        box-shadow: 0 0 0 3px rgb(66 210 189 / 15%);
+      }
+      .resource-options {
+        width: min(100% - 36px, 620px);
+        margin: 18px auto 0;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        color: var(--muted);
+        background: rgb(255 255 255 / 2%);
+        font-size: 0.9rem;
+      }
+      .resource-options summary {
+        padding: 12px 16px;
+        color: var(--text);
+        cursor: pointer;
+        font-weight: 600;
+        text-align: center;
+      }
+      .resource-options summary:hover,
+      .resource-options summary:focus-visible {
+        color: var(--teal-strong);
+        outline: none;
+      }
+      .resource-options-content {
+        padding: 0 16px 16px;
+      }
+      .resource-options .download-link {
+        margin-top: 4px;
+      }
+      .resource-options #installAppButton {
+        display: block;
+        margin: 14px auto 0;
+      }
+      .resource-options #installAppButton[hidden] {
+        display: none;
+      }
+      .resource-options .install-help {
+        margin-top: 12px;
+      }
+      body {
+        color: var(--text);
+        background:
+          radial-gradient(ellipse at 50% 0%, rgb(66 210 189 / 12%), transparent 38rem),
+          radial-gradient(ellipse at 100% 100%, rgb(74 155 210 / 12%), transparent 34rem),
+          var(--bg);
+      }
+      main {
+        border-color: rgb(102 191 240 / 24%);
+        border-top-color: var(--teal-strong);
+        border-radius: 18px;
+        background: linear-gradient(150deg, #101d2b, #08131f 72%);
+        box-shadow: 0 28px 80px rgb(0 0 0 / 42%);
+      }
+      header {
+        border-bottom-color: var(--line);
+      }
+      .brand { color: var(--text); }
+      .brand-mark {
+        border: 1px solid rgb(66 210 189 / 38%);
+        color: #08202a;
+        background: linear-gradient(145deg, #a0e9f5, var(--teal-strong));
+        box-shadow: 0 8px 24px rgb(66 210 189 / 16%);
+      }
+      header p { color: var(--muted); }
+      .role-heading { border-bottom-color: rgb(66 210 189 / 32%); }
+      .brand,
+      .brand-mark,
+      .role-heading,
+      .page-icon,
+      .page-description,
+      .footer-lock,
+      .install-status {
+        color: var(--gold);
+      }
+      .page-link.admin,
+      .page-link.cashier {
+        --accent: var(--blue);
+        --glow: var(--blue);
+      }
+      .page-action {
+        border-color: rgb(102 191 240 / 50%);
+        color: var(--text);
+        background: linear-gradient(120deg, #14344b, #15364b 55%, #10283a);
+        box-shadow: 0 0 0 3px rgb(102 191 240 / 9%), 0 8px 20px rgb(0 0 0 / 30%);
+      }
+      .page-link:hover .page-action {
+        background: linear-gradient(120deg, #19445b, #1a4b5d 55%, #16433f);
+        box-shadow: 0 0 0 4px rgb(66 210 189 / 15%), 0 11px 25px rgb(0 0 0 / 34%);
+      }
+      @media (max-width: 520px) {
+        .topbar { padding: 10px 12px; }
+        .role-entry-links { display: grid; grid-template-columns: 1fr; width: min(100%, 360px); }
+        .role-entry-link { width: 100%; }
       }
       @media (prefers-reduced-motion: reduce) {
         *,
@@ -366,65 +635,57 @@
     <main>
       <header>
         <div class="brand">
-          <span class="brand-mark" aria-hidden="true">t</span
-          ><span>Tajiri POS</span>
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <path d="M8 10c8-3 24-3 32 0-4 3-7 7-9 13l-7 17-7-17c-2-6-5-10-9-13Z" fill="currentColor" />
+              <path d="M8 10c10 3 22 3 32 0M17 19c4 2 10 2 14 0" stroke="#09152e" stroke-width="2.4" stroke-linecap="round" />
+            </svg>
+          </span><span>TAJIRI POS</span>
         </div>
         <p class="eyebrow">Your store, in control</p>
         <h1>Welcome to Tajiri POS.</h1>
         <p>Sign in once. Your account role opens the right workspace.</p>
+        <nav class="role-entry-links" aria-label="Choose a sign-in workspace">
+          <a id="adminLoginLink" class="role-entry-link admin" href="login.html?roleShell=admin">
+            <span class="role-entry-title">Admin Login</span>
+            <span class="role-entry-description">Manage your shop, staff, and reports</span>
+          </a>
+          <a id="cashierLoginLink" class="role-entry-link cashier" href="login.html?roleShell=cashier">
+            <span class="role-entry-title">Cashier Login</span>
+            <span class="role-entry-description">Process sales and print receipts</span>
+          </a>
+        </nav>
       </header>
-      <nav class="page-links" aria-label="Application pages">
-        <a class="page-link" id="getStartedLink" href="login.html">
-          <span class="page-icon" aria-hidden="true">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-          </span>
-          <strong>Get Started</strong>
-          <span class="page-description"
-            >Sign in securely. Admin or cashier access is determined by your
-            account.</span
-          >
-          <span class="page-cta"
-            >Continue to sign in <span aria-hidden="true">→</span></span
-          >
-        </a>
-      </nav>
       <footer>
         <span class="footer-lock" aria-hidden="true">●</span>Sign-in is
         required. Your account role controls which tools are available.
       </footer>
-      <a class="trial-link" href="admin.html" id="startTrialLink">
-        Start your 14-day free trial →
-      </a>
-      <a
-        class="download-link"
-        href="https://pos-tajiri.vercel.app/download-installer.html"
-        target="_blank"
-        rel="noopener"
-      >
-        Download the Windows desktop app
-      </a>
-      <button id="installAppButton" type="button" hidden>
-        Install Tajiri POS
-      </button>
-      <p class="install-help" id="installHelp">
-        Install on Windows with Microsoft Edge or Chrome using the install icon
-        in the address bar, or use the browser menu and choose
-        <strong>Install Tajiri POS</strong>. On a phone, use the browser menu
-        (or Share menu on iPhone) and choose
-        <strong>Add to Home Screen</strong>. Open the app once while online so
-        its screens are saved for offline use. Signing in and cloud sync still
-        require internet.
-      </p>
-      <p class="install-status" id="installStatus" aria-live="polite"></p>
+      <details class="resource-options">
+        <summary>Download &amp; install options</summary>
+        <div class="resource-options-content">
+          <a
+            class="download-link"
+            href="https://pos-tajiri.vercel.app/download-installer.html"
+            target="_blank"
+            rel="noopener"
+          >
+            Download the Windows desktop app
+          </a>
+          <button id="installAppButton" type="button" hidden>
+            Install Tajiri POS
+          </button>
+          <p class="install-help" id="installHelp">
+            Install on Windows with Microsoft Edge or Chrome using the install
+            icon in the address bar, or use the browser menu and choose
+            <strong>Install Tajiri POS</strong>. On a phone, use the browser
+            menu (or Share menu on iPhone) and choose
+            <strong>Add to Home Screen</strong>. Open the app once while online
+            so its screens are saved for offline use. Signing in and cloud sync
+            still require internet.
+          </p>
+          <p class="install-status" id="installStatus" aria-live="polite"></p>
+        </div>
+      </details>
     </main>
     <script>
       const installButton = document.querySelector("#installAppButton");
@@ -537,7 +798,6 @@
         const adminLink = document.querySelector(".page-link.admin");
         if (adminLink) adminLink.hidden = true;
       }
-      if (session) document.querySelector("#startTrialLink").hidden = true;
     </script>
   </body>
 </html>

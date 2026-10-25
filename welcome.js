@@ -8,20 +8,8 @@
   let toastTimer;
   let lastFocusedElement = null;
   let adminSignupAllowed = false;
-  let resetEmail = "";
-  let resetPhone = "";
-  let pendingSignupPhone = "";
-  let pendingSignupProfile = null;
-  let phoneVerificationPending = false;
-  const pendingVerificationEmailKey = "tajiri-pending-verification-email";
-  const pendingVerificationPhoneKey = "tajiri-pending-verification-phone";
-
-  function normalizeKenyanPhone(value) {
-    const digits = String(value || "").replace(/\D/g, "");
-    if (/^0[17]\d{8}$/.test(digits)) return `+254${digits.slice(1)}`;
-    if (/^254[17]\d{8}$/.test(digits)) return `+${digits}`;
-    return "";
-  }
+  let emailConfirmationPending = false;
+  let pendingSignupEmail = "";
 
   function showToast(message) {
     if (!toast) return;
@@ -112,33 +100,40 @@
 
   function setActiveTab(tabName) {
     if (tabName === "signup" && !adminSignupAllowed) tabName = "login";
+    const waitingForConfirmation =
+      tabName === "signup" && emailConfirmationPending;
     document.querySelectorAll("#modal-access [data-tab]").forEach(tab => {
       const active = tab.dataset.tab === tabName;
       tab.classList.toggle("active", active);
       tab.setAttribute("aria-selected", String(active));
     });
     document.querySelectorAll("#modal-access .auth-form").forEach(form => {
-      const verificationForm = form.id === "signupVerifyForm";
-      const showVerificationForm =
-        verificationForm && tabName === "signup" && phoneVerificationPending;
-      form.classList.toggle(
-        "active",
-        showVerificationForm || (!verificationForm && form.id === `${tabName}Form`),
-      );
-      if (verificationForm) form.hidden = !showVerificationForm;
+      const active =
+        form.id === `${tabName}Form` &&
+        !(form.id === "signupForm" && waitingForConfirmation);
+      form.classList.toggle("active", active);
       if (form.id === "signupForm") {
-        form.hidden = tabName !== "signup" || phoneVerificationPending;
+        form.hidden = tabName !== "signup" || waitingForConfirmation;
       }
     });
-    const heading = accessModal.querySelector(".modal-head h2");
-    if (heading) {
-      heading.textContent =
-        tabName === "signup"
-          ? phoneVerificationPending
-            ? "Verify your phone"
-            : "Start your free shop trial"
-          : "Sign in to Tajiri POS";
+    const confirmationNotice = document.querySelector(
+      "#signupConfirmationNotice",
+    );
+    if (confirmationNotice) {
+      confirmationNotice.hidden = !waitingForConfirmation;
+      const email = confirmationNotice.querySelector(
+        "#signupConfirmationEmail",
+      );
+      if (email) email.textContent = pendingSignupEmail;
     }
+    const heading = accessModal.querySelector(".modal-head h2");
+    if (heading)
+      heading.textContent =
+        waitingForConfirmation
+          ? "Check your email"
+          : tabName === "signup"
+            ? "Create your shop account"
+            : "Sign in to Tajiri POS";
   }
 
   function openModal(modal, trigger = document.activeElement) {
@@ -172,23 +167,14 @@
 
   function firebaseAuthErrorMessage(error, action) {
     const backendMessage = String(error?.message || "").toLowerCase();
-    if (
-      error?.code === "auth/phone-signup-disabled" ||
-      backendMessage.includes("phone signups are disabled") ||
-      backendMessage.includes("unsupported provider: phone")
-    ) {
-      return "Phone sign-in is disabled in Supabase. Enable Authentication → Providers → Phone, turn on phone confirmation, and configure an SMS provider.";
-    }
-    if (error?.code === "auth/phone-confirmation-disabled") {
-      return "Supabase did not request phone verification. Turn on phone confirmation in Authentication → Providers → Phone and configure an SMS provider.";
-    }
+    const backendCode = String(error?.code || "").toLowerCase();
     if (
       backendMessage.includes("create_shop_for_current_user") ||
       backendMessage.includes("save_shop_state") ||
       backendMessage.includes("current_tenant_id") ||
       backendMessage.includes("shop_state")
     ) {
-      return "Shop cloud services are not installed yet. Run supabase-saas-migration.sql and supabase-phone-auth-migration.sql in the Supabase SQL Editor before signing up.";
+      return "Shop cloud services are not installed yet. Run the current Tajiri POS Supabase migrations before signing up.";
     }
     if (
       backendMessage.includes("network") ||
@@ -197,55 +183,58 @@
       return "Could not reach Supabase. Check your internet connection and try again.";
     }
     if (
-      error?.code === "auth/sms-provider-not-configured" ||
-      backendMessage.includes("sms provider") ||
-      backendMessage.includes("sms is not configured")
-    ) {
-      return "SMS delivery is not configured. Enable phone sign-in and configure an SMS provider in Supabase Authentication.";
-    }
-    if (
       error?.code === "PGRST205" ||
       error?.code === "42P01" ||
       backendMessage.includes("schema cache") ||
       backendMessage.includes("does not exist") ||
       backendMessage.includes("could not find the function")
     ) {
-      return "The Tajiri POS cloud database is missing. Run supabase-schema.sql, supabase-saas-migration.sql, and supabase-phone-auth-migration.sql in the Supabase SQL Editor, then refresh.";
+      return "The Tajiri POS cloud database is missing. Run the current Tajiri POS Supabase migrations in the Supabase SQL Editor, then refresh.";
     }
     if (backendMessage.includes("first two administrator accounts")) {
       return "The first two administrator accounts have already been created. Sign in with an administrator account.";
     }
-    switch (error.code) {
+    if (
+      backendMessage.includes("signed-in phone account is required") ||
+      backendMessage.includes("phone auth account is required")
+    ) {
+      return "Shop setup still uses phone authentication. Apply supabase-email-auth-migration.sql, then sign in with the same email address.";
+    }
+    if (
+      backendCode === "auth/server-error" ||
+      backendCode === "database_error" ||
+      backendCode === "unexpected_failure" ||
+      backendMessage.includes("database error saving new user") ||
+      Number(error?.status) >= 500
+    ) {
+      return "Supabase could not finish account creation because of a server or database error. Check the Supabase Auth logs and database triggers.";
+    }
+    switch (backendCode) {
       case "auth/invalid-credential":
       case "auth/wrong-password":
       case "auth/user-not-found":
-        return "The phone number or password is incorrect.";
+        return "The email address or password is incorrect.";
       case "auth/email-not-confirmed":
-        return "Email confirmation is still enabled in Supabase. Disable email confirmations to allow password-only sign-in.";
-      case "auth/phone-not-confirmed":
-        return "Verify your phone number with the signup SMS code before signing in.";
-      case "auth/phone-confirmation-disabled":
-        return "Supabase did not request phone verification. Turn on phone confirmation in Authentication → Providers → Phone and configure an SMS provider.";
-      case "auth/invalid-verification-code":
-        return "That verification code is invalid or expired. Check your SMS and try again, or request another code.";
+        return "Confirm your email address using the link we sent before signing in.";
       case "auth/email-already-in-use":
         return "An account already exists for this email. Use a different contact email.";
-      case "auth/phone-already-in-use":
-        return "An account already exists for this phone number. Sign in instead.";
+      case "auth/invalid-email":
+      case "email_address_invalid":
+        return "Supabase rejected this email address. Use a valid email address from a supported domain.";
       case "auth/weak-password":
         return "Choose a stronger password with at least 6 characters.";
-      case "auth/invalid-phone-number":
-        return "Enter a valid Kenyan phone number.";
-      case "auth/sms-provider-not-configured":
-        return "SMS delivery is not configured. Enable phone sign-in and configure an SMS provider in Supabase Authentication.";
+      case "auth/email-confirmation-required":
+        return "Check your email for a confirmation link before signing in.";
+      case "auth/email-delivery-not-configured":
+        return "Email delivery is not configured. Set up Supabase SMTP before creating accounts.";
       case "auth/too-many-requests":
-        return action === "verify"
-          ? "Supabase has reached its SMS sending limit. Wait before requesting another code; its limit may be lower than the app's daily limit."
-          : "Supabase has reached its SMS sending limit. Wait before trying again.";
+        return "Supabase has reached its email sending limit. Wait before trying again.";
       case "auth/network-request-failed":
         return "Could not reach Supabase. Check your internet connection and try again.";
       case "auth/operation-not-allowed":
-        return "Phone sign-in is disabled in Supabase Authentication.";
+        return "Email sign-in is disabled in Supabase Authentication.";
+      case "auth/signup-disabled":
+        return "Email sign-up is disabled in Supabase Authentication. Enable email sign-ups, then try again.";
       case "permission-denied":
       case "firestore/permission-denied":
         return action === "signup"
@@ -270,6 +259,7 @@
   const searchParams = new URLSearchParams(window.location.search);
   const roleShell = searchParams.get("roleShell")?.toLowerCase();
   const loginRequested = searchParams.get("login") === "1";
+  const setPasswordRequested = searchParams.get("setPassword") === "1";
   function setAdminSignupAllowed(allowed) {
     adminSignupAllowed = Boolean(allowed && roleShell === "admin");
     accessModal
@@ -283,7 +273,7 @@
     if (adminSetupButton) adminSetupButton.hidden = !adminSignupAllowed;
     if (signupTab) {
       signupTab.hidden = !adminSignupAllowed;
-      if (adminSignupAllowed) signupTab.textContent = "Start free trial";
+      if (adminSignupAllowed) signupTab.textContent = "Create account";
     }
     if (signupForm) signupForm.hidden = !adminSignupAllowed;
     if (signupSwitch) signupSwitch.hidden = !adminSignupAllowed;
@@ -297,10 +287,10 @@
     const signupHeading = signupForm?.querySelector("h2");
     const signupDescription = signupForm?.querySelector(".auth-sub");
     if (adminSignupAllowed) {
-      if (signupHeading) signupHeading.textContent = "Start your free shop trial";
+      if (signupHeading) signupHeading.textContent = "Create your shop account";
       if (signupDescription) {
         signupDescription.textContent =
-          "Create a private shop workspace and sign in with your phone number and password.";
+          "Create a private shop workspace and sign in with your email and password.";
       }
     }
     if (signupRole) {
@@ -378,7 +368,7 @@
     const loginDescription = document.querySelector("#loginForm .auth-sub");
     if (loginDescription) {
       loginDescription.textContent =
-        "Sign in with your administrator phone number and password.";
+        "Sign in with your administrator email and password.";
     }
     const loginTrigger = document.querySelector(
       '[data-modal-open="modal-access"][data-auth-tab="login"]',
@@ -401,7 +391,62 @@
     const loginDescription = document.querySelector("#loginForm .auth-sub");
     if (loginDescription)
       loginDescription.textContent =
-      "Use the phone number and password provided by your administrator.";
+      "Use the email address and password provided by your administrator.";
+  }
+  if (setPasswordRequested) {
+    const passwordForm = document.querySelector("#setPasswordForm");
+    if (passwordForm) {
+      document.querySelectorAll("#modal-access .auth-form").forEach(form => {
+        form.hidden = true;
+        form.classList.remove("active");
+      });
+      passwordForm.hidden = false;
+      passwordForm.classList.add("active");
+      openModal(accessModal);
+      (async () => {
+        try {
+          if (!(await waitForBackend())) {
+            return showError(
+              "setPasswordError",
+              "Password setup is unavailable. Check your connection and Supabase configuration.",
+            );
+          }
+          const user = await new Promise((resolve, reject) => {
+            let unsubscribe = () => {};
+            const timeout = window.setTimeout(() => {
+              unsubscribe();
+              reject(new Error("Timed out while checking the invited account."));
+            }, 10000);
+            unsubscribe = window.firebaseAuth.onAuthStateChanged(
+              authenticatedUser => {
+                window.clearTimeout(timeout);
+                unsubscribe();
+                resolve(authenticatedUser);
+              },
+              error => {
+                window.clearTimeout(timeout);
+                unsubscribe();
+                reject(error);
+              },
+            );
+          });
+          if (!user?.email) {
+            showError(
+              "setPasswordError",
+              "Open a password reset link or sign in before changing your password.",
+            );
+            return;
+          }
+          passwordForm.dataset.email = user.email;
+        } catch (error) {
+          console.error("Could not verify the password setup link:", error);
+          showError(
+            "setPasswordError",
+            "Could not verify this link. Open a fresh password reset email.",
+          );
+        }
+      })();
+    }
   }
   if (window.__tajiriFirebaseError) showToast(window.__tajiriFirebaseError);
   const backendStillLoading = Boolean(
@@ -440,10 +485,6 @@
   if (roleShell === "admin" || roleShell === "cashier" || loginRequested) {
     openModal(accessModal);
   }
-  if (roleShell === "admin") {
-    localStorage.removeItem(pendingVerificationPhoneKey);
-  }
-
   document.addEventListener("click", event => {
     const target = event.target;
     if (!(target instanceof Element)) return;
@@ -530,9 +571,7 @@
     if (!identity || !password) {
       return showError(
         "loginError",
-        firebaseEnabled
-          ? "Enter your phone number and password."
-          : "Enter your username or email and password.",
+        "Enter your email address and password.",
       );
     }
 
@@ -559,9 +598,8 @@
         return;
       }
       if (firebaseEnabled) {
-        const phone = normalizeKenyanPhone(identity);
-        if (!phone) {
-          showError("loginError", "Sign in with the Kenyan phone number set by your administrator.");
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identity)) {
+          showError("loginError", "Sign in with the email address set by your administrator.");
           return;
         }
         const remember = Boolean(document.querySelector("#rememberLogin")?.checked);
@@ -570,18 +608,10 @@
             ? firebase.auth.Auth.Persistence.LOCAL
             : firebase.auth.Auth.Persistence.SESSION,
         );
-        const credential = await window.firebaseAuth.signInWithPhoneAndPassword(
-          phone,
+        const credential = await window.firebaseAuth.signInWithEmailAndPassword(
+          identity,
           password,
         );
-        if (credential.user.phoneVerified === false) {
-          await window.firebaseAuth.signOut();
-          showError(
-            "loginError",
-            "Verify your phone number with the SMS code sent during signup before signing in.",
-          );
-          return;
-        }
         const profileSnapshot = await window.firebaseDb
           .collection("users")
           .doc(credential.user.uid)
@@ -597,6 +627,16 @@
             );
           } catch (error) {
             console.error("Could not read pending shop signup details:", error);
+          }
+          if (
+            pendingProfile &&
+            normalize(pendingProfile.email) !== normalize(credential.user.email)
+          ) {
+            pendingProfile = null;
+          }
+          if (!pendingProfile) {
+            pendingProfile =
+              window.firebaseDb.profileFromAuthUser?.(credential.user) || null;
           }
           if (pendingProfile) {
             profile = await window.firebaseDb.createShopForCurrentUser(
@@ -682,13 +722,9 @@
     const shopName = document.querySelector("#signupShopName")?.value.trim() || "";
     const name = document.querySelector("#signupName")?.value.trim() || "";
     const email = normalize(document.querySelector("#signupEmail")?.value);
-    const phoneInput = String(
-      document.querySelector("#signupPhone")?.value || "",
-    ).trim();
-    const phone = normalizeKenyanPhone(phoneInput);
     const password = document.querySelector("#signupPassword")?.value || "";
     const confirmation = document.querySelector("#signupConfirmPassword")?.value || "";
-    if (!shopName || !name || !email || !phoneInput || !password || !confirmation) {
+    if (!shopName || !name || !email || !password || !confirmation) {
       return showError("signupError", "Enter your shop name and complete all required fields.");
     }
     if (shopName.length < 2 || shopName.length > 100) {
@@ -696,12 +732,6 @@
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return showError("signupError", "Enter a valid contact email address.");
-    }
-    if (!phone) {
-      return showError(
-        "signupError",
-        "Use a Kenyan phone number without spaces, for example 0712345678.",
-      );
     }
     if (password.length < 6) {
       const passwordError = document.querySelector("#passwordValidationError");
@@ -722,118 +752,56 @@
       submit.disabled = true;
       submit.textContent = "Creating account…";
     }
+    let authAccountCreated = false;
     try {
       await window.firebaseAuth.setPersistence(
         firebase.auth.Auth.Persistence.SESSION,
       );
-      const credential = await window.firebaseAuth.createUserWithPhoneAndPassword(
-        phone,
+      const credential = await window.firebaseAuth.createUserWithEmailAndPassword(
+        email,
         password,
-        { display_name: name, email_contact: email },
+        { display_name: name, shop_name: shopName },
       );
+      authAccountCreated = true;
       const username = `${usernameBase}-${credential.user.uid.slice(0, 8)}`;
-      pendingSignupPhone = phone;
-      pendingSignupProfile = { shopName, name, username, email, phone };
-      phoneVerificationPending = true;
-      const phoneLabel = document.querySelector("#signupVerifyPhone");
-      if (phoneLabel) phoneLabel.textContent = phone;
-      const codeInput = document.querySelector("#signupVerificationCode");
-      if (codeInput) codeInput.value = "";
-      clearError("signupVerifyError");
-      setActiveTab("signup");
-      codeInput?.focus();
-      showToast("Verification code sent by SMS.");
+      const pendingProfile = { shopName, name, username, email, phone: "" };
+      localStorage.setItem(
+        "tajiri-pending-admin-profile",
+        JSON.stringify(pendingProfile),
+      );
+      if (credential.confirmationRequired) {
+        emailConfirmationPending = true;
+        pendingSignupEmail = email;
+        setActiveTab("signup");
+        return;
+      }
+      const profile = await window.firebaseDb.createShopForCurrentUser(
+        pendingProfile,
+      );
+      window.__tajiriAuthProfile = profile;
+      saveAccounts([profile]);
+      localStorage.removeItem("tajiri-pending-admin-profile");
+      startSession(profile, false);
     } catch (error) {
       console.error("Tajiri POS account creation failed:", error);
-      showError("signupError", firebaseAuthErrorMessage(error, "signup"));
+      const backendMessage = String(error?.message || "").toLowerCase();
+      const setupMessage = backendMessage.includes(
+        "signed-in phone account is required",
+      )
+        ? "Your Supabase account was created, but shop setup still uses phone authentication. Apply supabase-email-auth-migration.sql, then sign in with the same email address. Do not create another account."
+        : "Your Supabase account was created, but shop setup did not finish. Sign in with the same email address to retry setup. If it continues, check the Supabase migrations and Auth logs.";
+      showError(
+        "signupError",
+        authAccountCreated
+          ? setupMessage
+          : firebaseAuthErrorMessage(error, "signup"),
+      );
     } finally {
       if (submit) {
         submit.disabled = false;
         submit.textContent = "Create account →";
       }
     }
-  });
-
-  document.querySelector("#signupVerifyForm")?.addEventListener("submit", async event => {
-    event.preventDefault();
-    clearError("signupVerifyError");
-    const code = String(
-      document.querySelector("#signupVerificationCode")?.value || "",
-    ).trim();
-    if (!pendingSignupPhone || !pendingSignupProfile) {
-      return showError(
-        "signupVerifyError",
-        "Start shop signup again to request a phone verification code.",
-      );
-    }
-    if (!/^\d{6}$/.test(code)) {
-      return showError("signupVerifyError", "Enter the 6-digit SMS code.");
-    }
-
-    const submit = document.querySelector("#signupVerifySubmit");
-    if (submit) {
-      submit.disabled = true;
-      submit.textContent = "Verifying…";
-    }
-    try {
-      const credential = await window.firebaseAuth.verifyPhoneCode(
-        pendingSignupPhone,
-        code,
-      );
-      if (
-        !credential?.user?.phoneVerified ||
-        !credential.user.uid
-      ) {
-        await window.firebaseAuth.signOut();
-        throw Object.assign(
-          new Error("Supabase did not confirm the phone number."),
-          { code: "auth/phone-confirmation-disabled" },
-        );
-      }
-      localStorage.setItem(
-        "tajiri-pending-admin-profile",
-        JSON.stringify(pendingSignupProfile),
-      );
-      localStorage.removeItem(pendingVerificationPhoneKey);
-      await window.firebaseAuth.signOut();
-      const loginIdentity = document.querySelector("#loginIdentity");
-      if (loginIdentity) loginIdentity.value = pendingSignupPhone;
-      pendingSignupPhone = "";
-      pendingSignupProfile = null;
-      phoneVerificationPending = false;
-      setActiveTab("login");
-      showToast("Phone verified. Sign in with your phone number and password.");
-    } catch (error) {
-      console.error("Tajiri POS phone verification failed:", error);
-      showError("signupVerifyError", firebaseAuthErrorMessage(error, "verify"));
-    } finally {
-      if (submit) {
-        submit.disabled = false;
-        submit.textContent = "Verify phone";
-      }
-    }
-  });
-
-  document.querySelector("#signupVerifyResend")?.addEventListener("click", async event => {
-    event.preventDefault();
-    clearError("signupVerifyError");
-    if (!pendingSignupPhone) {
-      return showError(
-        "signupVerifyError",
-        "Start shop signup again to request a phone verification code.",
-      );
-    }
-    try {
-      await window.firebaseAuth.resendPhoneVerificationCode(pendingSignupPhone);
-      showToast("A new verification code was sent by SMS.");
-    } catch (error) {
-      console.error("Tajiri POS signup verification resend failed:", error);
-      showError("signupVerifyError", firebaseAuthErrorMessage(error, "verify"));
-    }
-  });
-
-  document.querySelector("#signupVerifyBack")?.addEventListener("click", () => {
-    setActiveTab("login");
   });
 
   document.querySelector("#passwordResetForm")?.addEventListener("submit", async event => {
@@ -850,75 +818,76 @@
       showError("passwordResetError", "Password reset delivery is not configured. Contact your store administrator.");
       return;
     }
-    resetPhone = normalizeKenyanPhone(
+    const email = normalize(
       document.querySelector("#passwordResetIdentity")?.value,
     );
-    if (!resetPhone) {
-      showError("passwordResetError", "Enter the Kenyan phone number on your account.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showError("passwordResetError", "Enter the email address on your account.");
       return;
     }
     try {
-      await window.firebaseAuth.sendPhonePasswordResetCode(resetPhone);
-      document.querySelector("#passwordResetForm").hidden = true;
-      document.querySelector("#passwordResetConfirmForm").hidden = false;
-      showToast("Password reset code sent by SMS.");
-    } catch (error) {
-      console.error("Tajiri POS password reset failed:", error);
+      await window.firebaseAuth.sendPasswordResetEmail(email);
       showError(
         "passwordResetError",
-        firebaseAuthErrorMessage(error, "verify"),
+        "If an account exists for that email, Supabase will send a password reset link.",
       );
+    } catch (error) {
+      console.error("Tajiri POS password reset failed:", error);
+      showError("passwordResetError", firebaseAuthErrorMessage(error, "reset"));
     }
   });
-  document.querySelector("#passwordResetConfirmForm")?.addEventListener("submit", async event => {
+
+  document.querySelector("#setPasswordForm")?.addEventListener("submit", async event => {
     event.preventDefault();
-    const code = String(document.querySelector("#passwordResetCode")?.value || "").trim();
-    const password = String(
-      document.querySelector("#passwordResetNewPassword")?.value || "",
-    );
-    if (!resetPhone || !/^\d{6}$/.test(code)) {
-      showError("passwordResetConfirmError", "Enter the 6-digit SMS code.");
-      return;
+    clearError("setPasswordError");
+    const passwordForm = document.querySelector("#setPasswordForm");
+    const user = window.firebaseAuth?.currentUser;
+    const password = document.querySelector("#setPasswordInput")?.value || "";
+    const confirmation =
+      document.querySelector("#setPasswordConfirmation")?.value || "";
+    if (!user?.email) {
+      return showError(
+        "setPasswordError",
+        "Open a password reset link or sign in before changing your password.",
+      );
     }
     if (password.length < 6) {
-      showError(
-        "passwordResetConfirmError",
-        "Choose a password with at least 6 characters.",
-      );
-      return;
+      return showError("setPasswordError", "Use a password with at least 6 characters.");
+    }
+    if (password !== confirmation) {
+      return showError("setPasswordError", "The passwords do not match.");
+    }
+    const submit = document.querySelector("#setPasswordSubmit");
+    if (submit) {
+      submit.disabled = true;
+      submit.textContent = "Saving…";
     }
     try {
-      await window.firebaseAuth.verifyPhonePasswordResetCode(
-        resetPhone,
-        code,
-        password,
-      );
+      await window.firebaseAuth.updatePassword(password);
       await window.firebaseAuth.signOut();
-      closeModal(document.querySelector("#modal-password-reset"));
-      document.querySelector("#passwordResetForm").hidden = false;
-      document.querySelector("#passwordResetConfirmForm").hidden = true;
-      showToast("Password updated. Sign in with your new password.");
-      resetPhone = "";
-    } catch (error) {
-      console.error("Tajiri POS password reset confirmation failed:", error);
-      showError(
-        "passwordResetConfirmError",
-        firebaseAuthErrorMessage(error, "verify"),
+      const loginIdentity = document.querySelector("#loginIdentity");
+      if (loginIdentity) loginIdentity.value = user.email;
+      if (passwordForm) passwordForm.hidden = true;
+      setActiveTab("login");
+      searchParams.delete("setPassword");
+      searchParams.set("login", "1");
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}?${searchParams.toString()}`,
       );
-    }
-  });
-  document.querySelector("#passwordResetResend")?.addEventListener("click", async event => {
-    event.preventDefault();
-    if (!resetPhone) return;
-    try {
-      await window.firebaseAuth.sendPhonePasswordResetCode(resetPhone);
-      showToast("A new password reset code was sent by SMS.");
+      showToast("Password saved. Sign in with your email and new password.");
     } catch (error) {
-      console.error("Tajiri POS password reset code resend failed:", error);
+      console.error("Could not save the account password:", error);
       showError(
-        "passwordResetConfirmError",
-        firebaseAuthErrorMessage(error, "verify"),
+        "setPasswordError",
+        firebaseAuthErrorMessage(error, "reset"),
       );
+    } finally {
+      if (submit) {
+        submit.disabled = false;
+        submit.textContent = "Save password";
+      }
     }
   });
 

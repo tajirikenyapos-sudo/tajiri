@@ -1,4 +1,4 @@
-const CACHE_NAME = "tajiri-pos-shell-v8";
+const CACHE_NAME = "tajiri-pos-shell-v9";
 const APP_SHELL = [
   "./main.html",
   "./index.html",

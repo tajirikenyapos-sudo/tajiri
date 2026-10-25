@@ -170,6 +170,10 @@
       if (roleShell === "admin" || roleShell === "cashier") {
         signInUrl.searchParams.set("roleShell", roleShell);
       }
+      if (new URLSearchParams(window.location.search).get("setPassword") === "1") {
+        signInUrl.searchParams.set("setPassword", "1");
+      }
+      signInUrl.hash = window.location.hash;
       window.location.replace(signInUrl.href);
     </script>
   </body>

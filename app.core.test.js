@@ -76,6 +76,7 @@ const cashierIdFn = sliceBetween(
   "function getCashierId",
   "function isCashierWorkspace",
 );
+const pinLoginFn = sliceBetween("function loginWithPin", "function getStoreNames");
 
 const SANDBOX_GLOBALS = {
   document: {
@@ -821,5 +822,46 @@ describe("getCashierId", () => {
     evalIn(ctx, "delete currentUser;");
     expect(api().getCashierId({})).toBe("");
     expect(api().getCashierId({ name: "" })).toBe("");
+  });
+});
+
+describe("PIN account access", () => {
+  function createPinContext(authenticatedUser) {
+    const pinContext = createContext({
+      users: [
+        {
+          uid: "staff-1",
+          name: "Ada",
+          username: "ada",
+          email: "ada@example.com",
+          role: "cashier",
+          pin: "1234",
+        },
+      ],
+      currentUser: null,
+      normalizeIdentity: (value) => String(value || "").trim().toLowerCase(),
+      window: { firebaseAuth: { currentUser: authenticatedUser } },
+    });
+    evalIn(
+      pinContext,
+      `${pinLoginFn}
+      this.__loginWithPin = loginWithPin;`,
+    );
+    return pinContext;
+  }
+
+  it("rejects PIN access without an authenticated cloud user", () => {
+    const pinContext = createPinContext(null);
+    expect(pinContext.__loginWithPin("ada@example.com", "1234")).toBe(false);
+    expect(pinContext.currentUser).toBeNull();
+  });
+
+  it("rejects PIN access when the authenticated UID does not match", () => {
+    const pinContext = createPinContext({
+      uid: "other-user",
+      emailVerified: true,
+    });
+    expect(pinContext.__loginWithPin("ada@example.com", "1234")).toBe(false);
+    expect(pinContext.currentUser).toBeNull();
   });
 });

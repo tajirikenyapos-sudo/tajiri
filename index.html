@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <meta name="theme-color" content="#0d1518" id="appThemeColor" />
+    <meta name="theme-color" content="#08131f" id="appThemeColor" />
     <base href="./" />
     <title>Tajiri POS</title>
     <script>
@@ -165,8 +165,6 @@
               <option>Westlands Branch</option>
               <option>Marsabit Branch</option>
             </select>
-            <button class="icon-button" aria-label="Notifications" title="Notifications">♧</button>
-
             <div class="more-menu-wrap">
               <button
                 class="more-button"
@@ -454,6 +452,13 @@
                 class="module-toolbar admin-dashboard-actions"
                 aria-label="Admin shortcuts"
               >
+                <button
+                  class="secondary-button"
+                  id="adminSetupGuideButton"
+                  type="button"
+                >
+                  Optional store setup guide
+                </button>
                 <button
                   class="secondary-button dashboard-link"
                   type="button"
@@ -1708,11 +1713,10 @@
     <div id="welcomeView" hidden>
       <nav class="site-nav" aria-label="Welcome navigation">
         <a class="nav-brand" href="#home"
-          ><span class="nav-brand-mark">t</span
+          >          <span class="nav-brand-mark">t</span
           ><span class="nav-brand-text">Tajiri POS</span></a
         >
         <div class="nav-more">
-          <a class="nav-link" href="main.html">Pages</a>
           <button
             type="button"
             class="nav-link nav-more-btn"
@@ -1723,6 +1727,7 @@
             More ▾
           </button>
           <div class="nav-more-menu" id="navMoreMenu" hidden>
+            <a class="nav-link" href="main.html">Pages</a>
             <button
               type="button"
               class="nav-link"
@@ -1752,13 +1757,6 @@
               ✉ Contact
             </button>
             <div class="more-sep"></div>
-            <button
-              type="button"
-              class="nav-link"
-              data-modal-open="modal-access"
-            >
-              ▶ Try the demo →
-            </button>
             <button
               type="button"
               class="nav-link"
@@ -2021,15 +2019,15 @@
 
             <form class="auth-form active" id="loginForm" novalidate>
               <h2>Welcome back</h2>
-              <p class="auth-sub">Sign in with your phone number and password.</p>
+              <p class="auth-sub">Sign in with your email and password.</p>
               <label
-                >Kenyan phone number
+                >Email address
                 <input
                   id="loginIdentity"
-                  type="tel"
-                  inputmode="tel"
-                  autocomplete="username"
-                  placeholder="0712345678 or +254712345678"
+                  type="email"
+                  inputmode="email"
+                  autocomplete="email"
+                  placeholder="you@example.com"
                   required
                 />
               </label>
@@ -2066,7 +2064,7 @@
 
             <form class="auth-form" id="signupForm" novalidate hidden>
               <h2>Start your free shop trial</h2>
-              <p class="auth-sub">Create your shop workspace and get 14 days free. Verify your phone once by SMS.</p>
+              <p class="auth-sub">Create your shop workspace and get 14 days free. Confirm your email before signing in.</p>
               <label
                 >Shop name
                 <input
@@ -2092,16 +2090,6 @@
                   type="email"
                   autocomplete="email"
                   placeholder="amina@example.com"
-                  required
-              /></label>
-              <label
-                >Kenyan phone number
-                <input
-                  id="signupPhone"
-                  type="tel"
-                  inputmode="tel"
-                  autocomplete="tel"
-                  placeholder="0712345678 or +254712345678"
                   required
               /></label>
               <label class="password-field" for="signupPassword"
@@ -2169,36 +2157,60 @@
               <p class="auth-error" id="signupError" hidden></p>
             </form>
 
-            <form class="auth-form" id="signupVerifyForm" novalidate hidden>
-              <h2>Verify your phone</h2>
+            <section
+              class="auth-confirmation"
+              id="signupConfirmationNotice"
+              role="status"
+              aria-live="polite"
+              hidden
+            >
+              <h2>Confirm your email</h2>
+              <p>
+                We sent a confirmation link to
+                <strong id="signupConfirmationEmail"></strong>.
+              </p>
+              <p>
+                Open the link to verify your address and finish setting up your
+                shop. You can return here after confirmation.
+              </p>
+              <button
+                type="button"
+                class="auth-submit"
+                data-switch="login"
+              >
+                Back to sign in
+              </button>
+            </section>
+
+            <form class="auth-form" id="setPasswordForm" novalidate hidden>
+              <h2>Set your password</h2>
               <p class="auth-sub">
-                Enter the 6-digit code we sent to
-                <strong id="signupVerifyPhone"></strong>. You will only need to
-                verify this number once.
+                Choose a new password to finish account recovery.
               </p>
               <label
-                >SMS verification code
+                >New password
                 <input
-                  id="signupVerificationCode"
-                  type="text"
-                  inputmode="numeric"
-                  autocomplete="one-time-code"
-                  pattern="[0-9]{6}"
-                  maxlength="6"
-                  placeholder="123456"
+                  id="setPasswordInput"
+                  type="password"
+                  autocomplete="new-password"
+                  minlength="6"
                   required
                 />
               </label>
-              <button type="submit" class="auth-submit" id="signupVerifySubmit">
-                Verify phone
+              <label
+                >Confirm new password
+                <input
+                  id="setPasswordConfirmation"
+                  type="password"
+                  autocomplete="new-password"
+                  minlength="6"
+                  required
+                />
+              </label>
+              <button type="submit" class="auth-submit" id="setPasswordSubmit">
+                Save password
               </button>
-              <button type="button" class="auth-link" id="signupVerifyResend">
-                Resend code
-              </button>
-              <button type="button" class="auth-link" id="signupVerifyBack">
-                Back to sign in
-              </button>
-              <p class="auth-error" id="signupVerifyError" role="alert" hidden></p>
+              <p class="auth-error" id="setPasswordError" role="alert" hidden></p>
             </form>
           </div>
         </div>
@@ -2224,18 +2236,18 @@
           </div>
           <div class="modal-body">
             <p class="auth-sub">
-              Enter the phone number on your account. We’ll send a password
-              reset code by SMS.
+              Enter the email address on your account. We’ll send a password
+              reset link if it exists.
             </p>
             <form class="auth-form active" id="passwordResetForm" novalidate>
               <label
-                >Kenyan phone number
+                >Email address
                 <input
                   id="passwordResetIdentity"
-                  type="tel"
-                  inputmode="tel"
-                  autocomplete="username"
-                  placeholder="0712345678 or +254712345678"
+                  type="email"
+                  inputmode="email"
+                  autocomplete="email"
+                  placeholder="you@example.com"
                   required
                 />
               </label>
@@ -2244,7 +2256,7 @@
                 class="auth-submit"
                 id="passwordResetSubmit"
               >
-                Send reset code
+                Send reset link
               </button>
               <p
                 class="auth-error"
@@ -2253,53 +2265,6 @@
                 aria-live="polite"
                 hidden
               ></p>
-            </form>
-            <form
-              class="auth-form"
-              id="passwordResetConfirmForm"
-              hidden
-              novalidate
-            >
-              <label
-                >6-digit code
-                <input
-                  id="passwordResetCode"
-                  type="text"
-                  inputmode="numeric"
-                  maxlength="6"
-                  placeholder="123456"
-                  required
-                />
-              </label>
-              <label
-                >New password
-                <input
-                  id="passwordResetNewPassword"
-                  type="password"
-                  autocomplete="new-password"
-                  minlength="6"
-                  placeholder="At least 6 characters"
-                  required
-                />
-              </label>
-              <button
-                type="submit"
-                class="auth-submit"
-                id="passwordResetConfirmSubmit"
-              >
-                Set new password
-              </button>
-              <p
-                class="auth-error"
-                id="passwordResetConfirmError"
-                role="status"
-                aria-live="polite"
-                hidden
-              ></p>
-              <p class="auth-sub">
-                Code not arrived?
-                <a href="#" id="passwordResetResend">Resend code</a>
-              </p>
             </form>
             <p class="auth-sub">
               For store accounts managed by the local or MySQL service, contact
@@ -2395,10 +2360,10 @@
       window.TAJIRI_GITHUB_REPOSITORY = "__TAJIRI_GITHUB_REPOSITORY__";
 
       // Supabase project settings. Replace the placeholders with your project
-      // URL and anon key from Supabase Dashboard → Settings → API.
+      // URL and publishable key from Supabase Dashboard → Settings → API.
       window.TAJIRI_SUPABASE_CONFIG = {
-        url: "https://stwjfbylnbajjdrkxlzb.supabase.co",
-        anonKey: "sb_publishable_eQ97c7njdvpnzsRwZoGDRA_XITgNUG7",
+        url: "https://kbsigzgwqxkymkjeuwyp.supabase.co",
+        anonKey: "sb_publishable_tC4cxv4SvrERVDmEf98ADg_e2dTTqe2",
       };
       window.TAJIRI_SUPABASE_URL = window.TAJIRI_SUPABASE_CONFIG.url;
       window.TAJIRI_SUPABASE_ANON_KEY = window.TAJIRI_SUPABASE_CONFIG.anonKey;
@@ -2512,6 +2477,8 @@
             ?.toLowerCase() || "";
         const loginRequested =
           new URLSearchParams(window.location.search).get("login") === "1";
+        const setPasswordRequested =
+          new URLSearchParams(window.location.search).get("setPassword") === "1";
         const requestedRole =
           /(?:^|\/)(admin|cashier)(?:\.html)?\/?$/i
             .exec(window.location.pathname || "")?.[1]
@@ -2560,7 +2527,7 @@
                   },
                 );
               });
-            if (firebaseUser) {
+            if (firebaseUser && !setPasswordRequested) {
               const userSnapshot = await window.firebaseDb
                 .collection("users")
                 .doc(firebaseUser.uid)
@@ -2577,6 +2544,17 @@
                   );
                 } catch (error) {
                   console.error("Could not read pending shop signup details:", error);
+                }
+                if (
+                  pendingProfile &&
+                  String(pendingProfile.email || "").trim().toLowerCase() !==
+                    String(firebaseUser.email || "").trim().toLowerCase()
+                ) {
+                  pendingProfile = null;
+                }
+                if (!pendingProfile) {
+                  pendingProfile =
+                    window.firebaseDb.profileFromAuthUser?.(firebaseUser) || null;
                 }
                 if (pendingProfile) {
                   verifiedProfile = await window.firebaseDb.createShopForCurrentUser(
@@ -2639,7 +2617,7 @@
               } else {
                 await window.firebaseAuth.signOut();
               }
-            } else if (firebaseUser) {
+            } else if (firebaseUser && !setPasswordRequested) {
               await window.firebaseAuth.signOut();
             }
           } catch (error) {
@@ -2663,6 +2641,10 @@
             window.__tajiriFirebaseError =
               "Could not verify your cloud account. Check your connection and Supabase setup, then try again.";
           }
+        }
+        if (setPasswordRequested) {
+          showWelcomeFallback();
+          return;
         }
         const identity = String(session || "").toLowerCase();
         const account = accounts.find((user) =>
